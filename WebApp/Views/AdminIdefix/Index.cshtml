@@ -1,0 +1,331 @@
+﻿@using System.Globalization
+@using WebApp.Models
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "İdefix Ürün Yönetimi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table th, .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        margin-right: 5px;
+    }
+
+    .btn-action-update {
+        background: #38a169;
+        color: white;
+    }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+        width: 100%;
+    }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>İdefix Ürünleri</span>
+                    <a class="btn-modern" href="/AdminIdefixUrunEkle">
+                        <i class="fa fa-plus"></i>
+                        <span>Ürün Ekle</span>
+                    </a>
+                </div>
+                <div class="panel-content">
+                    @if (ViewBag.Products != null && ViewBag.Products.Count > 0)
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün Adı</th>
+                                        <th>Barkod</th>
+                                        <th>Fiyat</th>
+                                        <th>Stok</th>
+                                        <th>Durum</th>
+                                        <th style="text-align: center;">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in ViewBag.Products)
+                                    {
+                                        <tr data-product='@Html.Raw(JsonConvert.SerializeObject(product, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }))'>
+                                            <td>@product.Title</td>
+                                            <td>@product.Barcode</td>
+                                            <td>@product.Price.ToString("C", CultureInfo.GetCultureInfo("tr-TR"))</td>
+                                            <td>@product.Stock</td>
+                                            <td>@product.Status</td>
+                                            <td style="text-align: center;">
+                                                <button class="btn-action btn-action-update" onclick="openUpdateModal('@product.Id', this)">
+                                                    <i class="fa fa-edit"></i>
+                                                    <span>Güncelle</span>
+                                                </button>
+                                                <a class="btn-action btn-action-delete" href="/AdminIdefix/Sil?productId=@product.Id&pazarYeriId=@ViewBag.PazarYeriId"
+                                                   onclick="return confirm('Bu ürünü silmek istediğinizden emin misiniz?');">
+                                                    <i class="fa fa-trash"></i>
+                                                    <span>Sil</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-shopping-cart"></i>
+                            <h4>Henüz ürün bulunamadı</h4>
+                            <p>İdefix ürünlerini listeleyebilirsiniz.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Product Modal -->
+    <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="updateProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateProductModalLabel">Ürün Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateProductForm">
+                        <input type="hidden" id="productId" name="Id">
+                        <div class="form-group">
+                            <label for="updateTitle">Ürün Adı</label>
+                            <input type="text" class="form-control" id="updateTitle" name="Title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateBarcode">Barkod</label>
+                            <input type="text" class="form-control" id="updateBarcode" name="Barcode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateVendorStockCode">Stok Kodu</label>
+                            <input type="text" class="form-control" id="updateVendorStockCode" name="VendorStockCode">
+                        </div>
+                        <div class="form-group">
+                            <label for="updatePrice">Satış Fiyatı (TL)</label>
+                            <input type="text" class="form-control" id="updatePrice" name="Price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateComparePrice">Liste Fiyatı (TL)</label>
+                            <input type="text" class="form-control" id="updateComparePrice" name="ComparePrice">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateStock">Stok Miktarı</label>
+                            <input type="number" class="form-control" id="updateStock" name="Stock" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateDeliveryDuration">Teslimat Süresi (Gün)</label>
+                            <input type="number" class="form-control" id="updateDeliveryDuration" name="DeliveryDuration">
+                        </div>
+                        <div class="form-group">
+                            <label for="updateDeliveryType">Teslimat Tipi</label>
+                            <input type="text" class="form-control" id="updateDeliveryType" name="DeliveryType">
+                        </div>
+                        <button type="submit" class="btn btn-modern">Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTable
+            if ($.fn.DataTable && $('#TblVeriler').length > 0) {
+                $('#TblVeriler').DataTable({
+                    "language": { "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json" },
+                    "pageLength": 10,
+                    "order": [[0, "desc"]],
+                    "responsive": true,
+                    "bDestroy": true
+                });
+            }
+
+            // Update Product Form Submission
+            $('#updateProductForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = @ViewBag.PazarYeriId;
+
+                if (!pazarYeriId) {
+                    alert('Pazar yeri ID bulunamadı.');
+                    return;
+                }
+
+                // Validate inputs
+                var id = $('#productId').val().trim();
+                var title = $('#updateTitle').val().trim();
+                var barcode = $('#updateBarcode').val().trim();
+                var price = $('#updatePrice').val().trim();
+                var stock = $('#updateStock').val().trim();
+
+                if (!id || !title || !barcode || !price || !stock) {
+                    alert('Lütfen zorunlu alanları doldurun: Ürün Adı, Barkod, Satış Fiyatı ve Stok Miktarı.');
+                    return;
+                }
+
+                var priceValue = parseFloat(price.replace(',', '.'));
+                var comparePriceValue = $('#updateComparePrice').val().trim() ? parseFloat($('#updateComparePrice').val().replace(',', '.')) : null;
+                var stockValue = parseInt(stock);
+                var deliveryDurationValue = $('#updateDeliveryDuration').val().trim() ? parseInt($('#updateDeliveryDuration').val()) : null;
+                var deliveryTypeValue = $('#updateDeliveryType').val().trim() || null;
+                var vendorStockCodeValue = $('#updateVendorStockCode').val().trim() || null;
+
+                if (isNaN(priceValue) || isNaN(stockValue)) {
+                    alert('Fiyat ve stok miktarı geçerli sayısal değerler olmalıdır.');
+                    return;
+                }
+
+                var productData = {
+                    Id: id,
+                    Title: title,
+                    Barcode: barcode,
+                    VendorStockCode: vendorStockCodeValue,
+                    Price: priceValue,
+                    ComparePrice: comparePriceValue,
+                    Stock: stockValue,
+                    DeliveryDuration: deliveryDurationValue,
+                    DeliveryType: deliveryTypeValue
+                };
+
+                console.log('Update Product Data:', productData);
+
+                $.ajax({
+                    url: '/AdminIdefix/UpdateIdefixProduct?pazarYeriId=' + pazarYeriId,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Ürün başarıyla güncellendi: ' + response.message);
+                            $('#updateProductModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('Hata: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Update Product Error:', xhr.responseText);
+                        alert('Hata: ' + error);
+                    }
+                });
+            });
+
+            // Open Update Modal
+            window.openUpdateModal = function (productId, button) {
+                var productData = $(button).closest('tr').data('product') || {};
+                console.log('Product Data:', productData);
+
+                // Varsayılan değerlerle doldurun
+                $('#productId').val(productId || productData.Id || '');
+                $('#updateTitle').val(productData.Title || '');
+                $('#updateBarcode').val(productData.Barcode || '');
+                $('#updateVendorStockCode').val(productData.VendorStockCode || '');
+                $('#updatePrice').val(productData.Price ? productData.Price.toString().replace('.', ',') : '');
+                $('#updateComparePrice').val(productData.ComparePrice ? productData.ComparePrice.toString().replace('.', ',') : '');
+                $('#updateStock').val(productData.Stock || '');
+                $('#updateDeliveryDuration').val(productData.DeliveryDuration || '');
+                $('#updateDeliveryType').val(productData.DeliveryType || '');
+
+                $('#updateProductModal').modal('show');
+            };
+        });
+    </script>
+}

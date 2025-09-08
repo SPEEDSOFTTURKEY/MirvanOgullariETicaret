@@ -1,0 +1,1031 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery.min.css" />
+<style>
+    .tags.d-none {
+        display: none !important;
+    }
+
+    .strikethrough {
+        position: relative;
+        background: #b7b7b7;
+    }
+
+        .strikethrough:before {
+            position: absolute;
+            content: "";
+            left: 0;
+            bottom: 50%;
+            right: 0;
+            border-top: 3px solid #5f5f5f;
+            transform: rotate(-45deg);
+        }
+
+    .product-image .main-image img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .product-image .additional-images img {
+        max-width: 150px;
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .thumbnail-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+    }
+
+    .featured-text {
+        background: #333;
+        color: #fff;
+        padding: 10px 0;
+        width: 100%;
+        text-align: center;
+        border-radius: 7px;
+    }
+
+        .featured-text .emo {
+            display: inline;
+            font-size: 1.25rem;
+            margin: 10px 10px 0 0;
+        }
+
+        .featured-text .rotate-text {
+            width: 100%;
+        }
+
+            .featured-text .rotate-text span {
+                display: none;
+            }
+
+                .featured-text .rotate-text span:first-child {
+                    display: inline;
+                }
+
+    .text-secondary {
+        color: #f7ce68 !important;
+    }
+
+    .d-inline-block {
+        display: inline !important;
+    }
+</style>
+<!-- Breadcrumb -->
+<ul class="breadcrumb">
+    <li>
+        <a href="/Home"><i class="fa fa-home"></i></a>
+    </li>
+    <li>
+        <a href="">Arama</a>
+    </li>
+    <li>
+        <a href="@Url.Action("Index", "ProductDetails", new { id = ViewBag.Urun.Id, adi = ViewBag.Urun.Adi })">@ViewBag.Urun.Adi</a>
+    </li>
+</ul>
+
+<h1 class="title page-title">
+    <span>@ViewBag.Urun.Adi</span>
+</h1>
+
+<div id="product-product" class="container">
+    <div class="row">
+        <div id="content" class="">
+            <!-- Content Top -->
+            <div id="content-top">
+                <div class="grid-rows">
+                    <div class="grid-row grid-row-content-top-1">
+                        <div class="grid-cols">
+                            <div class="grid-col grid-col-content-top-1-1">
+                                <div class="grid-items">
+                                    <div class="grid-item grid-item-content-top-1-1-1"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <!-- Product Images -->
+                <div class="product-left">
+                    <div class="product-image direction-horizontal position-bottom">
+                        <!-- Main Image Slider -->
+                        <div class="swiper main-image"
+                             data-options='{"speed":400,"autoplay":false,"pauseOnHover":true,"loop":false}'>
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    @if (ViewBag.Urun != null)
+                                    {
+                                        int index = 0;
+                                        foreach (var item in ViewBag.Urun.UrunFotograf)
+                                        {
+                                            <div class="swiper-slide" data-gallery=".lightgallery-product-images" data-index="@index">
+                                                <img src="@item.FotografBuyuk"
+                                                     alt="@ViewBag.Urun.Adi"
+                                                     title="@ViewBag.Urun.Adi"
+                                                     width="900"
+                                                     height="1200"
+                                                     class="img-responsive" />
+                                            </div>
+                                            index++;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="swiper-controls">
+                                <div class="swiper-buttons">
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-next"></div>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                        <!-- Thumbnail Slider -->
+                        <div class="swiper additional-images"
+                             data-options='{"slidesPerView":"auto","spaceBetween":0,"direction":"horizontal"}'>
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    @if (ViewBag.Urun != null)
+                                    {
+                                        int index = 0;
+                                        foreach (var item in ViewBag.Urun.UrunFotograf)
+                                        {
+                                            <div class="swiper-slide" data-gallery=".lightgallery-product-images" data-index="@index">
+                                                <img src="@item.FotografKucuk"
+                                                     alt="@ViewBag.Urun.Adi"
+                                                     title="@ViewBag.Urun.Adi"
+                                                     width="50"
+                                                     height="50"
+                                                     class="thumbnail-image" />
+                                            </div>
+                                            index++;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="swiper-buttons">
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="product-right">
+                    <div id="product" class="product-details">
+                        <div class="title page-title" style="margin: 0px">
+                            @ViewBag.Urun.Adi
+                        </div>
+
+             
+
+                        <!-- Price and Stats -->
+                        <div class="product-price-group">
+                            <div class="price-wrapper">
+                                <div class="product-name-above-price" style="font-size: 1.2rem; font-weight: bold; margin-bottom: 10px;">
+                                    @ViewBag.Urun.Adi
+                                </div>
+                                <div class="price-group">
+                                    <div class="product-price" id="product-price">@ViewBag.Urun.Fiyat TL</div>
+                                </div>
+                                <div class="product-tax">Vergiler Hariç: @(Math.Round(ViewBag.Urun.Fiyat / 1.1m, 2)) TL</div>
+                            </div>
+                            <div class="product-stats">
+                                <ul class="list-unstyled">
+                                    <li class="product-stock in-stock">
+                                        <b>Stok:</b>
+                                        <span>Mevcut</span>
+                                    </li>
+                                    <li class="product-manufacturer">
+                                        <b>Marka:</b>
+                                        <a href="@Url.Action("Index","Home")"></a>
+                                    </li>
+                                </ul>
+                                <div class="custom-stats">
+                                    <div class="product-views">
+                                        <b>Görüntüleme 10494</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Options Form -->
+                        <div class="product-options">
+                            <h3 class="options-title title">Mevcut Seçenekler:</h3>
+                            <form id="add-to-cart-form" enctype="multipart/form-data">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="Id" value="@ViewBag.Urun.Id" />
+                                <input type="hidden" name="UrunAdi" value="@ViewBag.Urun.Adi" />
+                                <input type="hidden" name="IndirimliFiyat" id="indirimli-fiyat" value="@ViewBag.Urun.Fiyat" />
+                                <input type="hidden" name="Birim" value="Adet" />
+                                <input type="hidden" name="UyeId" value="@(ViewBag.Uyeler != null ? ViewBag.Uyeler.Id : 0)" />
+                                <input type="hidden" name="BirimId" value="@ViewBag.Birims.BirimlerId" />
+                                <style>
+                                    .beden-options {
+                                        display: flex;
+                                        gap: 10px;
+                                        margin-top: 5px;
+                                    }
+
+                                    .beden-kutu {
+                                        position: relative;
+                                        cursor: pointer;
+                                    }
+
+                                        .beden-kutu input {
+                                            display: none;
+                                        }
+
+                                        .beden-kutu span {
+                                            display: inline-block;
+                                            padding: 10px 15px;
+                                            border: 2px solid #ccc;
+                                            border-radius: 5px;
+                                            transition: 0.2s;
+                                        }
+
+                                        .beden-kutu input:checked + span {
+                                            border-color: #000;
+                                            background: #f2f2f2;
+                                            font-weight: bold;
+                                        }
+                                </style>
+                                <div class="form-group">
+                                    <div class="beden-options">
+                                        @foreach (var item in ViewBag.Birim)
+                                        {
+                                            <label class="beden-kutu">
+                                                <input type="radio" name="BirimId" value="@item.Id" checked>
+                                                <span>@item.Adi</span>
+                                            </label>
+                                        }
+                                    </div>
+                                </div>
+
+                                <!-- Quantity and Add to Cart -->
+                                <div class="button-group-page">
+                                    <div class="buttons-wrapper">
+                                        <div class="stepper-group cart-group">
+                                            <div class="stepper">
+                                                <label class="control-label" for="product-quantity">Adet</label>
+                                                <input id="product-quantity"
+                                                       type="text"
+                                                       name="Miktar"
+                                                       value="1"
+                                                       data-minimum="1"
+                                                       class="form-control" />
+                                                <span>
+                                                    <i class="fa fa-angle-up"></i>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </div>
+                                            <button style="width:560px; height:45px;" id="button-cart"
+                                                    type="button"
+                                                    data-loading-text="<span class='btn-text'>Yükleniyor...</span>"
+                                                    class="btn btn-cart">
+                                                <span class="btn-text">Sepete Ekle</span>
+                                            </button>
+                                        </div>
+
+                                        <!-- Wishlist and Compare -->
+                                        <div class="wishlist-compare">
+                                            <a class="btn btn-wishlist" onclick="addToWishlist(@ViewBag.Urun.Id)" style=" font-size: 18px; padding: 12px 24px; margin-left: 10px;height: 45px;width: 60px;">
+                                                <span class="btn-text"></span>
+                                            </a>
+                                            <a class="btn btn-compare" onclick="parent.compare.add(@ViewBag.Urun.Id);">
+                                                <span class="btn-text">Karşılaştırma listesine ekle</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <style>
+                        .siparis-btn {
+                            width: 320px;
+                            height: 50px;
+                            margin-right: 10px;
+                            background-color: white;
+                            color: rgba(255, 0, 0, 1);
+                            border: 1px solid rgba(255, 0, 0, 1);
+                            box-shadow: 5px 5px 25px gray;
+                            font-family: revert;
+                            font-size: 17px;
+                            display: inline-block;
+                            text-align: center;
+                            line-height: 50px;
+                            text-decoration: none;
+                            border-radius: 8px;
+                            transition: 0.3s;
+                        }
+
+                            .siparis-btn:hover {
+                                background-color: rgba(255, 0, 0, 1);
+                                color: white;
+                            }
+
+                        .whatsapp-btn {
+                            width: 320px;
+                            height: 50px;
+                            margin-right: 10px;
+                            background-color: white;
+                            color: rgba(21, 177, 74, 1);
+                            border: 1px solid rgba(21, 177, 74, 1);
+                            box-shadow: 5px 5px 25px gray;
+                            font-family: revert;
+                            font-size: 17px;
+                            display: inline-block;
+                            text-align: center;
+                            line-height: 50px;
+                            text-decoration: none;
+                            border-radius: 8px;
+                            transition: 0.3s;
+                        }
+
+                            .whatsapp-btn:hover {
+                                background-color: rgba(21, 177, 74, 1);
+                                color: white;
+                            }
+                    </style>
+
+                    <!-- Additional Buttons -->
+                    <div class="product-blocks blocks-bottom">
+                        <div class="product-blocks-bottom product-blocks-397">
+                            <div class="grid-row grid-row-397-1" style="display: flex; margin-top:10px;">
+                                <div class="grid-col grid-col-397-1-1">
+                                    <div class="grid-items">
+                                        <div class="grid-item grid-item-397-1-1-1">
+                                            <div class="module module-button module-button-396">
+                                                <a class="siparis-btn" href="tel:+905448841996">Telefon ile Sipariş</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid-col grid-col-397-1-2">
+                                    <div class="grid-items">
+                                        <div class="grid-item grid-item-397-1-2-1">
+                                            <div class="module module-button module-button-395">
+                                                <a class="whatsapp-btn" href="https://wa.me/+905448841996">Whatsapp İle Sipariş</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Payment Info -->
+                        <div class="product-blocks-bottom product-blocks-498 grid-rows">
+                            <div class="grid-row grid-rowYU-498-1">
+                                <div class="grid-cols">
+                                    <div class="grid-col grid-col-498-1-1">
+                                        <div class="grid-items">
+                                            <div class="grid-item grid-item-498-1-1-1">
+                                                <div class="module module-blocks module-blocks-497 blocks-grid">
+                                                    <div class="module-body" style="display:block;">
+                                                        <div class="module-item module-item-1">
+                                                            <div class="block-body expand-block">
+                                                                <div class="block-wrapper">
+                                                                    <div class="block-content block-text">
+                                                                        <div class="info-row border-0">
+                                                                            <div class="featured-text fs-3 mt-3 mb-0">
+                                                                                <span class="emo align-middle">😍</span>
+                                                                                Ödemenizi
+                                                                                <div class="rotate-text font-weight-semibold d-inline-block text-secondary">
+                                                                                    <span>isterseniz <b>Kredi Kartı</b></span>
+                                                                                    <span>isterseniz <b>Kapıda Ödeme</b></span>
+                                                                                    <span>isterseniz <b>Havale/EFT</b></span>
+                                                                                </div>
+                                                                                ile yapabilirsiniz!
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Tabs -->
+            <div class="product-blocks blocks-default">
+                <div class="tabs-container product_extra product_tabs product_tabs-default">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#product_tabs-680c85f1ed3d8" data-toggle="tab">Ürün Açıklaması</a></li>
+                        <li><a href="#product_tabs-680c85f1f126e" data-toggle="tab">Kargo ve Teslimat</a></li>
+                        <li><a href="#product_tabs-680c85f1f1bc5" data-toggle="tab">İade Şartları</a></li>
+                        <li><a href="#product_tabs-680c85f1f097d" data-toggle="tab">Yorumlar</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <!-- Product Description -->
+                        <div class="product_extra-242 tab-pane active" id="product_tabs-680c85f1ed3d8">
+                            <div class="block-body expand-block">
+                                <div class="block-wrapper">
+                                    <div class="block-content">
+                                        <ul style="margin-bottom: 10px; color: rgb(51, 51, 51); font-size: 14px;">
+                                            <li>
+                                                <font face="Arial"></font>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Shipping and Delivery -->
+                        <div class="product_extra-499 tab-pane" id="product_tabs-680c85f1f126e">
+                            <div class="block-body expand-block">
+                                <div class="block-wrapper">
+                                    <div class="block-content">
+                                        <p>
+                                            Sipariş oluşturduktan sonra 1-3 iş günü içerisinde ürününüz hazırlanır sipariş verirken belirttiğiniz teslimat adresinize Yurtiçi Kargo firması ile gönderilir.<br />
+                                            Ürün herhangi bir nedenden dolayı tarafınızca teslim alınmayıp bize geri döndüğü takdirde ürünün tekrar tarafınıza geri gönderilmesi için havale/eft şeklinde Geri Geliş-Tekrar Size Geri Dönüş olarak 2 adet kargo ücreti talep edilir. Karşılanmaması durumunda sizden kaynaklı bir sorundan dolayı bize geri döndüğü için ücret iadesi ve ürün gönderimi yapılmaz.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Return Policy -->
+                        <div class="product_extra-508 tab-pane" id="product_tabs-680c85f1f1bc5">
+                            <div class="block-body expand-block">
+                                <div class="block-wrapper">
+                                    <div class="block-content">
+                                        <p>
+                                            Satın aldığınız ürünleri teslim aldığınız tarihten itibaren 14 gün içerisinde “Hesabım-Siparişlerim-İadelerim” ekranından anlaşmalı olduğumuz Yurtiçi Kargo firması ile aşağıdaki koşullar dahilinde ücretsiz iade edebilirsiniz.<br />
+                                            Satın almış olduğunuz ürünlerin kullanılmamış olması gerekmektedir.<br />
+                                            Ürünlerin orijinal kutusunda ve hasar görmemiş olması gerekmektedir.<br />
+                                            İade için göndermiş olduğunuz ürünler, tüm aksesuarlarıyla birlikte geri gönderilmelidir.<br />
+                                            Satın aldığınız ürünlerin yanında hediye ürün gönderildiyse hediye gönderilen ürün de siparişinizdeki ürünler ile birlikte aynı anda ve eksiksiz olarak gönderilmelidir.<br />
+                                            Satın alınan ürünlerin "Cayma Hakkı" dahilinde iade alınabilmesi için satın alınan ürünün orijinal kutusunda ve içerisinde bulunan ambalajlara zarar verilmemiş olması, faturasının ve tüm tamamlayıcı aksesuarlarının ürün ile hasarsız ve eksiksiz gönderilmesi gerekmektedir. Gönderilmemesi halinde iade talebi reddedilecektir. 14 günü aşan sürelerde iade yapılmamaktadır.<br />
+                                            Üründen kaynaklanan herhangi bir kusurdan dolayı yapacağınız iadeler ‘Hatalı Ürün’ olarak değerlendirilmektedir.<br />
+                                            Eğer ürünün faturası şirket adına kesilmiş ise iade işlemi için kurumun düzenlemiş olduğu ''İade Faturası'' ve ''İade İrsaliyesi'' gönderilmesi zorunludur. Aksi durumda, faturası kurumlar adına düzenlenen siparişlerin iadeleri yapılamamaktadır.<br />
+                                            İade gönderilecek ürünler anlaşmalı kargomuz Yurtiçi Kargo ve anlaşma kodumuz olan 1038181127 kodu ile tarafımıza gönderilmelidir. Başka kargo ile iade kabul edilememektedir.<br />
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Reviews -->
+                        <div class="product_extra-284 tab-pane" id="product_tabs-680c85f1f097d">
+                            <div class="block-body expand-block">
+                                <div class="block-wrapper">
+                                    <div class="block-content">
+                                        <form class="form-horizontal" id="form-review">
+                                            <div id="review"></div>
+                                            <h4>Yorum Yap</h4>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-name">Adınız</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" name="name" id="input-name" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-review">Yorumunuz</label>
+                                                <div class="col-sm-10">
+                                                    <textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
+                                                    <div class="help-block">
+                                                        <span class="text-danger">Not:</span> HTML'e dönüştürülmez!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Oylama</label>
+                                                <div class="col-sm-10 rate">
+                                                    <span>Kötü</span>
+                                                    @for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        <input type="radio" name="rating" value="@i" />
+                                                    }
+                                                    <span>İyi</span>
+                                                </div>
+                                            </div>
+                                            <div class="buttons clearfix">
+                                                <div class="pull-right">
+                                                    <button type="button" id="button-review" data-loading-text="Yükleniyor..." class="btn btn-primary">
+                                                        Gönder
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Products -->
+            <div id="bottom" class="bottom top-row">
+                <div class="grid-rows">
+                    <div class="grid-row grid-row-bottom-1">
+                        <div class="grid-cols">
+                            <div class="grid-col grid-col-bottom-1-1">
+                                <div class="grid-items">
+                                    <div class="grid-item grid-item-bottom-1-1-1">
+                                        <div class="module module-products module-products-253 module-products-grid">
+                                            <div class="module-body">
+                                                <div class="tab-container">
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="tab-1 active">
+                                                            <a href="#products-680610285fc52-tab-1" data-toggle="tab">Benzer Ürünler</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                        <div class="module-item module-item-1 tab-pane active" id="products-680610285fc52-tab-1">
+                                                            <div class="product-grid">
+                                                                @if (ViewBag.YeniUrun != null)
+                                                                {
+                                                                    foreach (var item in ViewBag.YeniUrun)
+                                                                    {
+                                                                        <div class="product-layout">
+                                                                            <div class="product-thumb">
+                                                                                <div class="image">
+                                                                                    <div class="quickview-button">
+                                                                                        <a class="btn btn-quickview"
+                                                                                           data-toggle="tooltip"
+                                                                                           data-tooltip-class="module-products-253 module-products-grid quickview-tooltip"
+                                                                                           data-placement="top"
+                                                                                           title="Quickview"
+                                                                                           onclick="quickview('@item.Id')">
+                                                                                            <span class="btn-text">Quickview</span>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                    <a href="@($"/ProductDetails?id={item.Id}&adi={item.Adi}")" class="product-img">
+                                                                                        <div>
+                                                                                            @foreach (var item2 in item.UrunFotograf)
+                                                                                            {
+                                                                                                <img src="@item2.FotografBuyuk"
+                                                                                                     alt="@item.Adi"
+                                                                                                     title="@item.Adi"
+                                                                                                     class="img-responsive img-first" />
+                                                                                                break;
+                                                                                            }
+                                                                                        </div>
+                                                                                    </a>
+                                                                                    <div class="product-labels">
+                                                                                        <span class="product-label product-label-217 product-label-default"><b>Yeni</b></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="caption">
+                                                                                    <div class="name">
+                                                                                        <a href="@($"/ProductDetails?id={item.Id}&adi={item.Adi}")">@item.Adi</a>
+                                                                                    </div>
+                                                                                    <div class="description">@item.Aciklama</div>
+                                                                                    <div class="price">
+                                                                                        <div>
+                                                                                            <span class="price-normal">@item.Fiyat TL</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="rating rating-hover">
+                                                                                        <div class="rating-stars">
+                                                                                            @for (int i = 0; i < 5; i++)
+                                                                                            {
+                                                                                                <span class="fa fa-stack">
+                                                                                                    <i class="fa fa-star fa-stack-2x"></i>
+                                                                                                    <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                                                </span>
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="buttons-wrapper">
+                                                                                        <div class="button-group">
+                                                                                            <div class="cart-group">
+                                                                                                <div class="stepper">
+                                                                                                    <input type="text"
+                                                                                                           name="quantity"
+                                                                                                           value="1"
+                                                                                                           data-minimum="1"
+                                                                                                           class="form-control" />
+                                                                                                    <input type="hidden"
+                                                                                                           name="product_id"
+                                                                                                           value="@item.Id" />
+                                                                                                    <span>
+                                                                                                        <i class="fa fa-angle-up"></i>
+                                                                                                        <i class="fa fa-angle-down"></i>
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                                <a class="btn btn-cart"
+                                                                                                   onclick="cart.add('@item.Id', $(this).closest('.product-thumb').find('.button-group input[name=\'quantity\']').val());"
+                                                                                                   data-loading-text="<span class='btn-text'>Sepete Ekle</span>">
+                                                                                                    <span class="btn-text">Sepete Ekle</span>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                            <div class="wishlof-group">
+                                                                                                <a class="btn btn-wishlist"
+                                                                                                   data-toggle="tooltip"
+                                                                                                   data-tooltip-class="module-products-253 module-products-grid wishlist-tooltip"
+                                                                                                   data-placement="top"
+                                                                                                   title="Alışveriş Listeme Ekle"
+                                                                                                   onclick="wishlist.add('@item.Id')">
+                                                                                                    <span class="btn-text">Alışveriş Listeme Ekle</span>
+                                                                                                </a>
+                                                                                                <a class="btn btn-compare"
+                                                                                                   data-toggle="tooltip"
+                                                                                                   data-tooltip-class="module-products-253 module-products-grid compare-tooltip"
+                                                                                                   data-placement="top"
+                                                                                                   title="Karşılaştırma listesine ekle"
+                                                                                                   onclick="compare.add('@item.Id')">
+                                                                                                    <span class="btn-text">Karşılaştırma listesine ekle</span>
+                                                                                                </a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Library Includes -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/lightgallery.min.js"></script>
+
+@section Script {
+    <script>
+        // Fix for blockUI undefined error
+        if (typeof $.blockUI === 'undefined') {
+            $.blockUI = function(options) {
+                console.log("blockUI called but not available - would block with options:", options);
+            };
+            $.unblockUI = function() {
+                console.log("unblockUI called but not available");
+            };
+        }
+
+        function addToWishlist(urunId) {
+            var uyeId = @(ViewBag.Uyeler != null ? ViewBag.Uyeler.Id : 0);
+            if (uyeId === 0) {
+                alert('Favorilere eklemek için lütfen giriş yapın.');
+                return;
+            }
+
+            $.ajax({
+                url: '/ProductDetails/Favori',
+                type: 'POST',
+                data: { UrunId: urunId, UyeId: uyeId },
+                beforeSend: function () { $.blockUI({ message: 'Yükleniyor...' }); },
+                complete: function () { $.unblockUI(); },
+                success: function (response) {
+                    alert(response.success ? 'Ürün favorilere eklendi.' : 'Bir hata oluştu: ' + (response.message || 'Bilinmeyen hata.'));
+                },
+                error: function () {
+                    alert('Favorilere ekleme sırasında bir hata oluştu.');
+                }
+            });
+        }
+
+        // Price Update Logic
+        function updatePrice() {
+            var basePrice = parseFloat(@ViewBag.Urun.Fiyat) || 250.17;
+            var totalPrice = basePrice;
+            var taxExcluded = totalPrice / 1.1;
+            $("#product-price").text(totalPrice.toFixed(2) + " TL");
+            $(".product-tax").text("Vergiler Hariç: " + taxExcluded.toFixed(2) + " TL");
+            $("#indirimli-fiyat").val(totalPrice.toFixed(2));
+        }
+
+        updatePrice();
+
+        // Add to Cart
+        $("#button-cart").on("click", function () {
+            console.log("Sepete Ekle butonuna tıklandı!");
+            var $btn = $(this);
+
+            // Get form values, allowing them to be empty
+            var birimId = $("input[name='BirimId']:checked").val() || "STD";
+            var miktar = $("input[name='Miktar']").val() || "1";
+
+            // Create FormData
+            try {
+                var formData = new FormData();
+                $("#add-to-cart-form").serializeArray().forEach(function(field) {
+                    formData.append(field.name, field.value || '');
+                });
+                // Explicitly append optional fields to ensure they're included
+                formData.append('BirimId', birimId);
+                formData.append('Miktar', miktar);
+
+                // Log FormData for debugging
+                console.log("Gönderilen FormData:");
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ': ' + pair[1]);
+                }
+            } catch (error) {
+                console.error("FormData oluşturma hatası:", error);
+                alert("Form verisi hazırlanırken bir hata oluştu: " + error.message);
+                return;
+            }
+
+            // Get CSRF token
+            var token = $("input[name='__RequestVerificationToken']").val();
+            if (!token) {
+                console.error("CSRF token bulunamadı");
+                alert("CSRF token bulunamadı. Lütfen sayfayı yenileyin.");
+                return;
+            }
+
+            // Safe blocking UI
+            function safeBlockUI(message) {
+                try {
+                    if (typeof $.blockUI === 'function') {
+                        $.blockUI({ message: message });
+                    } else {
+                        console.log("BlockUI not available, would show:", message);
+                    }
+                } catch (error) {
+                    console.error("blockUI error:", error);
+                }
+            }
+
+            function safeUnblockUI() {
+                try {
+                    if (typeof $.unblockUI === 'function') {
+                        $.unblockUI();
+                    } else {
+                        console.log("unblockUI not available");
+                    }
+                } catch (error) {
+                    console.error("unblockUI error:", error);
+                }
+            }
+
+            // AJAX request
+            $.ajax({
+                url: "/Sepet/Add",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'RequestVerificationToken': token
+                },
+                beforeSend: function () {
+                    console.log("AJAX isteği gönderiliyor...");
+                    safeBlockUI('Sepete ekleniyor...');
+                    $btn.prop("disabled", true).html("<span class='btn-text'>Yükleniyor...</span>");
+                },
+                complete: function () {
+                    console.log("AJAX isteği tamamlandı.");
+                    safeUnblockUI();
+                    $btn.prop("disabled", false).html("<span class='btn-text'>Sepete Ekle</span>");
+                },
+                success: function (response) {
+                    console.log("Sepete ekleme başarılı:", response);
+                    if (response.success) {
+                        window.location.reload();
+                    } else {
+                        alert(response.message || "Sepete ekleme başarısız oldu.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX hatası:", {
+                        status: status,
+                        error: error,
+                        responseText: xhr.responseText ? xhr.responseText.substring(0, 1000) : null,
+                        statusCode: xhr.status
+                    });
+
+                    var errorMessage = "Sepete ekleme sırasında bir hata oluştu.";
+                    try {
+                        if (xhr.responseText) {
+                            var jsonResponse = JSON.parse(xhr.responseText);
+                            if (jsonResponse && jsonResponse.message) {
+                                errorMessage = jsonResponse.message;
+                            }
+                        }
+                    } catch (e) {
+                        console.error("JSON parse error:", e);
+                        errorMessage += " Sunucu beklenmeyen bir yanıt döndürdü: " + (xhr.responseText ? xhr.responseText.substring(0, 200) : "Bilinmeyen hata");
+                    }
+                    alert(errorMessage + " (Hata kodu: " + xhr.status + ")");
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            console.log("Sayfa yüklendi, jQuery durumu:", typeof $);
+
+            // Initialize Swiper
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('.main-image .swiper-container', {
+                    speed: 400,
+                    autoplay: false,
+                    pauseOnMouseEnter: true,
+                    loop: false,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                });
+
+                new Swiper('.additional-images .swiper-container', {
+                    slidesPerView: 'auto',
+                    spaceBetween: 0,
+                    direction: 'horizontal',
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                });
+            } else {
+                console.error("Swiper kütüphanesi yüklenmedi.");
+            }
+
+            // Initialize LightGallery
+            if (typeof lightGallery !== 'undefined') {
+                $('.lightgallery-product-images').each(function () {
+                    lightGallery(this, {
+                        selector: '.swiper-slide',
+                        thumbWidth: 50,
+                        thumbContHeight: 50,
+                        addClass: 'lg-product-images',
+                        mode: 'lg-slide',
+                        download: true,
+                        fullScreen: false
+                    });
+                });
+            } else {
+                console.error("LightGallery kütüphanesi yüklenmedi.");
+            }
+
+            // Magnific Popup
+            $(".thumbnails").magnificPopup({
+                type: "image",
+                delegate: "a",
+                gallery: { enabled: true }
+            });
+
+            // Review Navigation
+            $(".review-links a").on("click", function () {
+                var $review = $("#review");
+                if ($review.length) {
+                    $('a[href="#' + $review.closest(".tab-pane").attr("id") + '"]').trigger("click");
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $review.offset().top - 100
+                    }, 200);
+                }
+            });
+
+            // Quantity Stepper
+            $(".fa-angle-up").on("click", function () {
+                var input = $(this).closest(".stepper").find("input[name='Miktar']");
+                var value = parseInt(input.val()) || 1;
+                input.val(value + 1);
+            });
+
+            $(".fa-angle-down").on("click", function () {
+                var input = $(this).closest(".stepper").find("input[name='Miktar']");
+                var value = parseInt(input.val()) || 1;
+                if (value > 1) {
+                    input.val(value - 1);
+                }
+            });
+
+            $("input[name='Miktar']").on("input", function () {
+                var value = parseInt($(this).val()) || 1;
+                if (value < 1) {
+                    $(this).val(1);
+                }
+            });
+        });
+
+        // Rotaterator Plugin
+        (function ($) {
+            $.fn.rotaterator = function (options) {
+                var defaults = {
+                    fadeSpeed: 500,
+                    pauseSpeed: 100,
+                    child: null
+                };
+                var options = $.extend(defaults, options);
+                return this.each(function () {
+                    var o = options;
+                    var obj = $(this);
+                    var items = $(obj.children(), obj);
+                    items.each(function () { $(this).hide(); });
+                    if (!o.child) {
+                        var next = $(obj).children(":first");
+                    } else {
+                        var next = o.child;
+                    }
+                    $(next).fadeIn(o.fadeSpeed, function () {
+                        $(next).delay(o.pauseSpeed).fadeOut(o.fadeSpeed, function () {
+                            var next = $(this).next();
+                            if (next.length == 0) {
+                                next = $(obj).children(":first");
+                            }
+                            $(obj).rotaterator({ child: next, fadeSpeed: o.fadeSpeed, pauseSpeed: o.pauseSpeed });
+                        });
+                    });
+                });
+            };
+        })(jQuery);
+
+        $(function () {
+            $(".featured-text .rotate-text").rotaterator({
+                fadeSpeed: 500,
+                pauseSpeed: 2000
+            });
+        });
+
+        // Placeholder for OpenCart compatibility
+        var wishlist = {
+            add: function (id) {
+                $.ajax({
+                    url: '/ProductDetails/Favori',
+                    type: 'POST',
+                    data: { UrunId: id, UyeId: @(ViewBag.Uyeler != null ? ViewBag.Uyeler.Id : 0) },
+                    beforeSend: function () { $.blockUI({ message: 'Yükleniyor...' }); },
+                    complete: function () { $.unblockUI(); },
+                    success: function (response) {
+                        alert(response.success ? 'Ürün favorilere eklendi.' : 'Bir hata oluştu.');
+                    },
+                    error: function () {
+                        alert('Favorilere ekleme başarısız.');
+                    }
+                });
+            }
+        };
+
+        var compare = {
+            add: function (id) {
+                alert('Karşılaştırma özelliği şu anda kullanılamıyor.');
+            }
+        };
+
+        var cart = {
+            add: function (id, quantity) {
+                $.ajax({
+                    url: '/Sepet/Add',
+                    type: 'POST',
+                    data: { Id: id, Miktar: quantity, BirimId: $("input[name='BirimId']:checked").val() || "STD" },
+                    beforeSend: function () { $.blockUI({ message: 'Sepete ekleniyor...' }); },
+                    complete: function () { $.unblockUI(); },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            window.location.href = '/Sepet/Index';
+                        } else {
+                            alert(response.message || 'Sepete ekleme başarısız.');
+                        }
+                    },
+                    error: function () {
+                        alert('Sepete ekleme başarısız.');
+                    }
+                });
+            }
+        };
+
+        function quickview(id) {
+            alert('Hızlı görünüm özelliği şu anda kullanılamıyor.');
+        }
+    </script>
+}

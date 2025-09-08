@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Sipariş Bilgileri";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+<section class="wrapper">
+    <form class="form-horizontal" action="@Url.Action("Kaydet", "AdminSepetGuncelle")" method="post">
+        @if (ViewBag.Sepet != null)
+        {
+            @foreach (var item in ViewBag.Sepet)
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                Sepet Bilgileri Güncelle
+                            </header>
+                            <div class="panel-body">
+                                <input type="hidden" value="@item.Id" name="Id" />
+
+                                <div class="form-group col-md-12">
+                                    <label for="UrunAdi">Ürün Adı</label>
+                                    <select class="form-control urun-secimi" id="UrunAdi" name="UrunId" style="color:#000" data-fiyat-id="Fiyat">
+                                        <option value="@item.UrunId" data-fiyat="@item.Fiyat">@item.UrunAdi</option>
+                                        @foreach (var uye in ViewBag.Urun)
+                                        {
+                                            <option value="@uye.Id" data-fiyat="@uye.Fiyat">@uye.Adi</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="Birim">Birim</label>
+                                    <input type="text" value="@item.Birim" class="form-control" id="Birim" name="Birim" style="color:#000" />
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="Miktar">Miktar</label>
+                                    <input type="text" value="@item.Miktar" class="form-control miktar" id="Miktar" name="Miktar" style="color:#000" />
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="Fiyat">Fiyat</label>
+                                    <input type="text" value="@item.Fiyat" class="form-control fiyat" id="Fiyat" name="Fiyat" style="color:#000" readonly />
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="Toplam">Toplam</label>
+                                    <input type="text" value="@item.Toplam" class="form-control toplam" id="Toplam" name="Toplam" style="color:#000" readonly />
+                                </div>
+
+                                <!-- Eklenme Tarihi -->
+                                <div class="form-group col-md-4">
+                                    <label for="EklenmeTarihi">Eklenme Tarihi</label>
+                                    <input type="text" value="@item.EklenmeTarihi" class="form-control" id="EklenmeTarihi" name="EklenmeTarihi" style="color:#000" />
+                                </div>
+                            </div>
+                            <div class="panel-footer text-right">
+                                <button type="submit" class="btn btn-info">Kaydet</button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            }
+        }
+    </form>
+</section>
+
+@section Script {
+    <script>
+        // Fiyat ve Miktar değiştiğinde toplamı günceller
+        $(document).on('input', '.fiyat, .miktar', function () {
+            var panel = $(this).closest('.panel-body'); // İlgili paneli bul
+            var fiyat = parseFloat(panel.find('.fiyat').val()) || 0; // Fiyat
+            var miktar = parseFloat(panel.find('.miktar').val()) || 0; // Miktar
+            var toplam = fiyat * miktar; // Toplam hesapla
+            panel.find('.toplam').val(toplam.toFixed(2)); // Toplamı güncelle
+        });
+
+        // Ürün değiştiğinde fiyatı güncelle
+        $(document).on('change', '.urun-secimi', function () {
+            var selectedOption = $(this).find(':selected'); // Seçilen ürün
+            var fiyat = selectedOption.data('fiyat'); // Fiyatını al
+            var panel = $(this).closest('.panel-body'); // İlgili paneli bul
+            panel.find('.fiyat').val(fiyat); // Fiyatı güncelle
+            panel.find('.miktar').trigger('input'); // Toplamı güncellemek için tetikle
+        });
+    </script>
+}

@@ -1,0 +1,630 @@
+﻿@using System.Globalization
+@using WebApp.Models
+@{
+    ViewData["Title"] = "İdefix Ürün Ekle";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        margin: 30px 0;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 20px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+        width: 100%;
+    }
+
+    .category-select-btn {
+        width: 100%;
+        text-align: left;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+        padding: 12px 20px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    #categoryTree {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .category-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #eee;
+        border-radius: 8px;
+    }
+
+    .category-leaf-item {
+        padding: 8px 12px;
+/*         background-color: #d1e7dd;
+ */        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .category-leaf-item:hover {
+            background-color: #a3cfbb;
+        }
+
+        .category-leaf-item.selected {
+            background-color: #2d8b4e;
+            color: white;
+        }
+
+    .category-separator {
+        color: #6c757d;
+        margin: 0 5px;
+    }
+
+    media (max-width: 768px) {
+        .form-group
+
+    {
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        padding: 6px;
+    }
+
+    }
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-treeview/1.2.0/jquery.treeview.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-treeview/1.2.0/jquery.treeview.min.js"></script>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-plus"></i>
+                    <span>Yeni İdefix Ürün Ekle</span>
+                </div>
+                <div class="panel-content">
+                    <form id="addProductForm" class="form-row" enctype="multipart/form-data">
+                        <input type="hidden" id="pazarYeriId" value="@ViewBag.PazarYeriId">
+                        <div class="form-group col-md-6">
+                            <label for="title">Ürün Adı *</label>
+                            <input type="text" class="form-control" id="title" name="Title" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="description">Açıklama *</label>
+                            <textarea class="form-control" id="description" name="Description" style="height: 100px;" required></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="categoryId">Kategori ID *</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="categoryId" name="CategoryId" readonly required>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-modern category-select-btn" data-toggle="modal" data-target="#categoryModal">
+                                        Kategori Seç
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="brandId">Marka *</label>
+                            <select class="form-control" id="brandId" name="BrandId" required>
+                                <option value="">Marka Seçin</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="productMainId">Ürün Ana ID *</label>
+                            <input type="text" class="form-control" id="productMainId" name="ProductMainId" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="barcode">Barkod *</label>
+                            <input type="text" class="form-control" id="barcode" name="Barcode" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="vendorStockCode">Stok Kodu *</label>
+                            <input type="text" class="form-control" id="vendorStockCode" name="VendorStockCode" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stock">Stok Miktarı *</label>
+                            <input type="number" class="form-control" id="stock" name="Stock" min="1" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="price">Satış Fiyatı (TL) *</label>
+                            <input type="number" class="form-control" id="price" name="Price" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="comparePrice">Liste Fiyatı (TL)</label>
+                            <input type="number" class="form-control" id="comparePrice" name="ComparePrice" min="0" step="0.01">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="vatRate">KDV Oranı *</label>
+                            <select class="form-control" id="vatRate" name="VatRate" required>
+                                <option value="0">0%</option>
+                                <option value="1">1%</option>
+                                <option value="8">8%</option>
+                                <option value="18">18%</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="deliveryDuration">Teslimat Süresi (Gün)</label>
+                            <input type="number" class="form-control" id="deliveryDuration" name="DeliveryDuration" min="1">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="deliveryType">Teslimat Tipi</label>
+                            <select class="form-control" id="deliveryType" name="DeliveryType">
+                                <option value="regular">Normal</option>
+                                <option value="same_day_shipping">Aynı Gün Kargo</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cargoCompanyId">Kargo Şirketi</label>
+                            <select class="form-control" id="cargoCompanyId" name="CargoCompanyId">
+                                <option value="">Kargo Şirketi Seçin</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="shipmentAddressId">Sevkiyat Depo Adresi ID</label>
+                            <select class="form-control" id="shipmentAddressId" name="ShipmentAddressId">
+                                <option value="">Sevkiyat Deposu Seçin</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="returnAddressId">İade Depo Adresi ID</label>
+                            <select class="form-control" id="returnAddressId" name="ReturnAddressId">
+                                <option value="">İade Deposu Seçin</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="desi">Desi</label>
+                            <input type="number" class="form-control" id="desi" name="Desi" min="0" step="0.01">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="weight">Ağırlık (kg)</label>
+                            <input type="number" class="form-control" id="weight" name="Weight" min="0" step="0.01">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="images">Görseller *</label>
+                            <input type="file" class="form-control" id="images" name="Images" accept="image/*" multiple required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="originCountryId">Menşei Ülke ID</label>
+                            <input type="number" class="form-control" id="originCountryId" name="OriginCountryId" min="1">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="manufacturer">Üretici</label>
+                            <input type="text" class="form-control" id="manufacturer" name="Manufacturer">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="importer">İthalatçı</label>
+                            <input type="text" class="form-control" id="importer" name="Importer">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ceCompatibility">CE Uygunluk</label>
+                            <select class="form-control" id="ceCompatibility" name="CeCompatibility">
+                                <option value="true">Evet</option>
+                                <option value="false">Hayır</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="usageInstructionsImage">Kullanım Talimatı Görseli</label>
+                            <input type="file" class="form-control" id="usageInstructionsImage" name="UsageInstructionsImage" accept="image/*">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="packageFrontImage">Ön Yüz Paket Görseli</label>
+                            <input type="file" class="form-control" id="packageFrontImage" name="PackageFrontImage" accept="image/*">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="packageBackImage">Arka Yüz Paket Görseli</label>
+                            <input type="file" class="form-control" id="packageBackImage" name="PackageBackImage" accept="image/*">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="productInfoFormImage">Ürün Bilgi Formu Görseli</label>
+                            <input type="file" class="form-control" id="productInfoFormImage" name="ProductInfoFormImage" accept="image/*">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="energyClassImage">Enerji Sınıfı Görseli</label>
+                            <input type="file" class="form-control" id="energyClassImage" name="EnergyClassImage" accept="image/*">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="energyNutritionImage">Enerji ve Besin Değerleri Görseli</label>
+                            <input type="file" class="form-control" id="energyNutritionImage" name="EnergyNutritionImage" accept="image/*">
+                        </div>
+                        <div class="form-group col-12">
+                            <button type="submit" class="btn btn-modern">Ekle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Selection Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalLabel">Kategori Seç</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-group" style="display:flex;">
+                            <input type="text" class="form-control" id="categorySearch" placeholder="Kategori ara...">
+                            <div class="input-group-append">
+                                <button style=" margin-left: 15px;"type="button" class="btn btn-modern" id="searchCategoryBtn">
+                                    Ara
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="categoryTree" class="category-container"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-modern" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            var pazarYeriId = $('#pazarYeriId').val();
+            var allCategories = [];
+            var leafCategories = [];
+
+            // Load brands
+            function loadBrands() {
+                $.ajax({
+                    url: '/AdminIdefixUrunEkle/GetIdefixBrands?pazarYeriId=' + pazarYeriId,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#brandId');
+                            $select.empty();
+                            $select.append('<option value="">Marka Seçin</option>');
+                            response.brands.forEach(function (brand) {
+                                $select.append($('<option>').val(brand.id).text(brand.title));
+                            });
+                        } else {
+                            console.error('Markalar yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Markalar yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            // Load cargo companies
+            function loadCargoCompanies() {
+                $.ajax({
+                    url: '/AdminIdefixUrunEkle/GetIdefixCargoCompanies?pazarYeriId=' + pazarYeriId,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#cargoCompanyId');
+                            $select.empty();
+                            $select.append('<option value="">Kargo Şirketi Seçin</option>');
+                            response.cargoCompanies.forEach(function (cargo) {
+                                $select.append($('<option>').val(cargo.id).text(cargo.title));
+                            });
+                        } else {
+                            console.error('Kargo şirketleri yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Kargo şirketleri yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            // Load vendor profiles for shipment and return addresses
+            function loadVendorProfiles() {
+                $.ajax({
+                    url: '/AdminIdefixUrunEkle/GetIdefixVendorProfiles?pazarYeriId=' + pazarYeriId,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $shipmentSelect = $('#shipmentAddressId');
+                            var $returnSelect = $('#returnAddressId');
+                            $shipmentSelect.empty();
+                            $returnSelect.empty();
+                            $shipmentSelect.append('<option value="">Sevkiyat Deposu Seçin</option>');
+                            $returnSelect.append('<option value="">İade Deposu Seçin</option>');
+                            response.vendorProfiles.forEach(function (profile) {
+                                $shipmentSelect.append($('<option>').val(profile.id).text(profile.title));
+                                $returnSelect.append($('<option>').val(profile.id).text(profile.title));
+                            });
+                        } else {
+                            console.error('Kargo profilleri yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Kargo profilleri yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            // Load categories only when search is performed
+            function loadIdefixCategories(pazarYeriId, callback) {
+                $.ajax({
+                    url: '/AdminIdefixUrunEkle/GetIdefixCategories?pazarYeriId=' + pazarYeriId,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            allCategories = response.categories;
+                            leafCategories = extractLeafCategories(allCategories);
+                            callback(leafCategories);
+                        } else {
+                            alert('Kategoriler yüklenemedi: ' + response.message);
+                            callback([]);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Kategoriler yüklenemedi: ' + error);
+                        callback([]);
+                    }
+                });
+            }
+
+            function extractLeafCategories(categories, parentPath = []) {
+                var leaves = [];
+                categories.forEach(function (category) {
+                    var currentPath = [...parentPath, category];
+                    if (category.isLeaf) {
+                        leaves.push({
+                            id: category.id,
+                            fullPath: currentPath
+                        });
+                    }
+                    if (category.subCategories && category.subCategories.length > 0) {
+                        leaves = leaves.concat(extractLeafCategories(category.subCategories, currentPath));
+                    }
+                });
+                return leaves;
+            }
+
+            function renderCategoryTree(leaves) {
+                var $container = $('#categoryTree');
+                $container.empty();
+
+                if (!leaves || leaves.length === 0) {
+                    $container.append('<div class="text-muted">Kategori bulunamadı</div>');
+                    return;
+                }
+
+                leaves.forEach(function (leaf) {
+                    var $item = $('<div class="category-leaf-item">');
+                    leaf.fullPath.forEach((cat, index) => {
+                        $item.append($('<span>').text(cat.name));
+                        if (index < leaf.fullPath.length - 1) {
+                            $item.append($('<span class="category-separator">').text(' > '));
+                        }
+                    });
+
+                    $item.on('click', function () {
+                        $('.category-leaf-item').removeClass('selected');
+                        $(this).addClass('selected');
+                        $('#categoryId').val(leaf.id);
+                    });
+
+                    $item.on('dblclick', function () {
+                        $('#categoryModal').modal('hide');
+                    });
+
+                    $container.append($item);
+                });
+            }
+
+            // Clear category tree when modal opens
+            $('#categoryModal').on('shown.bs.modal', function () {
+                $('#categoryTree').empty();
+                $('#categorySearch').val(''); // Clear search input
+            });
+
+            // Search button click handler
+            $('#searchCategoryBtn').on('click', function () {
+                var searchTerm = $('#categorySearch').val().toLowerCase();
+                if (searchTerm === '') {
+                    renderCategoryTree([]);
+                    return;
+                }
+
+                if (allCategories.length === 0 && pazarYeriId) {
+                    loadIdefixCategories(pazarYeriId, function (categories) {
+                        filterAndRenderCategories(categories, searchTerm);
+                    });
+                } else {
+                    filterAndRenderCategories(leafCategories, searchTerm);
+                }
+            });
+
+            function filterAndRenderCategories(categories, searchTerm) {
+                var filtered = categories.filter(function (leaf) {
+                    var fullPath = leaf.fullPath.map(c => c.name).join(' > ').toLowerCase();
+                    return fullPath.includes(searchTerm);
+                });
+
+                renderCategoryTree(filtered);
+            }
+
+            // Load initial data
+            loadBrands();
+            loadCargoCompanies();
+            loadVendorProfiles();
+
+            // Form submission
+            $('#addProductForm').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData();
+
+                formData.append('Title', $('#title').val());
+                formData.append('Description', $('#description').val());
+
+                var categoryId = parseInt($('#categoryId').val());
+                formData.append('CategoryId', isNaN(categoryId) ? 0 : categoryId);
+
+                var brandId = parseInt($('#brandId').val());
+                formData.append('BrandId', isNaN(brandId) ? 0 : brandId);
+
+                formData.append('ProductMainId', $('#productMainId').val());
+                formData.append('Barcode', $('#barcode').val());
+                formData.append('VendorStockCode', $('#vendorStockCode').val());
+
+                var stock = parseInt($('#stock').val());
+                formData.append('Stock', isNaN(stock) ? 1 : stock);
+
+                var price = parseFloat($('#price').val());
+                formData.append('Price', isNaN(price) ? 0 : price);
+
+                var comparePrice = parseFloat($('#comparePrice').val());
+                formData.append('ComparePrice', isNaN(comparePrice) ? null : comparePrice);
+
+                var vatRate = parseInt($('#vatRate').val());
+                formData.append('VatRate', isNaN(vatRate) ? 0 : vatRate);
+
+                var deliveryDuration = parseInt($('#deliveryDuration').val());
+                formData.append('DeliveryDuration', isNaN(deliveryDuration) ? null : deliveryDuration);
+
+                formData.append('DeliveryType', $('#deliveryType').val());
+
+                var cargoCompanyId = parseInt($('#cargoCompanyId').val());
+                formData.append('CargoCompanyId', isNaN(cargoCompanyId) ? null : cargoCompanyId);
+
+                var shipmentAddressId = parseInt($('#shipmentAddressId').val());
+                formData.append('ShipmentAddressId', isNaN(shipmentAddressId) ? null : shipmentAddressId);
+
+                var returnAddressId = parseInt($('#returnAddressId').val());
+                formData.append('ReturnAddressId', isNaN(returnAddressId) ? null : returnAddressId);
+
+                var desi = parseFloat($('#desi').val());
+                formData.append('Desi', isNaN(desi) ? null : desi);
+
+                var weight = parseFloat($('#weight').val());
+                formData.append('Weight', isNaN(weight) ? null : weight);
+
+                var originCountryId = parseInt($('#originCountryId').val());
+                formData.append('OriginCountryId', isNaN(originCountryId) ? null : originCountryId);
+
+                formData.append('Manufacturer', $('#manufacturer').val());
+                formData.append('Importer', $('#importer').val());
+                formData.append('CeCompatibility', $('#ceCompatibility').val());
+
+                var files = $('#images')[0].files;
+                for (var i = 0; i < files.length; i++) {
+                    formData.append('Images', files[i]);
+                }
+
+                formData.append('UsageInstructionsImage', $('#usageInstructionsImage')[0].files[0]);
+                formData.append('PackageFrontImage', $('#packageFrontImage')[0].files[0]);
+                formData.append('PackageBackImage', $('#packageBackImage')[0].files[0]);
+                formData.append('ProductInfoFormImage', $('#productInfoFormImage')[0].files[0]);
+                formData.append('EnergyClassImage', $('#energyClassImage')[0].files[0]);
+                formData.append('EnergyNutritionImage', $('#energyNutritionImage')[0].files[0]);
+
+                // Validation
+                if (!formData.get('Title') || !formData.get('Description') || !formData.get('CategoryId') || !formData.get('BrandId') ||
+                    !formData.get('ProductMainId') || !formData.get('Barcode') || !formData.get('VendorStockCode') ||
+                    !formData.get('Stock') || !formData.get('Price') || !formData.get('VatRate') || files.length === 0) {
+                    alert('Lütfen tüm zorunlu alanları doldurun: Ürün Adı, Açıklama, Kategori, Marka, Ürün Ana ID, Barkod, Stok Kodu, Stok Miktarı, Satış Fiyatı, KDV Oranı ve Görseller.');
+                    return;
+                }
+
+                if (isNaN(parseFloat(formData.get('Price'))) || parseFloat(formData.get('Price')) <= 0) {
+                    alert('Geçerli bir satış fiyatı giriniz.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/AdminIdefixUrunEkle/AddIdefixProduct?pazarYeriId=' + pazarYeriId,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Ürün başarıyla eklendi: ' + response.message);
+                            $('#addProductForm')[0].reset();
+                            window.location.href = '/AdminIdefix';
+                        } else {
+                            alert('Hata: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Add Product Error:', xhr.responseText);
+                        alert('Hata: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+}

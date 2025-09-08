@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+    <li>
+        <a href="@Url.Action("Index","Address")">Adreslerim</a>
+    </li>
+</ul>
+
+<h1 class="title page-title"><span>Adreslerim</span></h1>
+
+<div id="account-address" class="container">
+    <div class="row">
+        <div id="content" class="col-sm-9">
+            @if(ViewBag.Adres != null)
+            {
+                @foreach( var item in ViewBag.Adres)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <tr>
+                                <td class="text-left">
+                                    @item.AdresBasligi<br />@item.Adi @item.Soyadi<br />@item.Telefon<br />@item.Adres  @item.ilce/@item.il
+                                </td>
+                                <td class="text-right">
+                                    <a href="@Url.Action("Index","EditAddress")"
+                                       class="btn btn-danger">Düzenle</a>
+                                    <a href="@Url.Action("Delete", "Adress", new { id = item.Id })"
+
+                                       class="btn btn-danger">Sil</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                }
+            }
+            <div class="buttons clearfix">
+                <div class="pull-left">
+                    <a href="@Url.Action("Index","Account")"
+                       class="btn btn-default">Geri</a>
+                </div>
+                <div class="pull-right">
+                    <a href="@Url.Action("Index","NewAddress")"
+                       class="btn btn-primary">Yeni Adres</a>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_AccountSidebar")
+    </div>
+</div>
+
+
+
+

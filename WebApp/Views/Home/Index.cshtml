@@ -1,0 +1,457 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+<div id="top" class="top top-row">
+    <div class="grid-rows">
+        <div class="grid-row grid-row-top-1">
+            <div class="grid-cols">
+                <div class="grid-col grid-col-top-1-1">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-1-1-1">
+                            <div class="module module-blocks module-blocks-475 blocks-grid">
+                                <div class="module-body">
+                                    <div class="module-item module-item-1">
+                                        <div class="block-body expand-block">
+                                            <div class="block-wrapper">
+                                                <div class="block-content block-text">
+                                                    <div class="info-row border-0">
+                                                        <div class="featured-text fs-3 mt-3 mb-0">
+                                                            <span class="emo align-middle">😍</span> Sepette
+                                                            <div class="rotate-text font-weight-semibold d-inline-block text-secondary">
+                                                                <span style="display: none;">1.500 TL ve Üzeri<b> %30'a </b></span>
+                                                            </div>
+                                                            Varan İndirimler !
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-col grid-col-top-1-2">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-1-2-1">
+                            <div class="module module-master_slider module-master_slider-26"
+                            style="
+                                                background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAADSAAAAXeAQMAAAD/gPJ+AAAABlBMVEUAAAAEAgSXNbeIAAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAntJREFUeNrtwQEBAAAAgiD/r25IQAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMCbAaadAAGG+4cVAAAAAElFTkSuQmCC');
+                            ">
+                                <div class="journal-loading"><i class="fa fa-spinner fa-spin"></i></div>
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAADSAAAAXeAQMAAAD/gPJ+AAAABlBMVEUAAAAEAgSXNbeIAAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAntJREFUeNrtwQEBAAAAgiD/r25IQAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMCbAaadAAGG+4cVAAAAAElFTkSuQmCC"
+                                alt="YENİ SEZON ÜRÜNLER"
+                                width="3360"
+                                height="1502" />
+                                <div class="master-slider ms-skin-minimal"
+                                data-options='{"width":3360,"height":1502,"layout":"fillwidth","smoothHeight":false,"centerControls":false,"parallaxMode":"swipe","instantStartLayers":true,"loop":true,"dir":"h","autoHeight":true,"rtl":false,"startOnAppear":false,"autoplay":true,"overPause":true,"shuffle":true,"view":"fadeWave","speed":"15","swipe":true,"mouse":true,"controls":{"arrows":{"autohide":false}}}'
+                                data-parallax="25">
+                                    @if (ViewBag.AnaSayfaBanner != null)
+                                    {
+                                        @foreach (var item in ViewBag.AnaSayfaBanner)
+                                        {
+                                            <div class="module-item module-item-1 ms-slide" data-delay="2.5">
+                                                <img src="@item.FotografBuyuk"
+                                                srcset="@item.FotografBuyuk"
+                                                alt="YENİ SEZON ÜRÜNLER"
+                                                width="3360"
+                                                height="1502" />
+
+                                                <a href="/Home"></a>
+                                            </div>
+                                        }
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-row grid-row-top-2">
+            <div class="grid-cols">
+                <div class="grid-col grid-col-top-2-1">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-2-1-1">
+                            <div id="banners-6803f9ef5108f" class="module module-banners module-banners-462">
+                                <div class="module-body">
+                                    @if(ViewBag.AnaSayfa != null)
+                                    {
+                                        @foreach (var item in ViewBag.AnaSayfa)
+                                        {
+                                            <div class="module-item module-item-1">
+                                                <a href="@item.Link">
+                                                    <img src="@item.FotografBuyuk"
+                                                    srcset="@item.FotografBuyuk"/>
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+@*         <div class="grid-row grid-row-top-3">
+            <div class="grid-cols">
+                <div class="grid-col grid-col-top-3-1">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-3-1-1">
+                            <div class="module module-products module-products-253 module-products-grid">
+                                <div class="module-body">
+                                    <div class="tab-container">
+                                        <ul class="nav nav-tabs">
+                                            <li class="tab-1 active">
+                                                <a href="#products-6803f9ef5a06d-tab-1" data-toggle="tab">En Yeniler</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="module-item module-item-1 tab-pane active" id="products-6803f9ef5a06d-tab-1">
+                                                <div class="product-grid">
+                                                    @if (ViewBag.Urunler != null)
+                                                    {
+                                                        @foreach( var item in ViewBag.Urunler)
+                                                        {
+                                                            <div class="product-layout" style="display:block;">
+                                                                <div class="product-thumb">
+                                                                    <div class="image">
+                                                                        <div class="quickview-button">
+                                                                            <a class="btn btn-quickview"
+                                                                            data-toggle="tooltip"
+                                                                            data-tooltip-class="module-products-253 module-products-grid quickview-tooltip"
+                                                                            data-placement="top"
+                                                                            title="Quickview"
+                                                                            onclick="quickview('1200')">
+                                                                                <span class="btn-text">Quickview</span>
+                                                                            </a>
+                                                                        </div>
+
+                                                                        <a href="@Url.Action("Index", "ProductDetails", new { id = item.Id, adi = item.Adi })" class="product-img">
+                                                                            <div>
+                                                                                @foreach (var item2 in item.UrunFotograf)
+                                                                                {
+                                                                                    <img src="@item2.FotografBuyuk"
+                                                                                         srcset="@item2.FotografBuyuk"
+                                                                                         width="1200"
+                                                                                         height="1800"
+                                                                                         alt="@item.Adi"
+                                                                                         title="@item.Adi "
+                                                                                         class="img-responsive img-first" />
+                                                                                    break;
+                                                                                }
+                                                                            </div>
+                                                                        </a>
+
+                                                                        <div class="product-labels">
+                                                                            <span class="product-label product-label-217 product-label-default"><b>Yeni</b></span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="caption">
+                                                                        <div class="name"><a href="@Url.Action("Index", "ProductDetails", new { id = item.Id, adi = item.Adi })">@item.Adi</a></div>
+
+                                                                        <div class="description">
+                                                                            @item.Aciklama
+                                                                        </div>
+
+                                                                        <div class="price">
+                                                                            <div>
+                                                                                <span class="price-normal">@item.Fiyat</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="rating rating-hover">
+                                                                            <div class="rating-stars">
+                                                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="buttons-wrapper">
+                                                                            <div class="button-group">
+                                                                                <div class="cart-group">
+                                                                                    <div class="stepper">
+                                                                                        <input type="text" name="quantity" value="1" data-minimum="1" class="form-control" />
+                                                                                        <input type="hidden" name="product_id" value="@item.Id" />
+                                                                                        <span>
+                                                                                            <i class="fa fa-angle-up"></i>
+                                                                                            <i class="fa fa-angle-down"></i>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <a class="btn btn-cart"
+                                                                                       href="@Url.Action("Index", "ProductDetails", new { id = item.Id, adi = item.Adi })">
+                                                                                        <span class="btn-text">Sepete Ekle</span>
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="wish-group">
+                                                                                    <a class="btn btn-wishlist"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-tooltip-class="module-products-253 module-products-grid wishlist-tooltip"
+                                                                                    data-placement="top"
+                                                                                    title="Alışveriş Listeme Ekle"
+                                                                                    onclick="wishlist.add('1200')">
+                                                                                        <span class="btn-text">Alışveriş Listeme Ekle</span>
+                                                                                    </a>
+
+                                                                                    <a class="btn btn-compare"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-tooltip-class="module-products-253 module-products-grid compare-tooltip"
+                                                                                    data-placement="top"
+                                                                                    title="Karşılaştırma listesine ekle"
+                                                                                    onclick="compare.add('1200')">
+                                                                                        <span class="btn-text">Karşılaştırma listesine ekle</span>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> *@
+        <div class="grid-row grid-row-top-3">
+            <div class="grid-cols">
+                <div class="grid-col grid-col-top-3-1">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-3-1-1">
+                            <div class="module module-products module-products-491 module-products-grid">
+                                <div class="module-body">
+                                    <div class="tab-container">
+                                        <ul class="nav nav-tabs">
+                                            <li class="tab-1 active">
+                                                <a href="#products-6803f9ef7344a-tab-1" data-toggle="tab">Doğa kaynak Su Bahçepınar</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="module-item module-item-1 tab-pane active" id="products-6803f9ef7344a-tab-1">
+                                                <div class="product-grid">
+                                                    @if (ViewBag.Urunler != null)
+                                                    {
+                                                        @foreach (var item in ViewBag.Urunler)
+                                                        {
+                                                            <div class="product-layout" style="display:block;">
+                                                                <div class="product-thumb">
+                                                                    <div class="image">
+                                                                        <div class="quickview-button">
+                                                                            <a class="btn btn-quickview"
+                                                                            data-toggle="tooltip"
+                                                                            data-tooltip-class="module-products-491 module-products-grid quickview-tooltip"
+                                                                            data-placement="top"
+                                                                            title="Quickview"
+                                                                            onclick="quickview('578')">
+                                                                                <span class="btn-text">Quickview</span>
+                                                                            </a>
+                                                                        </div>
+
+                                                                        <a href="@Url.Action("Index", "ProductDetails", new { id = item.Id, adi = item.Adi })">
+                                                                            <div>
+                                                                                @foreach(var item2 in item.UrunFotograf){
+                                                                                    <img style="display:inline;"src="@item2.FotografBuyuk"
+                                                                                    srcset="@item2.FotografBuyuk"
+                                                                                    width="1200"
+                                                                                    height="1800"
+                                                                                    alt="@item.Adi"
+                                                                                    title="@item.Adi "
+                                                                                    class="img-responsive img-first" />
+                                                                                    break;
+                                                                                }
+                                                                               
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+
+                                                                    <div class="caption">
+                                                                        <div class="name"><a href="@Url.Action("Index", "ProductDetails", new { id = item.Id, adi = item.Adi })">@item.Adi</a></div>
+
+                                                                        <div class="description">
+                                                                            @item.Aciklama
+                                                                        </div>
+
+                                                                        <div class="price">
+                                                                            <div>
+                                                                                <span class="price-normal">@item.Fiyat</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="rating no-rating rating-hover">
+                                                                            <div class="rating-stars">
+                                                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="buttons-wrapper">
+                                                                            <div class="button-group">
+                                                                                <div class="cart-group">
+                                                                                    <div class="stepper">
+                                                                                        <input type="text" name="quantity" value="1" data-minimum="1" class="form-control" />
+                                                                                        <input type="hidden" name="product_id" value="@item.Id" />
+                                                                                        <span>
+                                                                                            <i class="fa fa-angle-up"></i>
+                                                                                            <i class="fa fa-angle-down"></i>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <a class="btn btn-cart"
+                                                                                       href="@Url.Action("Index", "ProductDetails", new { id = item.Id, adi = item.Adi })">
+                                                                                        <span class="btn-text">Sepete Ekle</span>
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="wish-group">
+                                                                                    <a class="btn btn-wishlist"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-tooltip-class="module-products-491 module-products-grid wishlist-tooltip"
+                                                                                    data-placement="top"
+                                                                                    title="Alışveriş Listeme Ekle"
+                                                                                    onclick="wishlist.add('578')">
+                                                                                        <span class="btn-text">Alışveriş Listeme Ekle</span>
+                                                                                    </a>
+
+                                                                                    <a class="btn btn-compare"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-tooltip-class="module-products-491 module-products-grid compare-tooltip"
+                                                                                    data-placement="top"
+                                                                                    title="Karşılaştırma listesine ekle"
+                                                                                    onclick="compare.add('578')">
+                                                                                        <span class="btn-text">Karşılaştırma listesine ekle</span>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-row grid-row-top-6">
+            <div class="grid-cols">
+                <div class="grid-col grid-col-top-6-1">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-6-1-1">
+                            <div class="module module-info_blocks module-info_blocks-86">
+                                <div class="module-body">
+                                    <div class="module-item module-item-1 info-blocks info-blocks-image">
+                                        <div class="info-block">
+                                            <img src="/WebUITheme/image/cache/catalog/0tilsimbaby/guvenli1-50x50.png"
+                                                 srcset="/WebUITheme/image/cache/catalog/0tilsimbaby/guvenli1-50x50.png 1x, /WebUITheme/image/cache/catalog/0tilsimbaby/guvenli1-100x100.png 2x"
+                                                 width="50"
+                                                 height="50"
+                                                 alt="Güvenli Ödeme"
+                                                 class="info-block-img" />
+                                            <div class="info-block-content">
+                                                <div class="info-block-title">Güvenli Ödeme</div>
+                                                <div class="info-block-text">256bit SSL Sertifikası ile siz değerli müşterilerimize %100 güvenli alışveriş imkanı sunuyoruz..</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                               
+                                    <div class="module-item module-item-4 info-blocks info-blocks-image">
+                                        <div class="info-block">
+                                            <img src="/WebUITheme/image/cache/catalog/0tilsimbaby/kargo1-50x50.png"
+                                                 srcset="/WebUITheme/image/cache/catalog/0tilsimbaby/kargo1-50x50.png 1x, /WebUITheme/image/cache/catalog/0tilsimbaby/kargo1-100x100.png 2x"
+                                                 width="50"
+                                                 height="50"
+                                                 alt="Ücretsiz Kargo"
+                                                 class="info-block-img" />
+                                            <div class="info-block-content">
+                                                <div class="info-block-title">Ücretsiz Kargo</div>
+                                                <div class="info-block-text">750 TL ve üzeri alışverişlerinizde Türkiye'nin her yerine ücretsiz kargo hizmeti sunuyoruz..</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-row grid-row-top-7">
+            <div class="grid-cols" style="
+                 max-width: 80% !important;">
+                <div class="grid-col grid-col-top-7-1">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-7-1-1">
+                            <div id="banners-1" class="module module-banners module-banners-1">
+                                <div class="module-body">
+                                    <div class="module-item module-item-1">
+                                        <a href="/Products/Index?altKategoriId=1">
+                                            <img src="/WebUITheme/image/cache/catalog/BANNER/Küçük adamların tarzına tarz ka (2)-2813x1250.png"
+                                                 srcset="/WebUITheme/image/cache/catalog/BANNER/Küçük adamların tarzına tarz ka (2)-2813x1250.png 1x,
+                                                 /WebUITheme/image/cache/catalog/BANNER/Küçük adamların tarzına tarz ka (2)-2813x1250.png 2x"
+                                                 alt="Banner 1"
+                                                 width="2813"
+                                                 height="1250" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-col grid-col-top-7-2">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-7-2-1">
+                            <div id="banners-2" class="module module-banners module-banners-2">
+                                <div class="module-body">
+                                    <div class="module-item module-item-1">
+                                        <a href="/Products/Index?altKategoriId=2">
+                                            <img src="/WebUITheme/image/cache/catalog/BANNER/Küçük adamların tarzına tarz ka (3)-2813x1250.png"
+                                                 srcset="/WebUITheme/image/cache/catalog/BANNER/Küçük adamların tarzına tarz ka (3)-2813x1250.png 1x,
+                                                 /WebUITheme/image/cache/catalog/BANNER/Küçük adamların tarzına tarz ka (3)-2813x1250.png 2x"
+                                                 alt="Banner 2"
+                                                 width="2813"
+                                                 height="1250" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

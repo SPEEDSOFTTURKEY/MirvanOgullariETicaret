@@ -1,0 +1,200 @@
+﻿@{
+    ViewData["Title"] = "Üye Sipariş Sepet Bilgileri Listesi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+    var renkAdlari = ViewBag.RenkAdlari as List<string>;
+    string baslik = $"Üye Sipariş Sepet Bilgileri Listesi - Kayıt Sayısı: {(ViewBag.Sepet != null ? ViewBag.Sepet.Count : 0)}";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .currency-text {
+        color: #4a5568;
+    }
+
+    .product-image {
+        width: 75px;
+        height: 75px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+    }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .product-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .modern-table th, .modern-table td {
+        padding: 10px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-shopping-basket"></i>
+                    <span>@baslik</span>
+                </div>
+                <div class="panel-content">
+                    @if (ViewBag.Sepet != null && ViewBag.Sepet.Count > 0)
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Sepet No</th>
+                                        <th>Sipariş No</th>
+                                        <th>Beden</th>
+                                        <th>Renk</th>
+                                        <th>Fiyat</th>
+                                        <th>Ürün</th>
+                                        <th>Birim</th>
+                                        <th>Miktar</th>
+                                        <th>Ürün Resmi</th>
+                                        <th>Eklenme Tarihi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var urun in ViewBag.Sepet)
+                                    {
+                                        <tr>
+                                            <td>@urun.Id</td>
+                                            <td>@urun.SiparisId</td>
+                                            <td>@urun.Beden.Adi</td>
+                                            <td>@renkAdlari[ViewBag.Sepet.IndexOf(urun)]</td>
+                                            <td class="currency-text">@(urun.Fiyat != null ? urun.Fiyat.ToString("N2") + " ₺" : "-")</td>
+                                            <td>@urun.UrunAdi</td>
+                                            <td>@urun.Birim</td>
+                                            <td>@urun.Miktar</td>
+                                            <td>
+                                                <img src="@Url.Content(urun.UrunResmi)" alt="Ürün Resmi" class="product-image" />
+                                            </td>
+                                            <td>@urun.EklenmeTarihi</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-shopping-basket"></i>
+                            <h4>Henüz sepet bilgisi bulunmamaktadır</h4>
+                            <p>Sepet bilgileri mevcut değil.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+        if ($.fn.DataTable && $('#TblVeriler').length > 0) {
+            $('#TblVeriler').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                },
+                "pageLength": 10,
+                "order": [[1, "desc"]],
+                "responsive": true,
+                "bDestroy": true
+            });
+        }
+                });
+    </script>
+}

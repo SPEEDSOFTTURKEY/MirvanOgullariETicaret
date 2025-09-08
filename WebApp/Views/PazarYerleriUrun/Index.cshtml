@@ -1,0 +1,1007 @@
+﻿@model List<UnifiedMarketplace>
+@{
+    ViewData["Title"] = "Pazar Yerleri Ürün Yönetimi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .btn-search {
+        background: #48bb78;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+    }
+
+        .btn-search:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+            color: white;
+        }
+
+    .btn-reset {
+        background: #e2e8f0;
+        color: #4a5568;
+        padding: 10px 20px;
+        border-radius: 8px;
+    }
+
+        .btn-reset:hover {
+            background: #cbd5e0;
+            transform: translateY(-2px);
+            color: #4a5568;
+            text-decoration: none;
+        }
+
+    .btn-bulk-delete {
+        background: #f56565;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+        .btn-bulk-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+            color: white;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-action-edit {
+        background: #48bb78;
+        color: white;
+    }
+
+        .btn-action-edit:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+        }
+
+    .btn-action-view {
+        background: #4299e1;
+        color: white;
+    }
+
+        .btn-action-view:hover {
+            background: #2b6cb0;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .content-text {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #4a5568;
+    }
+
+    .form-control-modern {
+        padding: 10px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        color: #000;
+    }
+
+        .form-control-modern:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+    .search-form {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .form-group-modern {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form-group-modern label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+    .checkbox-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Custom Modal Styles */
+    .custom-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .custom-modal-content {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        width: 90%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+    }
+
+    .custom-modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .custom-modal-title {
+        font-weight: 600;
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .custom-modal-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 5px 10px;
+    }
+
+        .custom-modal-close:hover {
+            color: #e2e8f0;
+        }
+
+    .custom-modal-body {
+        padding: 20px;
+    }
+
+    /* Tab Styles */
+    .custom-tabs {
+        display: flex;
+        border-bottom: 2px solid #e2e8f0;
+        margin-bottom: 20px;
+        overflow-x: auto;
+    }
+
+    .custom-tab {
+        padding: 10px 20px;
+        color: #4a5568;
+        font-weight: 500;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+        .custom-tab:hover {
+            background: #f8f9fa;
+            color: #2d3748;
+        }
+
+        .custom-tab.active {
+            background: #667eea;
+            color: white;
+            border-bottom-color: #667eea;
+        }
+
+    .custom-tab-content {
+        display: none;
+        padding: 15px;
+        background: #fff;
+        border-radius: 8px;
+    }
+
+        .custom-tab-content.active {
+            display: block;
+        }
+
+    .modal-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 15px;
+    }
+
+        .modal-table th,
+        .modal-table td {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+            color: #2d3748;
+        }
+
+        .modal-table th {
+            font-weight: 600;
+            background: #f8f9fa;
+            color: #4a5568;
+        }
+
+        .modal-table td {
+            word-break: break-word;
+        }
+
+    .custom-modal-footer {
+        padding: 15px;
+        border-top: 1px solid #e2e8f0;
+        text-align: right;
+    }
+
+    .btn-modal-close {
+        background: #e2e8f0;
+        color: #4a5568;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .btn-modal-close:hover {
+            background: #cbd5e0;
+            transform: translateY(-2px);
+        }
+
+    /* Görsel Modal Stilleri */
+    .image-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1001;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image-modal-content {
+        background: #ffffff;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 800px;
+        position: relative;
+        padding: 20px;
+    }
+
+    .image-modal-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        color: #333;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+        .image-modal-close:hover {
+            color: #e53e3e;
+        }
+
+    .carousel {
+        position: relative;
+        width: 100%;
+        max-height: 500px;
+        overflow: hidden;
+    }
+
+    .carousel-inner {
+        display: flex;
+        transition: transform 0.5s ease;
+    }
+
+    .carousel-item {
+        flex: 0 0 100%;
+        text-align: center;
+    }
+
+        .carousel-item img {
+            max-width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+        }
+
+    .carousel-prev, .carousel-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 50%;
+    }
+
+    .carousel-prev {
+        left: 10px;
+    }
+
+    .carousel-next {
+        right: 10px;
+    }
+
+    .thumbnail {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        margin-right: 5px;
+        cursor: pointer;
+        border: 2px solid #e2e8f0;
+        border-radius: 4px;
+    }
+
+        .thumbnail:hover {
+            border-color: #667eea;
+        }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .content-text {
+        max-width: 100px;
+    }
+
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-modern, .btn-search, .btn-reset, .btn-bulk-delete {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .form-group-modern {
+        width: 100%;
+    }
+
+    .custom-modal-content {
+        width: 95%;
+    }
+
+    .custom-tabs {
+        flex-direction: column;
+    }
+
+    .custom-tab {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .modal-table th,
+    .modal-table td {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .thumbnail {
+        width: 40px;
+        height: 40px;
+    }
+
+    .image-modal-content {
+        width: 95%;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Pazar Yerleri Ürünleri (@ViewBag.List.Count)</span>
+                </div>
+                <div class="panel-content">
+                    <!-- Search Form -->
+                    <form action="/PazarYerleriUrun/Search" method="post" class="search-form" style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+                        <div class="form-group-modern">
+                            <label>Ürün Adı</label>
+                            <input type="text" class="form-control-modern" name="title" placeholder="Ürün Adı Ara" />
+                        </div>
+
+                        <div class="form-group-modern">
+                            <label>Pazar Yeri</label>
+                            <select class="form-control-modern" name="marketplace">
+                                <option value="">Tümü</option>
+                                <option value="N11">N11</option>
+                                <option value="GoTurc">GoTurc</option>
+                                <option value="Idefix">Idefix</option>
+                                <option value="PTT">PTT</option>
+                                <option value="Pazarama">Pazarama</option>
+                                <option value="CicekSepeti">ÇiçekSepeti</option>
+                                <option value="Farmazon">Farmazon</option>
+                                <option value="FarmaBorsa">FarmaBorsa</option>
+                                <option value="Trendyol">Trendyol</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-modern btn-search">
+                            <i class="fa fa-search"></i>
+                            <span>Bul</span>
+                        </button>
+
+                        <a class="btn-modern btn-reset" href="/PazarYerleriUrun/Index">
+                            <i class="fa fa-list"></i>
+                            <span>Tümü</span>
+                        </a>
+
+                        <a href="/PazarYerleriUrun/ExportToExcel" class="btn-modern">
+                            <span>Excel'e Aktar</span>
+                        </a>
+                    </form>
+
+                    <hr />
+
+                    <!-- Bulk Delete Form -->
+                    <form id="bulkDeleteForm" action="/PazarYerleriUrun/BulkDelete" method="post">
+                        @if (ViewBag.List != null && ViewBag.List.Count > 0)
+                        {
+                            <button type="submit" class="btn-modern btn-bulk-delete" onclick="return confirm('Seçili ürünleri silmek istediğinize emin misiniz?');">
+                                <i class="fa fa-trash"></i>
+                                <span>Toplu Sil</span>
+                            </button>
+
+                            <div class="table-container">
+                                <table class="table modern-table" id="TblVeriler">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">
+                                                <input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)" />
+                                            </th>
+                                            <th>Görseller</th>
+                                            <th>Ürün Adı</th>
+                                            <th>Ürün Kodu</th>
+                                            <th>Barkod</th>
+                                            <th>Pazar Yeri</th>
+                                            <th>Gönderildi</th>
+                                            <th>Satış Fiyatı</th>
+                                            <th>Stok Miktarı</th>
+                                            <th>Başarılı</th>
+                                            <th>Mesaj</th>
+                                            <th style="text-align: center;">İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.List)
+                                        {
+                                            var gorseller = item.PazarYeriGorsel;
+                                            string pazarYeri = "";
+                                            decimal? salePrice = null;
+                                            int? stockQuantity = null;
+                                            bool success = false;
+                                            string message = "";
+
+                                            if (item.N11_CategoryId != null) { pazarYeri = "N11"; salePrice = item.N11_SalePrice; stockQuantity = item.N11_StockQuantity; success = item.N11_Success ?? false; message = item.N11_Message; }
+                                            else if (item.GoTurc_CategoryId != null) { pazarYeri = "GoTurc"; salePrice = item.GoTurc_SalePrice; stockQuantity = item.GoTurc_StockQuantity; success = item.GoTurc_Success ?? false; message = item.GoTurc_Message; }
+                                            else if (item.Idefix_CategoryId != null) { pazarYeri = "Idefix"; salePrice = item.Idefix_SalePrice; stockQuantity = item.Idefix_StockQuantity; success = item.Idefix_Success ?? false; message = item.Idefix_Message; }
+                                            else if (item.PTT_CategoryId != null) { pazarYeri = "PTT"; salePrice = item.PTT_SalePrice; stockQuantity = item.PTT_StockQuantity; success = item.PTT_Success ?? false; message = item.PTT_Message; }
+                                            else if (item.Pazarama_CategoryId != null) { pazarYeri = "Pazarama"; salePrice = item.Pazarama_SalePrice; stockQuantity = item.Pazarama_StockQuantity; success = item.Pazarama_Success ?? false; message = item.Pazarama_Message; }
+                                            else if (item.CicekSepeti_CategoryId != null) { pazarYeri = "ÇiçekSepeti"; salePrice = item.CicekSepeti_SalePrice; stockQuantity = item.CicekSepeti_StockQuantity; success = item.CicekSepeti_Success ?? false; message = item.CicekSepeti_Message; }
+                                            else if (item.Farmazon_Id != 0) { pazarYeri = "Farmazon"; salePrice = item.Farmazon_Price; stockQuantity = item.Farmazon_Stock; success = item.Farmazon_Success ?? false; message = item.Farmazon_Message; }
+                                            else if (item.FarmaBorsa_SalePrice != null) { pazarYeri = "FarmaBorsa"; salePrice = item.FarmaBorsa_SalePrice; stockQuantity = item.FarmaBorsa_StockQuantity; success = item.FarmaBorsa_Success ?? false; message = item.FarmaBorsa_Message; }
+                                            else if (item.Trendyol_CategoryId != null) { pazarYeri = "Trendyol"; salePrice = item.Trendyol_SalePrice; stockQuantity = item.Trendyol_StockQuantity; success = item.Trendyol_Success ?? false; message = item.Trendyol_Message; }
+
+                                            <tr>
+                                                <td class="checkbox-container">
+                                                    <input type="checkbox" name="idList" value="@item.Id" />
+                                                </td>
+                                                <td>
+                                                    @if (gorseller != null && gorseller.Count > 0)
+                                                    {
+                                                        foreach (var gorsel in gorseller)
+                                                        {
+                                                            <img src="@gorsel.FotografYolu" class="thumbnail" onclick="openImageModal('@item.Id')" alt="Ürün Görseli" />
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Görsel Yok</span>
+                                                    }
+                                                </td>
+                                                <td class="content-text">@item.Title</td>
+                                                <td class="content-text">@item.ProductCode</td>
+                                                <td class="content-text">@item.Barcode</td>
+                                                <td class="content-text">@pazarYeri</td>
+                                                <td class="content-text">@(item.Gonderildi == 1 ? "Gönderildi" : "Gönderilmedi")</td>
+                                                <td class="content-text">@(salePrice?.ToString("F2") ?? "Belirtilmemiş")</td>
+                                                <td class="content-text">@(stockQuantity?.ToString() ?? "Belirtilmemiş")</td>
+                                                <td class="content-text">@(success ? "Başarılı" : "Başarısız")</td>
+                                                <td class="content-text">@(string.IsNullOrEmpty(message) ? "Mesaj Yok" : message)</td>
+                                                <td style="text-align: center;">
+                                                    <button type="button" class="btn-action btn-action-view" onclick="openModal(@item.Id)">
+                                                        <i class="fa fa-eye"></i>
+                                                        <span>Detay</span>
+                                                    </button>
+
+                                                    <button type="button" class="btn-action btn-action-edit" onclick="postToGonder(@item.Id)">
+                                                        <i class="fa fa-paper-plane"></i>
+                                                        <span>Gönder</span>
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-danger" onclick="postToSil(@item.Id)">
+                                                        Sil
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="empty-state">
+                                <i class="fa fa-shopping-cart"></i>
+                                <h4>Henüz ürün eklenmemiş</h4>
+                                <p>Yukarıdaki arama formunu kullanarak ürünlerinizi listeleyebilirsiniz.</p>
+                            </div>
+                        }
+                    </form>
+
+
+
+                    <!-- Success/Error Messages -->
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success" role="alert" style="margin-top: 20px;">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger" role="alert" style="margin-top: 20px;">
+                            @TempData["ErrorMessage"]
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Modal -->
+    <div class="custom-modal" id="productModal">
+        <div class="custom-modal-content">
+            <div class="custom-modal-header">
+                <h5 class="custom-modal-title">Ürün Detayları</h5>
+                <button class="custom-modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="custom-modal-body">
+                <div class="custom-tabs" id="productTabs">
+                    <div class="custom-tab active" data-tab="general">Genel</div>
+                    <div class="custom-tab" data-tab="n11">N11</div>
+                    <div class="custom-tab" data-tab="goturc">GoTurc</div>
+                    <div class="custom-tab" data-tab="idefix">Idefix</div>
+                    <div class="custom-tab" data-tab="ptt">PTT</div>
+                    <div class="custom-tab" data-tab="pazarama">Pazarama</div>
+                    <div class="custom-tab" data-tab="ciceksepeti">ÇiçekSepeti</div>
+                    <div class="custom-tab" data-tab="farmazon">Farmazon</div>
+                    <div class="custom-tab" data-tab="farmaborsa">FarmaBorsa</div>
+                    <div class="custom-tab" data-tab="trendyol">Trendyol</div>
+                </div>
+                <div class="custom-tab-content active" id="general">
+                    <table class="modal-table" id="general-details"></table>
+                </div>
+                <div class="custom-tab-content" id="n11">
+                    <table class="modal-table" id="n11-details"></table>
+                </div>
+                <div class="custom-tab-content" id="goturc">
+                    <table class="modal-table" id="goturc-details"></table>
+                </div>
+                <div class="custom-tab-content" id="idefix">
+                    <table class="modal-table" id="idefix-details"></table>
+                </div>
+                <div class="custom-tab-content" id="ptt">
+                    <table class="modal-table" id="ptt-details"></table>
+                </div>
+                <div class="custom-tab-content" id="pazarama">
+                    <table class="modal-table" id="pazarama-details"></table>
+                </div>
+                <div class="custom-tab-content" id="ciceksepeti">
+                    <table class="modal-table" id="ciceksepeti-details"></table>
+                </div>
+                <div class="custom-tab-content" id="farmazon">
+                    <table class="modal-table" id="farmazon-details"></table>
+                </div>
+                <div class="custom-tab-content" id="farmaborsa">
+                    <table class="modal-table" id="farmaborsa-details"></table>
+                </div>
+                <div class="custom-tab-content" id="trendyol">
+                    <table class="modal-table" id="trendyol-details"></table>
+                </div>
+            </div>
+            <div class="custom-modal-footer">
+                <button class="btn-modal-close" onclick="closeModal()">Kapat</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Carousel Modal -->
+    <div class="image-modal" id="imageModal">
+        <div class="image-modal-content">
+            <button class="image-modal-close" onclick="closeImageModal()">×</button>
+            <div class="carousel" id="imageCarousel">
+                <div class="carousel-inner" id="carouselInner"></div>
+                <button class="carousel-prev" onclick="prevImage()">❮</button>
+                <button class="carousel-next" onclick="nextImage()">❯</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+            function postToGonder(id) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/PazarYerleriUrunEkle/Gonder';
+
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'PazarYeriUrunId';
+                input.value = id;
+
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            function postToSil(id) {
+                if (confirm("Silmek istediğinize emin misiniz?")) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/PazarYerleriUrun/Sil/' + id;
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            }
+    
+        // Global variables for image carousel
+        let currentImageIndex = 0;
+        let images = [];
+
+        // Modal open/close functions
+        function openModal(productId) {
+            var modal = document.getElementById('productModal');
+            modal.style.display = 'flex';
+
+            // Initialize tabs
+            var tabs = document.querySelectorAll('.custom-tab');
+            var contents = document.querySelectorAll('.custom-tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+                });
+            });
+
+            // Reset to General tab
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            document.querySelector('.custom-tab[data-tab="general"]').classList.add('active');
+            document.getElementById('general').classList.add('active');
+
+            // Load product details via AJAX
+            $.ajax({
+                url: '/PazarYerleriUrun/GetProductDetails/' + productId,
+                type: 'GET',
+                success: function (data) {
+                    // Define marketplace prefixes and general fields
+                    var marketplaces = {
+                        'N11': ['N11_'],
+                        'GoTurc': ['GoTurc_'],
+                        'Idefix': ['Idefix_'],
+                        'PTT': ['PTT_'],
+                        'Pazarama': ['Pazarama_'],
+                        'CicekSepeti': ['CicekSepeti_'],
+                        'Farmazon': ['Farmazon_'],
+                        'FarmaBorsa': ['FarmaBorsa_'],
+                        'Trendyol': ['Trendyol_']
+                    };
+                    var generalFields = ['Id', 'UrunId', 'Title', 'ProductCode', 'Barcode', 'Description', 'ListPrice', 'VatRate', 'ImgFilesJson', 'Gonderildi'];
+
+                    // Clear all tab contents
+                    ['general', 'n11', 'goturc', 'idefix', 'ptt', 'pazarama', 'ciceksepeti', 'farmazon', 'farmaborsa', 'trendyol'].forEach(tab => {
+                        document.getElementById(tab + '-details').innerHTML = '';
+                    });
+
+                    // Populate General tab table
+                    var generalHtml = '<tr><th>Özellik</th><th>Değer</th></tr>';
+                    for (var key in data) {
+                        if (generalFields.includes(key) && data[key] !== null && data[key] !== undefined && data[key] !== '') {
+                            generalHtml += '<tr><th>' + key.replace(/([A-Z])/g, ' $1').trim() + '</th><td>' + data[key] + '</td></tr>';
+                        }
+                    }
+                    document.getElementById('general-details').innerHTML = generalHtml;
+
+                    // Populate Marketplace tabs
+                    for (var marketplace in marketplaces) {
+                        var prefixes = marketplaces[marketplace];
+                        var html = '<tr><th>Özellik</th><th>Değer</th></tr>';
+                        var hasData = false;
+                        for (var key in data) {
+                            if (prefixes.some(prefix => key.startsWith(prefix)) && data[key] !== null && data[key] !== undefined && data[key] !== '') {
+                                html += '<tr><th>' + key.replace(prefixes[0], '').replace(/([A-Z])/g, ' $1').trim() + '</th><td>' + data[key] + '</td></tr>';
+                                hasData = true;
+                            }
+                        }
+                        var tabId = marketplace.toLowerCase();
+                        document.getElementById(tabId + '-details').innerHTML = html;
+                        // Show/hide tabs based on data availability
+                        var tabElement = document.querySelector('.custom-tab[data-tab="' + tabId + '"]');
+                        tabElement.style.display = hasData ? 'block' : 'none';
+                    }
+                },
+                error: function () {
+                    document.getElementById('general-details').innerHTML = '<tr><td colspan="2" style="color: #e53e3e;">Ürün detayları yüklenirken bir hata oluştu.</td></tr>';
+                }
+            });
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('productModal');
+            modal.style.display = 'none';
+        }
+
+        // Image Carousel Modal Functions
+        function openImageModal(productId) {
+            console.log("Product ID:", productId); // Hata ayıklama için
+            var modal = document.getElementById('imageModal');
+            var carouselInner = document.getElementById('carouselInner');
+            carouselInner.innerHTML = ''; // Clear previous images
+            images = []; // Reset images array
+            currentImageIndex = 0;
+
+            // Load images via AJAX
+            $.ajax({
+                url: '/PazarYerleriUrun/GetProductImages/' + productId,
+                type: 'GET',
+                success: function (data) {
+                    if (data && data.length > 0) {
+                        images = data; // Assuming data is an array of image URLs
+                        carouselInner.innerHTML = ''; // Clear any previous content
+                        images.forEach((img, index) => {
+                            var div = document.createElement('div');
+                            div.className = 'carousel-item' + (index === 0 ? ' active' : '');
+                            div.innerHTML = `<img src="${img}" alt="Ürün Görseli" />`;
+                            carouselInner.appendChild(div);
+                        });
+                        updateCarousel();
+                        modal.style.display = 'flex';
+                    } else {
+                        carouselInner.innerHTML = '<div class="carousel-item active">Görsel bulunamadı.</div>';
+                        modal.style.display = 'flex';
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading images:", error); // Hata ayıklama için
+                    carouselInner.innerHTML = '<div class="carousel-item active">Görseller yüklenirken hata oluştu.</div>';
+                    modal.style.display = 'flex';
+                }
+            });
+        }
+
+        function closeImageModal() {
+            var modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+        }
+
+        function updateCarousel() {
+            var carouselInner = document.getElementById('carouselInner');
+            if (carouselInner && images.length > 0) {
+                carouselInner.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+
+                // Tüm item'ları inactive yap
+                var items = carouselInner.getElementsByClassName('carousel-item');
+                for (var i = 0; i < items.length; i++) {
+                    items[i].classList.remove('active');
+                }
+
+                // Sadece current item'ı active yap
+                if (items[currentImageIndex]) {
+                    items[currentImageIndex].classList.add('active');
+                }
+            }
+        }
+
+        function prevImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateCarousel();
+            }
+        }
+
+        function nextImage() {
+            if (currentImageIndex < images.length - 1) {
+                currentImageIndex++;
+                updateCarousel();
+            }
+        }
+
+        // Select All Checkbox Functionality
+        function toggleSelectAll(source) {
+            var checkboxes = document.getElementsByName('idList');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+
+        // Initialize DataTable
+        $(document).ready(function () {
+            if ($.fn.DataTable && $('#TblVeriler').length > 0) {
+                $('#TblVeriler').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                    },
+                    "pageLength": 10,
+                    "order": [[1, "desc"]],
+                    "responsive": true,
+                    "bDestroy": true
+                });
+            }
+        });
+    </script>
+}

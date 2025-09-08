@@ -1,0 +1,255 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUI.cshtml";
+}
+<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('/../WebUITheme/images/kargofoto.jpg');">
+    <h2 class="ltext-105 cl0 txt-center p-t-40">
+        Sipariş Takip
+    </h2>
+</section>
+@if (ViewBag.Siparis == null)
+{
+    <section class="bg0 txt-center">
+        <div class="container txt-center">
+            <div class="flex-c-m flex-w w-full p-t-45">
+                <form action="/SiparisTakip/Getir" method="post" class="col-md-4" onsubmit="updateAction()">
+                    <h4 class="mtext-105 cl2 txt-center p-b-10">
+                        Sipariş Takip Sayfası
+                    </h4>
+                    <div class="bor8 m-b-20 how-pos4-parent">
+                        <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" style="padding-left:5px" type="text" name="SiparisNo" placeholder="Sipariş No" required="required" id="SiparisNo">
+                    </div>
+                    <div class="m-b-20 how-pos4-parent">
+                        <button class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer" type="submit">
+                            Getir
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="bg0 p-t-50 p-b-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="p-b-30">
+                        <h3 class="ltext-103 cl5 txt-center">
+                            Sİparİş Bİlgİlerİ
+                        </h3>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <div class="col-md-10 m-lr-auto">
+                    <div class="bg-light p-4 rounded mb-4" style="margin-top:20px;">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5 class="mtext-105 cl2">Sipariş Numarası</h5>
+                                <p class="stext-115 cl6">@ViewBag.Siparis.SiparisKodu</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mtext-105 cl2">Sipariş Durumu</h5>
+                                <p class="stext-115 cl6">
+                                    <span class="badge @(ViewBag.Siparis.Durum.Adi == "Teslim Edildi" ? "bg-success" :
+                                          ViewBag.Siparis.Durum.Adi == "Kargoya Verildi" ? "bg-info" :
+                                          ViewBag.Siparis.Durum.Adi == "Hazırlanıyor" ? "bg-primary" :
+                                          ViewBag.Siparis.Durum.Adi == "Bekliyor" ? "bg-warning" :
+                                          ViewBag.Siparis.Durum.Adi == "İptal Edildi" ? "bg-danger" : "bg-secondary")">
+                                        @ViewBag.Siparis.Durum.Adi
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5 class="mtext-105 cl2">Sipariş Tarihi</h5>
+                                <p class="stext-115 cl6">@ViewBag.Siparis.EklenmeTarihi.ToString("dd.MM.yyyy HH:mm")</p>
+                            </div>
+                            @if (ViewBag.Siparis.GuncellenmeTarihi != null)
+                            {
+                                <div class="col-md-6">
+                                    <h5 class="mtext-105 cl2">Son Güncelleme Tarihi</h5>
+                                    <p class="stext-115 cl6">@ViewBag.Siparis.GuncellenmeTarihi?.ToString("dd.MM.yyyy HH:mm")</p>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5 class="mtext-105 cl2">Müşteri Adı Soyadı</h5>
+                                <p class="stext-115 cl6">@ViewBag.Siparis.MusteriAdiSoyadi</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mtext-105 cl2">Telefon</h5>
+                                <p class="stext-115 cl6">@ViewBag.Siparis.MusteriTelefon</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <h5 class="mtext-105 cl2">Teslimat Adresi</h5>
+                                <p class="stext-115 cl6">@ViewBag.Siparis.MusteriAdres</p>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(ViewBag.Siparis.Notlar))
+                        {
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <h5 class="mtext-105 cl2">Sipariş Notları</h5>
+                                    <p class="stext-115 cl6">@ViewBag.Siparis.Notlar</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    @if (ViewBag.Siparis.GuestSepet != null && ViewBag.Siparis.GuestSepet.Count > 0)
+                    {
+                        <div class="p-b-30 mt-4">
+                            <h4 class="ltext-103 cl5 txt-center">
+                                Sipariş Detayları
+                            </h4>
+                        </div>
+
+                        <div class="table-responsive mb-4">
+                            <table class="table table-bordered">
+                                <thead class="bg3 text-white">
+                                    <tr>
+                                        <th>Ürün</th>
+                                        <th>Adet</th>
+                                        <th>Birim Fiyat</th>
+                                        <th>Toplam</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.Siparis.GuestSepet)
+                                    {
+                                        <tr>
+                                            <td>@item.UrunAdi</td>
+                                            <td>@item.Adet</td>
+                                            <td>@item.BirimFiyat.ToString("C2")</td>
+                                            <td>@((item.BirimFiyat * item.Adet).ToString("C2"))</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    <div class="siparis-durum-timeline mt-5">
+                        <div class="p-b-20">
+                            <h4 class="ltext-103 cl5 txt-center">
+                                Sİparİş Durumu
+                            </h4>
+                        </div>
+
+                        <div class="d-flex justify-content-between position-relative siparis-durum-cizgi">
+                            <div class="siparis-durum-adim @(ViewBag.Siparis.DurumId >= 1 ? "aktif" : "")">
+                                <div class="siparis-ikon">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </div>
+                                <div class="siparis-metin">Bekliyor</div>
+                            </div>
+
+                            <div class="siparis-durum-adim @(ViewBag.Siparis.DurumId >= 2 ? "aktif" : "")">
+                                <div class="siparis-ikon">
+                                    <i class="fa fa-box"></i>
+                                </div>
+                                <div class="siparis-metin">Hazırlanıyor</div>
+                            </div>
+
+                            <div class="siparis-durum-adim @(ViewBag.Siparis.DurumId >= 3 ? "aktif" : "")">
+                                <div class="siparis-ikon">
+                                    <i class="fa fa-truck"></i>
+                                </div>
+                                <div class="siparis-metin">Kargoya Verildi</div>
+                            </div>
+
+                            <div class="siparis-durum-adim @(ViewBag.Siparis.DurumId >= 4 ? "aktif" : "")">
+                                <div class="siparis-ikon">
+                                    <i class="fa fa-home"></i>
+                                </div>
+                                <div class="siparis-metin">Teslim Edildi</div>
+                            </div>
+
+                            <div class="siparis-durum-adim @(ViewBag.Siparis.DurumId >= 5 ? "aktif" : "")">
+                                <div class="siparis-ikon">
+                                    <i class="fa fa-times-circle"></i>
+                                </div>
+                                <div class="siparis-metin">İptal Edildi</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 text-center">
+                        <a href="/SiparisTakip/Yeni" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer d-inline-block">
+                            Yeni Sorgulama
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<style>
+    .siparis-durum-cizgi:before {
+        content: '';
+        position: absolute;
+        top: 30px;
+        left: 10%;
+        width: 80%;
+        height: 3px;
+        background-color: #e6e6e6;
+        z-index: 0;
+    }
+
+    .siparis-durum-adim {
+        position: relative;
+        text-align: center;
+        width: 20%;
+        z-index: 1;
+    }
+
+    .siparis-ikon {
+        width: 60px;
+        height: 60px;
+        background-color: #e6e6e6;
+        border-radius: 50%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #999;
+        margin-bottom: 10px;
+    }
+
+    .siparis-durum-adim.aktif .siparis-ikon {
+        background-color: #717fe0;
+        color: #fff;
+    }
+
+    .siparis-metin {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .siparis-durum-adim.aktif .siparis-metin {
+        color: #333;
+        font-weight: 600;
+    }
+</style>
+
+<script>
+    function updateAction() {
+        var siparisNo = document.getElementById('SiparisNo').value;
+        var form = document.querySelector('form');
+        form.action = '/SiparisTakip/Getir?SiparisNo=' + encodeURIComponent(siparisNo);
+    }
+</script>

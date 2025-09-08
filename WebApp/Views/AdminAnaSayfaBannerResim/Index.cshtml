@@ -1,0 +1,338 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+    string baslik = string.Empty;
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        position: relative;
+        z-index: 10;
+        margin-top: 40px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-action-edit {
+        background: #48bb78;
+        color: white;
+    }
+
+        .btn-action-edit:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: whiteobra;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .banner-text {
+        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        line-height: 1.6;
+        color: #4a5568;
+    }
+
+    .fileupload-preview.thumbnail {
+        width: 400px;
+        height: 200px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .btn-file {
+        background: #e2e8f0;
+        color: #4a5568;
+        padding: 8px 15px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+        .btn-file:hover {
+            background: #cbd5e0;
+        }
+
+    .btn-danger {
+        background: #f56565;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 6px;
+        margin-left: 10px;
+    }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
+    .btn-info {
+        background: #4299e1;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 8px;
+        border: none;
+        margin-top: 20px;
+    }
+
+        .btn-info:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+        }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .banner-text {
+        max-width: 250px;
+    }
+
+    .fileupload-preview.thumbnail {
+        width: 100%;
+        height: 150px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+
+
+    <!-- Image Upload Section -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-image"></i>
+                    <span>Resim Ekle</span>
+                </div>
+                <div class="panel-content">
+                    @using (Html.BeginForm("Kaydet", "AdminAnaSayfaBannerResimEkle", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-group last">
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <div class="fileupload-preview thumbnail"></div>
+                                <div>
+                                    <span class="btn btn-file">
+                                        <i class="icon-paper-clip"></i>
+                                        <span class="fileupload-new">Resim Seç</span>
+                                        <span class="fileupload-exists">Değiştir</span>
+                                        <input type="file" name="imagefile" class="default" multiple />
+                                    </span>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="icon-trash" style="padding-right:5px"></i>Sil</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-info">Kaydet</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image List Section -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-image"></i>
+                    <span>
+                        @if (ViewBag.FotografList != null)
+                        {
+                            baslik = "Ana Sayfa Banner Resim Listesi - Kayıt Sayısı: " + ViewBag.FotografList.Count.ToString();
+                        }
+                        else
+                        {
+                            baslik = "Ana Sayfa Banner Resim Listesi - Kayıt Sayısı: 0";
+                        }
+                        @baslik
+                    </span>
+                </div>
+                <div class="panel-content">
+
+                    @if (ViewBag.FotografList != null && ViewBag.FotografList.Count > 0)
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Resim</th>
+                                        <th style="text-align: center;">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.FotografList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@Url.Content(item.FotografKucuk)" alt="ilan" width="75" height="75" style="border-radius: 6px;" />
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <a class="btn-action btn-action-delete" href="/AdminAnaSayfaBannerResim/Sil/@item.Id"
+                                                   onclick="return confirm('Bu banner resmini silmek istediğinizden emin misiniz?');">
+                                                    <i class="fa fa-trash"></i>
+                                                    <span>Sil</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-image"></i>
+                            <h4>Henüz banner resmi eklenmemiş</h4>
+                            <p>Yukarıdaki "Ekle" butonunu kullanarak ilk resminizi ekleyebilirsiniz.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable && $('#TblVeriler').length > 0) {
+            $('#TblVeriler').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                },
+                "pageLength": 10,
+                "order": [[0, "desc"]]
+            });
+        }
+    });
+</script>

@@ -1,0 +1,178 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Contact")">İletişim</a></li>
+</ul>
+
+<div id="top" class="top top-row">
+    <div class="grid-rows">
+        <div class="grid-row grid-row-top-1">
+            <div class="grid-cols">
+                <div class="grid-col grid-col-top-1-1">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-1-1-1">
+                            <div class="module module-info_blocks module-info_blocks-502">
+                                <div class="module-body">
+                                    <div class="module-item module-item-1 info-blocks info-blocks-image">
+                                        <div class="info-block">
+                                            <img src="/WebUITheme/image/cache/catalog/0tilsimbaby/icon/map-50x50.png" srcset="/WebUITheme/image/cache/catalog/0tilsimbaby/icon/map-50x50.png 1x, /WebUITheme/image/cache/catalog/0tilsimbaby/icon/map-100x100.png 2x" width="50" height="50" alt="Adres" class="info-block-img">
+                                            <div class="info-block-content">
+                                                <div class="info-block-title">Adres</div>
+                                                <div class="info-block-text">@ViewBag.Iletisim.Adres</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="module-item module-item-2 info-blocks info-blocks-image">
+                                        <div class="info-block">
+                                            <img src="/WebUITheme/image/cache/catalog/0tilsimbaby/icon/email-50x50.png" srcset="/WebUITheme/image/cache/catalog/0tilsimbaby/icon/email-50x50.png 1x, /WebUITheme/image/cache/catalog/0tilsimbaby/icon/email-100x100.png 2x" width="50" height="50" alt="E-Posta" class="info-block-img">
+                                            <div class="info-block-content">
+                                                <div class="info-block-title">E-Posta</div>
+                                                <div class="info-block-text">@ViewBag.Iletisim.Email1</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="module-item module-item-3 info-blocks info-blocks-image">
+                                        <div class="info-block">
+                                            <img src="/WebUITheme/image/cache/catalog/0tilsimbaby/icon/phone-50x50.png" srcset="/WebUITheme/image/cache/catalog/0tilsimbaby/icon/phone-50x50.png 1x, /WebUITheme/image/cache/catalog/0tilsimbaby/icon/phone-100x100.png 2x" width="50" height="50" alt="Telefon" class="info-block-img">
+                                            <div class="info-block-content">
+                                                <div class="info-block-title">Telefon</div>
+                                                <div class="info-block-text">@ViewBag.Iletisim.Telefon1</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="module-item module-item-4 info-blocks info-blocks-image">
+                                        <div class="info-block">
+                                            <img src="/WebUITheme/image/cache/catalog/0tilsimbaby/icon/hour-glass-50x50.png" srcset="/WebUITheme/image/cache/catalog/0tilsimbaby/icon/hour-glass-50x50.png 1x, /WebUITheme/image/cache/catalog/0tilsimbaby/icon/hour-glass-100x100.png 2x" width="50" height="50" alt="Mesai Saatleri" class="info-block-img">
+                                            <div class="info-block-content">
+                                                <div class="info-block-title">Mesai Saatleri</div>
+                                                <div class="info-block-text">10:00 - 23:59</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-row grid-row-top-3">
+            <div class="grid-cols">
+                <div class="grid-col grid-col-top-3-1">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-3-1-1">
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-col grid-col-top-3-2">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-3-2-1">
+                            <div class="module title-module module-title-503">
+                                <div class="title-wrapper">
+                                    <h3>İletişim Formu</h3>
+                                    <div class="title-divider"></div>
+                                    <div class="subtitle">Lütfen aşağıdaki formu eksiksiz olarak doldurunuz.</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="grid-item grid-item-top-3-2-2">
+                            <div class="module module-form module-form-20">
+                                <h3 class="title module-title">Bize Yazın</h3>
+                                <div class="module-body">
+                                    <form action="https://www.tilsimbaby.com/index.php?route=journal3/form/send&amp;module_id=20" method="post" enctype="multipart/form-data" class="form-horizontal" data-language="tr">
+                                        <fieldset>
+
+                                            <div class="form-group custom-field required">
+                                                <label class="col-sm-2 control-label" for="field-680504f13a764-1">Adınız</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" name="item[1]" value="" placeholder="Adınız" id="field-680504f13a764-1" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group custom-field required">
+                                                <label class="col-sm-2 control-label" for="field-680504f13a764-2">E-Posta Adresiniz</label>
+                                                <div class="col-sm-10">
+                                                    <input type="email" name="item[2]" value="" placeholder="E-Posta Adresiniz" id="field-680504f13a764-2" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group custom-field required">
+                                                <label class="col-sm-2 control-label" for="field-680504f13a764-3">Telefon</label>
+                                                <div class="col-sm-10">
+                                                    <input type="tel" name="item[3]" value="" placeholder="Telefon" id="field-680504f13a764-3" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group custom-field required">
+                                                <label class="col-sm-2 control-label" for="field-680504f13a764-4">Mesajınız</label>
+                                                <div class="col-sm-10">
+                                                    <textarea name="item[4]" rows="5" placeholder="Mesajınız" id="field-680504f13a764-4" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </fieldset>
+                                        <div class="buttons">
+                                            <div class="pull-right">
+                                                <button type="submit" class="btn btn-primary" data-loading-text=""<span>Gönder</span>""><span>Gönder</span></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-col grid-col-top-3-3">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-3-3-1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-row grid-row-top-5">
+            <div class="grid-cols">
+                <div class="grid-col grid-col-top-5-1">
+                    <div class="grid-items">
+                        <div class="grid-item grid-item-top-5-1-1">
+                            <div class="module module-blocks module-blocks-104 blocks-grid">
+                                <div class="module-body">
+                                    <div class="module-item module-item-1 no-expand">
+                                        <div class="block-body expand-block">
+                                            <div class="block-wrapper">
+                                                <div class="block-content  block-text">
+                                                    <iframe src="" width="1800" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,193 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+        background: #f5f5f5;
+        min-height: 100vh;
+    }
+
+    .modern-panel {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 15px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 40px;
+    }
+
+    .panel-body {
+        padding: 20px;
+    }
+
+    .form-group-modern {
+        margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .control-label-modern {
+        font-weight: 600;
+        color: #333;
+        font-size: 13px;
+        width: 120px;
+        text-align: right;
+    }
+
+    .form-control-modern {
+        width: 100%;
+        max-width: 600px;
+        padding: 10px;
+        border: 1px solid #d0d0d0;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #000;
+        transition: border-color 0.2s;
+    }
+
+        .form-control-modern:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .form-control-modern.ckeditor {
+            min-height: 400px;
+        }
+
+    .btn-modern {
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        margin-left: 10px;
+        transition: background 0.2s;
+    }
+
+    .btn-cancel {
+        background: #e74c3c;
+        color: #fff;
+    }
+
+        .btn-cancel:hover {
+            background: #c0392b;
+        }
+
+    .btn-save {
+        background: #3498db;
+        color: #fff;
+    }
+
+        .btn-save:hover {
+            background: #2980b9;
+        }
+
+    .text-right {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    media (max-width: 992px) {
+        .modern-wrapper
+
+    {
+        padding: 15px;
+    }
+
+    .panel-body {
+        padding: 15px;
+    }
+
+    .control-label-modern {
+        width: 100%;
+        text-align: left;
+    }
+
+    .form-control-modern {
+        max-width: 100%;
+    }
+
+    }
+
+    media (max-width: 576px) {
+        .modern-wrapper
+
+    {
+        padding: 10px;
+    }
+
+    .btn-modern {
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .text-right {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <form class="form-horizontal" action="@Url.Action("Kaydet","AdminUyelikSozlesmesiEkle")" method="post">
+            <div class="col-md-9">
+                <section class="modern-panel">
+                    <header class="panel-header">
+                        <i class="fa fa-file-contract"></i> Üyelik Sözleşmesi Yazısı
+                    </header>
+                    <div class="panel-body">
+                        <div class="form">
+                            <div class="form-group-modern">
+                                <label class="control-label-modern">Başlık</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control-modern" value="" name="Baslik" style="color:#000" />
+                                </div>
+                            </div>
+                            <div class="form-group-modern">
+                                <label class="control-label-modern">Alt Başlık</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control-modern" value="" name="AltBaslik" style="color:#000" />
+                                </div>
+                            </div>
+                            <div class="form-group-modern">
+                                <label class="control-label-modern">Üyelik Sözleşmesi Yazısı</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" name="MetinId" value="0" />
+                                    <textarea class="form-control-modern ckeditor" name="Metin" style="color:#000" rows="24"></textarea>
+                                </div>
+                            </div>
+                            <div class="panel-body text-right">
+                                <a href="@Url.Action("Index","AdminUyelikSozlesmesi")" class="btn-modern btn-cancel"><i class="icon-cancel"></i> İptal</a>
+                                <button type="submit" class="btn-modern btn-save"><i class="icon-save"></i> Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,334 @@
+﻿@{
+    ViewData["Title"] = "Fatura Kes";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .sub-panel {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .sub-panel-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .info-item strong {
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .info-item span {
+            color: #4a5568;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .form-group-modern {
+        margin-bottom: 25px;
+    }
+
+    .control-label-modern {
+        font-weight: 600;
+        color: #4a5568;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .form-control-modern {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        color: #000;
+    }
+
+        .form-control-modern:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+    .btn-group-modern {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 30px;
+    }
+
+    .btn-modern-form {
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .btn-cancel {
+        background: #718096;
+        color: white;
+    }
+
+        .btn-cancel:hover {
+            background: #4a5568;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(113, 128, 150, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-save {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .currency-text {
+        color: #4a5568;
+    }
+
+    media (max-width: 768px) {
+        .info-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .modern-table {
+        font-size: 14px;
+    }
+
+        .modern-table th, .modern-table td {
+            padding: 10px;
+        }
+
+    .btn-group-modern {
+        flex-direction: column-reverse;
+    }
+
+    .btn-modern-form {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+</style>
+
+@using (Html.BeginForm("FaturaKes", "AdminEFaturaEkle", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <section class="modern-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modern-panel">
+                    <div class="panel-header">
+                        <i class="fa fa-file-text"></i>
+                        <span>Fatura Kes</span>
+                    </div>
+                    <div class="panel-content">
+                        <!-- Sipariş Bilgileri -->
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">Sipariş Bilgileri</div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <strong>Sipariş ID</strong>
+                                    <span>@ViewBag.SiparisListesi.Id</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Müşteri</strong>
+                                    <span>@ViewBag.SiparisListesi.MusteriAdiSoyadi</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Telefon</strong>
+                                    <span>@ViewBag.SiparisListesi.MusteriTelefon</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>E-Mail</strong>
+                                    <span>@ViewBag.SiparisListesi.MusteriEMail</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Adres</strong>
+                                    <span>@ViewBag.SiparisListesi.MusteriAdres</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Fatura Adresi</strong>
+                                    <span>@ViewBag.SiparisListesi.MusteriFaturaAdres</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Vergi No</strong>
+                                    <span>@ViewBag.SiparisListesi.MusteriVergiNumarasi</span>
+                                </div>
+                                <div class="info-item">
+                                    <strong>Vergi Dairesi</strong>
+                                    <span>@ViewBag.SiparisListesi.MusteriVergiDairesi</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sepet Detayları -->
+                        <div class="sub-panel">
+                            <div class="sub-panel-title">Sepet Detayları</div>
+                            <table class="table modern-table">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün Adı</th>
+                                        <th>Birim</th>
+                                        <th>Beden</th>
+                                        <th>Miktar</th>
+                                        <th>Birim Fiyat</th>
+                                        <th>Toplam</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.Sepet)
+                                    {
+                                        <tr>
+                                            <td>@item.UrunAdi</td>
+                                            <td>@item.Birim</td>
+                                            <td>@(item.Beden != null ? item.Beden.Adi : "-")</td>
+                                            <td>@item.Miktar</td>
+                                            <td class="currency-text">@string.Format("{0:C}", item.Fiyat)</td>
+                                            <td class="currency-text">@string.Format("{0:C}", item.Toplam)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Seri No -->
+                        <div class="form-group-modern col-md-6">
+                            <label class="control-label-modern" for="SeriNo">Seri No</label>
+                            <input type="text" class="form-control-modern" value="ABC" name="SeriNo" style="color:black" />
+                        </div>
+
+                        <!-- Sipariş ID hidden input -->
+                        <input type="hidden" name="SiparisId" value="@ViewBag.SiparisListesi.Id" />
+
+                        <div class="btn-group-modern">
+                            <a href="@Url.Action("Index","AdminEFatura")" class="btn-modern-form btn-cancel">
+                                <i class="icon-cancel icon-left"></i>
+                                <span>Vazgeç</span>
+                            </a>
+                            <button type="submit" class="btn-modern-form btn-save">
+                                <i class="icon-save icon-left"></i>
+                                <span>Fatura Kes</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@section Script {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // JavaScript gelecekte eklenebilir
+        });
+    </script>
+}

@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+    <li>
+        <a href="@Url.Action("Index","Address")">Adreslerim</a>
+    </li>
+    <li>
+        <a href="@Url.Action("Index","NewAddress")">Adres Ekle</a>
+    </li>
+</ul>
+
+<h1 class="title page-title"><span>Adres Ekle</span></h1>
+
+<div id="account-address" class="container">
+    <div class="row">
+        <div id="content" class="col-sm-9">
+            <form class="bg0 p-t-75" action="/NewAddress/Add" method="post">
+                <div id="address">
+                    <div class="form-group required address-firstname">
+                        <label class="col-sm-2 control-label" for="input-firstname">Adres Başlığı</label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="AdresBasligi"
+                                   value=""
+                                   placeholder="Adres Başliği"
+                                   id="input-firstname"
+                                   class="form-control" />
+                            <input type="hidden"
+                                   name="UyeId"
+                                   value="@ViewBag.Uyeler.Id"
+                                   placeholder="Adres Başliği"
+                                   id="input-firstname"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required address-firstname">
+                        <label class="col-sm-2 control-label" for="input-firstname">Adınız</label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="Adi"
+                                   value=""
+                                   placeholder="Adınız"
+                                   id="input-firstname"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required address-lastname">
+                        <label class="col-sm-2 control-label" for="input-lastname">Soyadınız</label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="Soyadi"
+                                   value=""
+                                   placeholder="Soyadınız"
+                                   id="input-lastname"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required address-lastname">
+                        <label class="col-sm-2 control-label" for="input-lastname">Telefon</label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="Telefon"
+                                   value=""
+                                   placeholder="Telefon"
+                                   id="input-lastname"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required address-address-1">
+                        <label class="col-sm-2 control-label" for="input-address-1">Adres </label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="Adres"
+                                   value=""
+                                   placeholder="Adres"
+                                   id="input-address-1"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required address-address-1">
+                        <label class="col-sm-2 control-label" for="input-address-1">Mahalle </label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="Mahalle"
+                                   value=""
+                                   placeholder="Mahalle"
+                                   id="input-address-1"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required address-city">
+                        <label class="col-sm-2 control-label" for="input-city">İlçe / Semt</label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="ilce"
+                                   value=""
+                                   placeholder="İlçe / Semt"
+                                   id="input-city"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required address-postcode">
+                        <label class="col-sm-2 control-label" for="input-postcode">Posta Kodu</label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="PostaKodu"
+                                   value=""
+                                   placeholder="Posta Kodu"
+                                   id="input-postcode"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required address-country">
+                        <label class="col-sm-2 control-label" for="input-country">Ülke</label>
+                        <div class="col-sm-10">
+                            <select name="Ulke"
+                                    id="input-country"
+                                    class="form-control">
+                                <option value="">--- Seçiniz ---</option>
+                                <option value="Türkiye">Türkiye</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group required address-zone">
+                        <label class="col-sm-2 control-label" for="input-zone">Şehir</label>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   name="il"
+                                   value=""
+                                   placeholder="Şehir"
+                                   id="input-postcode"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Varsayılan Adres</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="default" value="1" />
+                                Evet
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio"
+                                       name="Varsayılan"
+                                       value="0"
+                                       checked="checked" />
+                                Hayır
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons clearfix">
+                    <div class="pull-left">
+                        <a href="@Url.Action("Index","Address")"
+                           class="btn btn-default">Geri</a>
+                    </div>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary">
+                            <span>Devam</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        @Html.Partial("_AccountSidebar")
+    </div>
+</div>
+
+
+

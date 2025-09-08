@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+    <li>
+        <a href="@Url.Action("Index","BalanceTransactions")">Bakiye İşlemlerim</a>
+    </li>
+</ul>
+
+<h1 class="title page-title"><span>Bakiye İşlemlerim</span></h1>
+
+<div id="account-transaction" class="container">
+    <div class="row">
+        <div id="content" class="col-sm-9">
+            <p>Geçerli bakiyeniz: <b>0,00TL</b>.</p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td class="text-left">Ekleme Tarihi</td>
+                            <td class="text-left">Açıklama</td>
+                            <td class="text-right">Tutar (TRY)</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center" colspan="5">
+                                Herhangi bir işleminiz yok!
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row pagination-results">
+                <div class="col-sm-6 text-left"></div>
+                <div class="col-sm-6 text-right">
+                    Gösterilen: 0 ile 0 arası, toplam: 0 (0 Sayfa)
+                </div>
+            </div>
+            <div class="buttons clearfix">
+                <div class="pull-right">
+                    <a href="@Url.Action("Index","Account")"
+                       class="btn btn-primary">Devam</a>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_AccountSidebar")
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

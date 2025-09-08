@@ -1,0 +1,1764 @@
+﻿﻿@using WebApp.Models
+@model UnifiedMarketplaceModel
+@{
+    ViewData["Title"] = "Pazar Yerleri Ürün Ekle";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        margin: 0 auto;
+        background: #f5f7fa;
+        border-radius: 12px;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+
+    .modern-form-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-top: 70px;
+    }
+
+        .modern-form-panel:hover {
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+        }
+
+    .form-panel-header {
+        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        color: white;
+        padding: 20px 30px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .form-panel-content {
+        padding: 40px;
+        overflow-y: auto;
+    }
+
+    .form-group-modern {
+        padding: 10px;
+        background: #f9fafb;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .control-label-modern {
+        font-weight: 600;
+        color: #2d3748;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .btn-group-modern {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+        padding-top: 25px;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 40px;
+    }
+
+    .btn-modern-form {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .btn-send {
+        background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+        color: white;
+    }
+
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+            color: white;
+        }
+
+    .btn-cancel {
+        background: #718096;
+        color: white;
+    }
+
+        .btn-cancel:hover {
+            background: #4a5568;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(113, 128, 150, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-save {
+        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        color: white;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(90, 103, 216, 0.4);
+            color: white;
+        }
+
+
+    .btn-export {
+        background: #38a169;
+        color: white;
+    }
+
+        .btn-export:hover {
+            background: #2f855a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+            color: white;
+        }
+
+    .accordion {
+        margin-bottom: 20px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .accordion-header {
+        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        color: white;
+        padding: 15px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background 0.3s ease;
+    }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, #4a5568 0%, #5a67d8 100%);
+        }
+
+        .accordion-header i {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active i {
+            transform: rotate(180deg);
+        }
+
+    .accordion-content {
+        padding: 20px;
+        background: #fff;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+        .accordion-content.hidden {
+            max-height: 0;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+    
+
+    .form-control-modern {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        color: #2d3748;
+        background: #fff;
+    }
+
+        .form-control-modern:focus {
+            border-color: #5a67d8;
+            box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.15);
+            outline: none;
+        }
+
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
+    }
+
+    .form-col {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .form-col-half {
+        flex: 0 0 48%;
+        min-width: 300px;
+    }
+
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: #4a5568;
+    }
+
+        .checkbox-label input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+    .icon-left {
+        margin-right: 10px;
+    }
+
+    .ck-editor__editable {
+        min-height: 200px;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+        padding: 15px 25px;
+    }
+
+    .modal-body {
+        padding: 25px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .category-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        background: #fff;
+    }
+
+    .category-leaf-item {
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+    }
+
+        .category-leaf-item:hover {
+            transform: translateX(5px);
+        }
+
+        .category-leaf-item.n11 {
+            background-color: #d1e7dd;
+        }
+
+            .category-leaf-item.n11:hover {
+                background-color: #a3cfbb;
+            }
+
+            .category-leaf-item.n11.selected {
+                background-color: #2d8b4e;
+                color: white;
+            }
+
+        .category-leaf-item.idefix {
+            background-color: #d1d1e7;
+        }
+
+            .category-leaf-item.idefix:hover {
+                background-color: #a3a3cf;
+            }
+
+            .category-leaf-item.idefix.selected {
+                background-color: #2d2d8b;
+                color: white;
+            }
+
+        .category-leaf-item.ptt {
+            background-color: #e7d1d1;
+        }
+
+            .category-leaf-item.ptt:hover {
+                background-color: #cfa3a3;
+            }
+
+            .category-leaf-item.ptt.selected {
+                background-color: #8b2d2d;
+                color: white;
+            }
+
+        .category-leaf-item.pazarama {
+            background-color: #d1e7e7;
+        }
+
+            .category-leaf-item.pazarama:hover {
+                background-color: #a3cfcf;
+            }
+
+            .category-leaf-item.pazarama.selected {
+                background-color: #2d8b8b;
+                color: white;
+            }
+
+        .category-leaf-item.ciceksepeti {
+            background-color: #e7d1e7;
+        }
+
+            .category-leaf-item.ciceksepeti:hover {
+                background-color: #cfa3cf;
+            }
+
+            .category-leaf-item.ciceksepeti.selected {
+                background-color: #8b2d8b;
+                color: white;
+            }
+
+        .category-leaf-item.goturc {
+            background-color: #e7e7d1;
+        }
+
+            .category-leaf-item.goturc:hover {
+                background-color: #cfcf9e;
+            }
+
+            .category-leaf-item.goturc.selected {
+                background-color: #8b8b2d;
+                color: white;
+            }
+
+        .category-leaf-item.farmaborsa {
+            background-color: #e7d1e7;
+        }
+
+            .category-leaf-item.farmaborsa:hover {
+                background-color: #cfa3cf;
+            }
+
+            .category-leaf-item.farmaborsa.selected {
+                background-color: #8b2d8b;
+                color: white;
+            }
+
+        .category-leaf-item.trendyol {
+            background-color: #ffd1d1;
+        }
+
+            .category-leaf-item.trendyol:hover {
+                background-color: #ff9999;
+            }
+
+            .category-leaf-item.trendyol.selected {
+                background-color: #ff3333;
+                color: white;
+            }
+
+    .category-separator {
+        color: #6c757d;
+        margin: 0 8px;
+    }
+
+    .input-group {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .input-group-append {
+        margin-left: -1px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .image-upload-container {
+        margin-bottom: 20px;
+    }
+
+    .image-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .image-preview-item {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview-item .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ff4d4f;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+    .file-input-label {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #5a67d8;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .file-input-label:hover {
+            background: #4a5568;
+        }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .variant-group {
+        border: 1px solid #e2e8f0;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+    }
+
+    media (max-width: 768px) {
+        .form-panel-content
+
+    {
+        padding: 25px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-col, .form-col-half {
+        min-width: 100%;
+    }
+
+
+    .btn-group-modern {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-modern-form {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+</style>
+
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="modern-form-panel">
+                <div class="form-panel-header">
+                    <i class="fa fa-plus-circle"></i>
+                    <span>Pazar Yerlerine Ürün Ekle</span>
+                    <form id="excel-upload-form" action="/PazarYerleriUrunEkle/ImportExcel" method="post" enctype="multipart/form-data" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                        <!-- Gizli input -->
+                        <input type="file" name="excelFile" id="excel-upload" accept=".xlsx" style="display: none;">
+                        <!-- Buton -->
+                        <button type="button" id="select-excel-btn" class="btn-modern" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                            📥 Excel'den Yükle
+                        </button>
+                        <!-- Checkbox alanı -->
+                        <div class="checkbox-group" style="display: flex; align-items: center; gap: 5px;">
+                            <input type="checkbox" name="sendToMarketplaces" id="sendToMarketplaces" value="true" style="transform: scale(1.3); cursor: pointer;">
+                            <label for="sendToMarketplaces" style="font-size: 19px;color: white;margin-bottom: -6px;">Pazaryerlerine Gönder</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-panel-content">
+                    <form action="/PazarYerleriUrunEkle/Kaydet" method="post" enctype="multipart/form-data">
+                        <!-- Ana Ürün Bilgileri -->
+                        <div class="form-row">
+                            <div class="form-group-modern col-md-4">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">Ürün Adı</label>
+                                    <select asp-for="Title" name="Title" class="form-control-modern" id="TitleSelect">
+                                        <option value="">Bir Ürün Seçiniz</option>
+                                        @if (ViewBag.Urun != null)
+                                        {
+                                            foreach (var item in ViewBag.Urun)
+                                            {
+                                                <option value="@item.Adi" data-id="@item.Id">@item.Adi</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                    <input type="hidden" id="UrunId" name="UrunId" />
+                                </div>
+                            </div>
+                            <div class="form-group-modern col-md-4">
+                                <label class="control-label-modern">Açıklama</label>
+                                <textarea name="Description" asp-for="Description" class="form-control-modern" placeholder="Ürün açıklamasını giriniz"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                                <div class="form-group-modern col-md-4">
+                                    <label class="control-label-modern">Resim Yükle (Maks. 5 Görsel)</label>
+                                    <label class="file-input-label">
+                                        Dosya Seç
+                                        <input type="file" name="ImgFiles" id="image-upload" accept="image/*" multiple class="form-control-modern" style="display:none;">
+                                    </label>
+                                    <div id="image-preview" class="image-preview"></div>
+                                    <div id="image-error" class="error-message"></div>
+                                    <span asp-validation-for="ImgFiles" class="text-danger"></span>
+                                </div>
+                            
+
+                        </div>
+
+          
+
+                        <div class="form-row">
+                            <!-- PTT -->
+                            <div class="col-md-4">
+                                <div class="accordion">
+                                    <div class="accordion-header" data-target="ptt-fields">
+                                        <i class="fa fa-chevron-down icon-left"></i>
+                                        <span>PTT Ürün</span>
+                                    </div>
+                                    <div class="accordion-content ptt-fields hidden">
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">PTT Kategori</label>
+                                            <div class="input-group">
+                                                <input type="text" id="ptt_categoryInput" class="form-control-modern" readonly placeholder="Kategori seçin">
+                                                <input type="hidden" id="ptt_categoryId" name="PTT.CategoryId">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn-modern-form btn-save category-select-btn" data-toggle="modal" data-target="#categoryModal" data-pazaryeri="ptt" data-type="category">
+                                                        <span>Seç</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="@Model?.PTT.CategoryId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">PTT Varyantlar</label>
+                                            <div id="ptt-variants-container">
+                                                <div class="variant-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="control-label-modern">Varyant Barkod</label>
+                                                            <input type="text" class="form-control-modern" name="PTT.Variants[0].Barcode">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="control-label-modern">Fiyat</label>
+                                                            <input type="number" step="0.01" class="form-control-modern" name="PTT.Variants[0].Price">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="control-label-modern">Stok</label>
+                                                            <input type="number" class="form-control-modern" name="PTT.Variants[0].Quantity" min="0">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="control-label-modern">Nitelik Tanımı</label>
+                                                            <input type="text" class="form-control-modern" name="PTT.Variants[0].Attributes[0].Definition">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="control-label-modern">Nitelik Değeri</label>
+                                                            <input type="text" class="form-control-modern" name="PTT.Variants[0].Attributes[0].Value">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn-modern-form btn-save mt-2" id="add-ptt-variant-btn">Varyant Ekle</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Idefix -->
+                            <div class="col-md-4">
+                                <div class="accordion">
+                                    <div class="accordion-header" data-target="idefix-fields">
+                                        <i class="fa fa-chevron-down icon-left"></i>
+                                        <span>Idefix Ürün</span>
+                                    </div>
+                                    <div class="accordion-content idefix-fields hidden">
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Idefix Kategori</label>
+                                            <div class="input-group">
+                                                <input type="text" id="idefix_categoryInput" class="form-control-modern" readonly placeholder="Kategori seçin">
+                                                <input type="hidden" id="idefix_categoryId" name="Idefix.CategoryId">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn-modern-form btn-save category-select-btn" data-toggle="modal" data-target="#categoryModal" data-pazaryeri="idefix" data-type="category">
+                                                        <span>Seç</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="@Model?.Idefix.CategoryId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Idefix Marka</label>
+                                            <select name="Idefix.BrandId" asp-for="@Model?.Idefix.BrandId" class="form-control-modern" id="Idefix_BrandId">
+                                                <option value="">Marka Seçin</option>
+                                            </select>
+                                            <span asp-validation-for="@Model?.Idefix.BrandId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Idefix Özellikler</label>
+                                            <div id="idefix-attributes-container"></div>
+                                            <button type="button" class="btn-modern-form btn-save mt-2" id="add-idefix-attribute-btn">Özellik Ekle</button>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Idefix Tedarikçi Stok Kodu</label>
+                                            <input name="Idefix.VendorStockCode" asp-for="@Model?.Idefix.VendorStockCode" class="form-control-modern" placeholder="Tedarikçi stok kodu giriniz">
+                                            <span asp-validation-for="@Model?.Idefix.VendorStockCode" class="text-danger"></span>
+                                        </div>
+                                  
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Idefix Kargo Şirketi</label>
+                                            <select name="Idefix.CargoCompanyId" asp-for="@Model?.Idefix.CargoCompanyId" class="form-control-modern" id="Idefix_CargoCompanyId">
+                                                <option value="">Kargo Şirketi Seçin</option>
+                                            </select>
+                                            <span asp-validation-for="@Model?.Idefix.CargoCompanyId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Idefix Gönderim Adresi</label>
+                                            <select name="Idefix.ShipmentAddressId" asp-for="@Model?.Idefix.ShipmentAddressId" class="form-control-modern" id="Idefix_ShipmentAddressId">
+                                                <option value="">Gönderim Adresi Seçin</option>
+                                            </select>
+                                            <span asp-validation-for="@Model?.Idefix.ShipmentAddressId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Idefix İade Adresi</label>
+                                            <select name="Idefix.ReturnAddressId" asp-for="@Model?.Idefix.ReturnAddressId" class="form-control-modern" id="Idefix_ReturnAddressId">
+                                                <option value="">İade Adresi Seçin</option>
+                                            </select>
+                                            <span asp-validation-for="@Model?.Idefix.ReturnAddressId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Farmazon -->
+                            <div class="col-md-4">
+                                <div class="accordion">
+                                    <div class="accordion-header" data-target="farmazon-fields">
+                                        <i class="fa fa-chevron-down icon-left"></i>
+                                        <span>Farmazon Ürün</span>
+                                    </div>
+                                    <div class="accordion-content farmazon-fields hidden">
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Farmazon Ürün ID</label>
+                                            <input name="Farmazon.Id" asp-for="@Model?.Farmazon.Id" class="form-control-modern" placeholder="Ürün ID giriniz">
+                                            <span asp-validation-for="@Model?.Farmazon.Id" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Farmazon Stok Kodu</label>
+                                            <input name="Farmazon.StockCode" asp-for="@Model?.Farmazon.StockCode" class="form-control-modern" placeholder="Stok Kodunu">
+                                            <span asp-validation-for="@Model?.Farmazon.StockCode" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Öne Çıkan Ürün</label>
+                                            <div class="checkbox-group">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" name="Farmazon.IsFeatured" asp-for="@Model?.Farmazon.IsFeatured">
+                                                    Öne Çıkan Ürün
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FarmaBorsa -->
+                            <div class="col-md-3">
+                                <div class="accordion">
+                                    <div class="accordion-header" data-target="farmaborsa-fields">
+                                        <i class="fa fa-chevron-down icon-left"></i>
+                                        <span>FarmaBorsa Ürün</span>
+                                    </div>
+                                 
+                                </div>
+                            </div>
+                            <!-- N11 -->
+                            <div class="col-md-3">
+                                <div class="accordion">
+                                    <div class="accordion-header" data-target="n11-fields">
+                                        <i class="fa fa-chevron-down icon-left"></i>
+                                        <span>N11 Ürün</span>
+                                    </div>
+                                    <div class="accordion-content n11-fields hidden">
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">N11 Kategori</label>
+                                            <div class="input-group">
+                                                <input type="text" id="n11_categoryInput" class="form-control-modern" readonly placeholder="Kategori seçin">
+                                                <input type="hidden" id="n11_categoryId" name="N11.CategoryId">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn-modern-form btn-save category-select-btn" data-toggle="modal" data-target="#categoryModal" data-pazaryeri="n11" data-type="category">
+                                                        <span>Seç</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="@Model?.N11.CategoryId" class="text-danger"></span>
+                                        </div>
+                                   
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Pazarama -->
+                            <div class="col-md-3">
+                                <div class="accordion">
+                                    <div class="accordion-header" data-target="pazarama-fields">
+                                        <i class="fa fa-chevron-down icon-left"></i>
+                                        <span>Pazarama Ürün</span>
+                                    </div>
+                                    <div class="accordion-content pazarama-fields hidden">
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Pazarama Kategori</label>
+                                            <div class="input-group">
+                                                <input type="text" id="pazarama_categoryInput" class="form-control-modern" readonly placeholder="Kategori seçin">
+                                                <input type="hidden" id="pazarama_categoryId" name="Pazarama.CategoryId">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn-modern-form btn-save category-select-btn" data-toggle="modal" data-target="#categoryModal" data-pazaryeri="pazarama" data-type="category">
+                                                        <span>Seç</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="@Model?.Pazarama.CategoryId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">Pazarama Marka</label>
+                                            <select name="Pazarama.BrandId" asp-for="@Model?.Pazarama.BrandId" id="Pazarama_BrandId" class="form-control-modern">
+                                                <option value="">Marka Seçin</option>
+                                            </select>
+                                            <span asp-validation-for="@Model?.Pazarama.BrandId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- GoTurc -->
+                            <div class="col-md-3">
+                                <div class="accordion">
+                                    <div class="accordion-header" data-target="goturc-fields">
+                                        <i class="fa fa-chevron-down icon-left"></i>
+                                        <span>GoTurc Ürün</span>
+                                    </div>
+                                    <div class="accordion-content goturc-fields hidden">
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">GoTurc Kategori</label>
+                                            <div class="input-group">
+                                                <input type="text" id="goturc_categoryInput" class="form-control-modern" readonly placeholder="Kategori seçin">
+                                                <input type="hidden" id="goturc_categoryId" name="GoTurc.CategoryId">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn-modern-form btn-save category-select-btn" data-toggle="modal" data-target="#categoryModal" data-pazaryeri="goturc" data-type="category">
+                                                        <span>Seç</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="@Model?.GoTurc.CategoryId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">GoTurc Marka</label>
+                                            <select id="GoTurc_BrandId" name="GoTurc.BrandId" asp-for="@Model?.GoTurc.BrandId" class="form-control-modern">
+                                                <option value="">Marka Seçin</option>
+                                            </select>
+                                            <span asp-validation-for="@Model?.GoTurc.BrandId" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group-modern">
+                                            <label class="control-label-modern">GoTurc Teslimat Yöntemi</label>
+                                            <select id="GoTurc_DeliveryNo" name="GoTurc.DeliveryNo" asp-for="@Model?.GoTurc.DeliveryNo" class="form-control-modern">
+                                                <option value="">Teslimat Yöntemi Seçin</option>
+                                            </select>
+                                            <span asp-validation-for="@Model?.GoTurc.DeliveryNo" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <!-- Ortak Pazaryeri Bilgileri -->
+                           
+                                            <div class="form-group-modern">
+                                                <label class="control-label-modern">Satış Fiyatı</label>
+                                                <input name="Common.SalePrice" id="common_salePrice" class="form-control-modern" placeholder="Fiyat giriniz" step="0.01">
+                                                <span class="text-danger" id="common_salePrice_error"></span>
+                                            </div>
+                                            <div class="form-group-modern">
+                                                <label class="control-label-modern">Stok Miktarı</label>
+                                                <input name="Common.StockQuantity" id="common_stockQuantity" class="form-control-modern" placeholder="Stok miktarı giriniz">
+                                                <span class="text-danger" id="common_stockQuantity_error"></span>
+                                            </div>
+                                            <!-- Hidden inputs to maintain model compatibility -->
+                                            <input type="hidden" name="PTT.SalePrice" id="PTT_SalePrice">
+                                            <input type="hidden" name="PTT.StockQuantity" id="PTT_StockQuantity">
+                                            <input type="hidden" name="Idefix.SalePrice" id="Idefix_SalePrice">
+                                            <input type="hidden" name="Idefix.StockQuantity" id="Idefix_StockQuantity">
+                                            <input type="hidden" name="Farmazon.Price" id="Farmazon_Price">
+                                            <input type="hidden" name="Farmazon.Stock" id="Farmazon_Stock">
+                                            <input type="hidden" name="FarmaBorsa.SalePrice" id="FarmaBorsa_SalePrice">
+                                            <input type="hidden" name="FarmaBorsa.StockQuantity" id="FarmaBorsa_StockQuantity">
+                                            <input type="hidden" name="N11.SalePrice" id="N11_SalePrice">
+                                            <input type="hidden" name="N11.StockQuantity" id="N11_StockQuantity">
+                                            <input type="hidden" name="Pazarama.SalePrice" id="Pazarama_SalePrice">
+                                            <input type="hidden" name="Pazarama.StockQuantity" id="Pazarama_StockQuantity">
+                                            <input type="hidden" name="GoTurc.SalePrice" id="GoTurc_SalePrice">
+                                            <input type="hidden" name="GoTurc.StockQuantity" id="GoTurc_StockQuantity">
+                            <input type="hidden" name="ListPrice" id="PTT_SalePrice">
+
+                                            <!-- ÇiçekSepeti and Trendyol fields commented out in original, so not included -->
+                               
+                            <div class="form-col">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">Ürün Kodu</label>
+                                    <input name="ProductCode" asp-for="ProductCode" class="form-control-modern" placeholder="Ürün kodunu giriniz">
+                                    <span asp-validation-for="ProductCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">Barkod</label>
+                                    <input name="Barcode" asp-for="Barcode" class="form-control-modern" placeholder="Barkod giriniz">
+                                    <span asp-validation-for="Barcode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">KDV Oranı (%)</label>
+                                    <select name="VatRate" asp-for="VatRate" class="form-control-modern">
+                                        <option value="">Seçiniz</option>
+                                        <option value="0">0%</option>
+                                        <option value="1">1%</option>
+                                        <option value="10">10%</option>
+                                        <option value="20">20%</option>
+                                    </select>
+                                    <span asp-validation-for="VatRate" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                  
+                        <div class="btn-group-modern">
+                            <a href="@Url.Action("Index", "AdminUrunBilgileri")" class="btn-modern-form btn-cancel">
+                                <i class="fa fa-times icon-left"></i>
+                                <span>İptal</span>
+                            </a>
+                            <button type="button" class="btn-modern-form btn-send" id="send-button">
+                                <i class="fa fa-paper-plane icon-left"></i>
+                                <span>Gönder</span>
+                            </button>
+                            <button type="button" class="btn-modern-form btn-export" id="export-excel">
+                                <i class="fa fa-file-excel icon-left"></i>
+                                <span>Excel'e Aktar</span>
+                            </button>
+                            <button type="submit" class="btn-modern-form btn-save">
+                                <i class="fa fa-check icon-left"></i>
+                                <span>Kaydet</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kategori ve Marka Seçme Modalı -->
+    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalLabel">Seçim Yap</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control-modern" id="categorySearch" placeholder="Kategori ara...">
+                    </div>
+                    <div id="categoryTree" class="category-container"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modern-form btn-cancel" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Script {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var currentPazarYeri = '';
+            var currentType = '';
+            var allCategories = [];
+            var leafCategories = [];
+            var maxFiles = 5;
+            var allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            var pttVariantIndex = 1;
+
+            // Debounce fonksiyonu: Hızlı yazma için performans optimizasyonu
+            function debounce(func, wait) {
+                var timeout;
+                return function () {
+                    var context = this, args = arguments;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function () {
+                        func.apply(context, args);
+                    }, wait);
+                };
+            }
+
+            // Ürün seçimi
+            document.getElementById('TitleSelect').addEventListener('change', function () {
+                var selectedOption = this.options[this.selectedIndex];
+                var urunId = selectedOption.getAttribute('data-id');
+                document.getElementById('UrunId').value = urunId ?? "";
+            });
+
+            // Akordeon başlıklarına tıklama olayı
+            $('.accordion-header').on('click', function () {
+                var $header = $(this);
+                var target = $header.data('target');
+                var $content = $(`.${target}`);
+
+                // İçeriği aç/kapat
+                $content.slideToggle(300, function () {
+                    $content.toggleClass('hidden');
+                    $header.toggleClass('active');
+                });
+            });
+
+            $('.accordion-header[data-target="goturc-fields"]').on('click', function () {
+                var $content = $('.goturc-fields');
+                if (!$content.hasClass('hidden')) {
+                    // İlgili işlemler buraya eklenebilir
+                }
+            });
+
+            // Excel yükleme
+            $('#select-excel-btn').on('click', function () {
+                $('#excel-upload').click();
+            });
+
+            // Dosya seçildikten sonra otomatik gönder
+            $('#excel-upload').on('change', function (e) {
+                var file = e.target.files[0];
+                var $error = $('<div>').addClass('error-message').hide();
+                $('#select-excel-btn').after($error);
+
+                if (!file) {
+                    $error.text('Lütfen bir dosya seçin.').show();
+                    return;
+                }
+
+                if (!file.name.endsWith('.xlsx')) {
+                    $error.text('Sadece .xlsx dosyaları yüklenebilir.').show();
+                    this.value = '';
+                    return;
+                }
+
+                $error.hide();
+                var $form = $('#excel-upload-form');
+                var formData = new FormData($form[0]);
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.success) {
+                            alert(`Excel başarıyla işlendi! Toplam ${response.totalRows} satır, ${response.processedRows} başarıyla işlendi.`);
+                            console.log('Excel işleme sonucu:', response.results);
+                        } else {
+                            alert('Excel işlenirken hata oluştu: ' + response.message);
+                            console.log('Excel işleme sonucu:', response.results);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Excel yüklenirken hata oluştu: ' + error);
+                        console.error('Excel yükleme hatası:', xhr.responseText);
+                    }
+                });
+            });
+
+            // Ortak alanları pazaryeri alanlarına kopyala
+            function mapCommonFieldsToMarketplaces() {
+                var salePrice = $('#common_salePrice').val();
+                var stockQuantity = $('#common_stockQuantity').val();
+
+                var marketplaces = ['PTT', 'Idefix', 'Farmazon', 'FarmaBorsa', 'N11', 'Pazarama', 'GoTurc'];
+
+                marketplaces.forEach(function(marketplace) {
+                    if ($(`#${marketplace}_categoryId`).val() || $(`.${marketplace.toLowerCase()}-fields`).is(':visible')) {
+                        $(`#${marketplace}_SalePrice`).val(salePrice);
+                        $(`#${marketplace}_StockQuantity`).val(stockQuantity);
+                    }
+                });
+            }
+
+            // Form gönderimi öncesi ortak alanları kopyala
+            $('form').on('submit', function (e) {
+                mapCommonFieldsToMarketplaces();
+            });
+
+            // Gönder butonu
+            $('#send-button').on('click', function() {
+                // Form doğrulama
+                var $form = $('form');
+                var hasError = false;
+
+                $form.find('input[required], select[required]').each(function() {
+                    if (!$(this).val()) {
+                        $(this).addClass('is-invalid');
+                        hasError = true;
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                });
+
+                // Ortak alanlar için doğrulama
+                if (!$('#common_salePrice').val()) {
+                    $('#common_salePrice').addClass('is-invalid');
+                    $('#common_salePrice_error').text('Satış fiyatı zorunludur.');
+                    hasError = true;
+                } else {
+                    $('#common_salePrice').removeClass('is-invalid');
+                    $('#common_salePrice_error').text('');
+                }
+
+                if (!$('#common_stockQuantity').val()) {
+                    $('#common_stockQuantity').addClass('is-invalid');
+                    $('#common_stockQuantity_error').text('Stok miktarı zorunludur.');
+                    hasError = true;
+                } else {
+                    $('#common_stockQuantity').removeClass('is-invalid');
+                    $('#common_stockQuantity_error').text('');
+                }
+
+                if (hasError) {
+                    alert('Lütfen tüm zorunlu alanları doldurun.');
+                    return;
+                }
+
+                // Ortak alanları kopyala
+                mapCommonFieldsToMarketplaces();
+
+                // Formu gönder
+                $form.attr('action', '/PazarYerleriUrunEkle/Gonder');
+                $form.submit();
+
+                // Form aksiyonunu sıfırla
+                setTimeout(function() {
+                    $form.attr('action', '/PazarYerleriUrunEkle/Kaydet');
+                }, 100);
+            });
+
+            // Dosya yükleme ve önizleme
+            $('#image-upload').on('change', function (e) {
+                var files = e.target.files;
+                var $preview = $('#image-preview');
+                var $error = $('#image-error');
+                $error.hide();
+
+                if (files.length > maxFiles) {
+                    $error.text(`Maksimum ${maxFiles} dosya seçebilirsiniz.`).show();
+                    this.value = '';
+                    $preview.empty();
+                    return;
+                }
+
+                for (var i = 0; i < files.length; i++) {
+                    if (!allowedTypes.includes(files[i].type)) {
+                        $error.text('Sadece JPEG, PNG veya GIF dosyaları yüklenebilir.').show();
+                        this.value = '';
+                        $preview.empty();
+                        return;
+                    }
+                }
+
+                $preview.empty();
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var reader = new FileReader();
+                    reader.onload = (function (index) {
+                        return function (e) {
+                            var $item = $('<div>').addClass('image-preview-item');
+                            $item.append($('<img>').attr('src', e.target.result));
+                            $item.append($('<button>').addClass('remove-image').text('×').data('index', index));
+                            $preview.append($item);
+                        };
+                    })(i);
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Görsel kaldırma
+            $(document).on('click', '.remove-image', function () {
+                var index = $(this).data('index');
+                var $input = $('#image-upload');
+                var files = Array.from($input[0].files);
+                files.splice(index, 1);
+
+                var dataTransfer = new DataTransfer();
+                files.forEach(file => dataTransfer.items.add(file));
+                $input[0].files = dataTransfer.files;
+
+                $(this).parent().remove();
+            });
+
+            // PTT varyant ekleme
+            $('#add-ptt-variant-btn').on('click', function () {
+                var $variantGroup = $('<div class="variant-group">');
+                $variantGroup.html(`
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label-modern">Varyant Barkod</label>
+                            <input type="text" class="form-control-modern" name="PTT.Variants[${pttVariantIndex}].Barcode">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label-modern">Fiyat</label>
+                            <input type="number" step="0.01" class="form-control-modern" name="PTT.Variants[${pttVariantIndex}].Price">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label-modern">Stok</label>
+                            <input type="number" class="form-control-modern" name="PTT.Variants[${pttVariantIndex}].Quantity" min="0">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label-modern">Nitelik Tanımı</label>
+                            <input type="text" class="form-control-modern" name="PTT.Variants[${pttVariantIndex}].Attributes[0].Definition">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label-modern">Nitelik Değeri</label>
+                            <input type="text" class="form-control-modern" name="PTT.Variants[${pttVariantIndex}].Attributes[0].Value">
+                        </div>
+                        <div class="col-md-12 text-right mt-2">
+                            <button type="button" class="btn-modern-form btn-cancel remove-variant">Varyantı Sil</button>
+                        </div>
+                    </div>
+                `);
+                $('#ptt-variants-container').append($variantGroup);
+                pttVariantIndex++;
+            });
+
+            // PTT varyant kaldırma
+            $(document).on('click', '.remove-variant', function () {
+                $(this).closest('.variant-group').remove();
+            });
+
+            // Excel'e aktarma
+            $('#export-excel').on('click', function () {
+                // Ortak alanları kopyala
+                mapCommonFieldsToMarketplaces();
+
+                var data = [];
+                var headers = [
+                    'Ürün Adı', 'Ürün Kodu', 'Barkod', 'Liste Fiyatı', 'KDV Oranı',
+                    'PTT Kategori','PTT Satış Fiyatı', 'PTT Stok Miktarı', 'PTT Garanti Sağlayıcı',
+                    'N11 Kategori', 'N11 Satış Fiyatı', 'N11 Stok Miktarı', 'N11 İndirim Yüzdesi',
+                    'Idefix Kategori', 'Idefix Marka', 'Idefix Satış Fiyatı', 'Idefix Stok Miktarı', 'Idefix Tedarikçi Stok Kodu', 'Idefix Teslimat Tipi', 'Idefix Kargo Şirketi', 'Idefix Gönderim Adresi', 'Idefix İade Adresi',
+                    'FarmaBorsa Satış Fiyatı', 'FarmaBorsa Stok Miktarı', 'FarmaBorsa Borsada Göster',
+                    'Farmazon Ürün ID', 'Farmazon Satış Fiyatı', 'Farmazon Stok Miktarı', 'Farmazon Stok Kodu', 'Farmazon Öne Çıkan Ürün',
+                    'Pazarama Kategori', 'Pazarama Marka', 'Pazarama Satış Fiyatı', 'Pazarama Stok Miktarı',
+                    'GoTurc Kategori', 'GoTurc Marka', 'GoTurc Teslimat Yöntemi', 'GoTurc Satış Fiyatı', 'GoTurc Stok Miktarı',
+                    'Açıklama', 'Kısa Açıklama'
+                ];
+
+                var row = {};
+                $('form').find('input, select, textarea').each(function () {
+                    var name = $(this).attr('name');
+                    var value = $(this).is(':checkbox') ? $(this).is(':checked') : $(this).val();
+                    if (name && !name.includes('Variants') && !name.includes('Attributes') && !name.startsWith('Common.')) {
+                        row[name] = value || '';
+                    }
+                });
+
+                // PTT Varyantlar
+                var pttVariants = [];
+                $('#ptt-variants-container .variant-group').each(function (index) {
+                    var variant = {
+                        Barcode: $(this).find(`input[name="PTT.Variants[${index}].Barcode"]`).val() || '',
+                        Price: $(this).find(`input[name="PTT.Variants[${index}].Price"]`).val() || '',
+                        Quantity: $(this).find(`input[name="PTT.Variants[${index}].Quantity"]`).val() || '',
+                        AttributeDefinition: $(this).find(`input[name="PTT.Variants[${index}].Attributes[0].Definition"]`).val() || '',
+                        AttributeValue: $(this).find(`input[name="PTT.Variants[${index}].Attributes[0].Value"]`).val() || ''
+                    };
+                    pttVariants.push(variant);
+                });
+
+                // Idefix Özellikler
+                var idefixAttributes = [];
+                $('#idefix-attributes-container .attribute-group').each(function (index) {
+                    var attribute = {
+                        AttributeId: $(this).find(`select[name="Idefix.Attributes[${index}].AttributeId"]`).val() || $(this).find(`input[name="Idefix.Attributes[${index}].AttributeId"]`).val() || '',
+                        AttributeValueId: $(this).find(`select[name="Idefix.Attributes[${index}].AttributeValueId"]`).val() || $(this).find(`input[name="Idefix.Attributes[${index}].AttributeValueId"]`).val() || ''
+                    };
+                    idefixAttributes.push(attribute);
+                });
+
+                var mainRow = {
+                    'Ürün Adı': row['Title'],
+                    'Ürün Kodu': row['ProductCode'],
+                    'Barkod': row['Barcode'],
+                    'Liste Fiyatı': row['ListPrice'],
+                    'KDV Oranı': row['VatRate'],
+                    'PTT Kategori': $('#ptt_categoryInput').val(),
+                    'PTT Satış Fiyatı': row['PTT.SalePrice'],
+                    'PTT Stok Miktarı': row['PTT.StockQuantity'],
+                    'N11 Kategori': $('#n11_categoryInput').val(),
+                    'N11 Satış Fiyatı': row['N11.SalePrice'],
+                    'N11 Stok Miktarı': row['N11.StockQuantity'],
+                    'Idefix Kategori': $('#idefix_categoryInput').val(),
+                    'Idefix Marka': $('#Idefix_BrandId option:selected').text(),
+                    'Idefix Satış Fiyatı': row['Idefix.SalePrice'],
+                    'Idefix Stok Miktarı': row['Idefix.StockQuantity'],
+                    'Idefix Tedarikçi Stok Kodu': row['Idefix.VendorStockCode'],
+                    'Idefix Kargo Şirketi': $('#Idefix_CargoCompanyId option:selected').text(),
+                    'Idefix Gönderim Adresi': $('#Idefix_ShipmentAddressId option:selected').text(),
+                    'Idefix İade Adresi': $('#Idefix_ReturnAddressId option:selected').text(),
+                    'FarmaBorsa Satış Fiyatı': row['FarmaBorsa.SalePrice'],
+                    'FarmaBorsa Stok Miktarı': row['FarmaBorsa.StockQuantity'],
+                    'Farmazon Ürün ID': row['Farmazon.Id'],
+                    'Farmazon Satış Fiyatı': row['Farmazon.Price'],
+                    'Farmazon Stok Miktarı': row['Farmazon.Stock'],
+                    'Farmazon Stok Kodu': row['Farmazon.StockCode'],
+                    'Farmazon Öne Çıkan Ürün': row['Farmazon.IsFeatured'] ? 'Evet' : 'Hayır',
+                    'Pazarama Kategori': $('#pazarama_categoryInput').val(),
+                    'Pazarama Marka': $('#Pazarama_BrandId option:selected').text(),
+                    'Pazarama Satış Fiyatı': row['Pazarama.SalePrice'],
+                    'Pazarama Stok Miktarı': row['Pazarama.StockQuantity'],
+                    'GoTurc Kategori': $('#goturc_categoryInput').val(),
+                    'GoTurc Marka': $('#GoTurc_BrandId option:selected').text(),
+                    'GoTurc Teslimat Yöntemi': $('#GoTurc_DeliveryNo option:selected').text(),
+                    'GoTurc Satış Fiyatı': row['GoTurc.SalePrice'],
+                    'GoTurc Stok Miktarı': row['GoTurc.StockQuantity'],
+                    'Açıklama': row['Description'],
+                };
+
+                data.push(mainRow);
+
+                // PTT Varyantlar için ek satırlar
+                pttVariants.forEach(function (variant, index) {
+                    var variantRow = Object.assign({}, mainRow);
+                    variantRow['PTT Varyant Barkod'] = variant.Barcode;
+                    variantRow['PTT Varyant Fiyat'] = variant.Price;
+                    variantRow['PTT Varyant Stok'] = variant.Quantity;
+                    variantRow['PTT Varyant Nitelik Tanımı'] = variant.AttributeDefinition;
+                    variantRow['PTT Varyant Nitelik Değeri'] = variant.AttributeValue;
+                    data.push(variantRow);
+                });
+
+                // Idefix Özellikler için ek satırlar
+                idefixAttributes.forEach(function (attribute, index) {
+                    var attributeRow = Object.assign({}, mainRow);
+                    attributeRow['Idefix Özellik ID'] = attribute.AttributeId;
+                    attributeRow['Idefix Özellik Değeri'] = attribute.AttributeValueId;
+                    data.push(attributeRow);
+                });
+
+                // Excel oluşturma
+                var ws = XLSX.utils.json_to_sheet(data, { header: headers });
+                var wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Ürün Bilgileri');
+                XLSX.writeFile(wb, 'Urun_Bilgileri.xlsx');
+            });
+
+            // Idefix özelliklerini yükle
+            function loadIdefixAttributes(categoryId) {
+                if (!categoryId) {
+                    $('#idefix-attributes-container').empty().append('<div class="text-muted">Kategori seçimi yapılmadı.</div>');
+                    return;
+                }
+
+                $.ajax({
+                    url: `/AdminIdefixUrunEkle/GetIdefixCategoryAttributes?pazarYeriId=6&categoryId=${encodeURIComponent(categoryId)}`,
+                    type: 'GET',
+                    success: function (response) {
+                        console.log('GetIdefixCategoryAttributes Response:', response);
+                        var $container = $('#idefix-attributes-container');
+                        $container.empty();
+
+                        if (!response || !response.success || !Array.isArray(response.data)) {
+                            console.error('Idefix özellikleri yüklenemedi: ' + (response.message || 'Geçersiz veri formatı'));
+                            $container.append('<div class="text-muted">Özellik bulunamadı veya veri formatı hatalı.</div>');
+                            return;
+                        }
+
+                        response.data.forEach(function (attr, index) {
+                            if (!attr || !attr.attributeId || !attr.name) {
+                                console.warn(`Hata: Özellik ${index} eksik veya geçersiz veri:`, attr);
+                                return;
+                            }
+
+                            var values = Array.isArray(attr.values) ? attr.values : [];
+                            if (values.length === 0) {
+                                console.warn(`Hata: ${attr.name} için değerler eksik.`);
+                            }
+
+                            var $attributeGroup = $(`
+                                <div class="attribute-group">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label-modern">${attr.name}${attr.required ? ' (Zorunlu)' : ''}</label>
+                                            <select name="Idefix.Attributes[${index}].AttributeId" class="form-control-modern" ${attr.required ? 'required' : ''}>
+                                                <option value="${attr.attributeId}">${attr.name}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label-modern">Değer</label>
+                                            <select name="Idefix.Attributes[${index}].AttributeValueId" class="form-control-modern" ${attr.required ? 'required' : ''}>
+                                                <option value="">Seçin</option>
+                                                ${values.map(val => `<option value="${val.attributeValueId || ''}">${val.value || 'Bilinmeyen Değer'}</option>`).join('')}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                            $container.append($attributeGroup);
+                        });
+
+                        if (response.data.length === 0) {
+                            $container.append('<div class="text-muted">Bu kategori için özellik bulunamadı.</div>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Idefix özellikleri yüklenemedi: ', error, xhr.responseText);
+                        $('#idefix-attributes-container').empty().append('<div class="text-muted">Özellik yüklenirken hata oluştu.</div>');
+                    }
+                });
+            }
+
+            // Kategori seçildiğinde özellikleri yükle
+            $(document).on('click', '.category-leaf-item.idefix', function () {
+                var categoryId = $(this).find('input:hidden').val() || $('#idefix_categoryId').val();
+                console.log('Selected Idefix Category ID:', categoryId);
+                if (categoryId) {
+                    loadIdefixAttributes(categoryId);
+                } else {
+                    console.error('Kategori ID bulunamadı.');
+                    $('#idefix-attributes-container').empty().append('<div class="text-muted">Kategori seçimi yapılmadı.</div>');
+                }
+            });
+
+            // Idefix kargo şirketlerini yükle
+            function loadIdefixCargoCompanies() {
+                $.ajax({
+                    url: '/AdminIdefixUrunEkle/GetIdefixCargoCompanies?pazarYeriId=6',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#Idefix_CargoCompanyId');
+                            $select.empty();
+                            $select.append('<option value="">Kargo Şirketi Seçin</option>');
+                            response.cargoCompanies.forEach(function (cargo) {
+                                $select.append($('<option>').val(cargo.id).text(cargo.title));
+                            });
+                        } else {
+                            console.error('Idefix kargo şirketleri yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Idefix kargo şirketleri yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            // Idefix vendor profillerini yükle
+            function loadIdefixVendorProfiles() {
+                $.ajax({
+                    url: '/AdminIdefixUrunEkle/GetIdefixVendorProfiles?pazarYeriId=6',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $shipmentSelect = $('#Idefix_ShipmentAddressId');
+                            var $returnSelect = $('#Idefix_ReturnAddressId');
+                            $shipmentSelect.empty();
+                            $returnSelect.empty();
+                            $shipmentSelect.append('<option value="">Gönderim Adresi Seçin</option>');
+                            $returnSelect.append('<option value="">İade Adresi Seçin</option>');
+                            response.vendorProfiles.forEach(function (profile) {
+                                $shipmentSelect.append($('<option>').val(profile.id).text(profile.title));
+                                $returnSelect.append($('<option>').val(profile.id).text(profile.title));
+                            });
+                        } else {
+                            console.error('Idefix vendor profilleri yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Idefix vendor profilleri yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            // Kategorileri yükle
+            function loadCategories(pazarYeriId, pazarYeri, type, callback) {
+                var url;
+                if (pazarYeri === 'n11') {
+                    url = '/AdminN11UrunEkle/GetN11Categories?pazarYeriId=3';
+                } else if (pazarYeri === 'idefix') {
+                    url = type === 'category' ? '/AdminIdefixUrunEkle/GetIdefixCategories?pazarYeriId=6' : '/AdminIdefixUrunEkle/GetIdefixBrands?pazarYeriId=6';
+                } else if (pazarYeri === 'ptt') {
+                    url = '/AdminPTTUrunEkle/GetPTTCategories?pazarYeriId=4';
+                } else if (pazarYeri === 'pazarama') {
+                    url = type === 'category' ? '/AdminPazarama/GetPazaramaCategories?pazarYeriId=9' : '/AdminPazarama/GetPazaramaBrands?pazarYeriId=9';
+                } else if (pazarYeri === 'ciceksepeti') {
+                    url = '/AdminCicekSepeti/GetCategories?pazarYeriId=5';
+                } else if (pazarYeri === 'goturc') {
+                    url = type === 'category' ? '/AdminGoTurc/GetGoTurcCategories?pazarYeriId=8' : '/AdminGoTurc/GetGoTurcBrands?pazarYeriId=8';
+                } else if (pazarYeri === 'trendyol') {
+                    url = type === 'category' ? '/AdminTrendyol/GetTrendyolCategories?pazarYeriId=10' : '/AdminTrendyol/GetTrendyolBrands?pazarYeriId=10';
+                }
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (response) {
+                        console.log(`${pazarYeri.toUpperCase()} ${type} Response:`, response);
+                        if (response.success) {
+                            allCategories = type === 'category' ? response.categories : response.brands || response.deliveryMethods;
+                            leafCategories = type === 'category' ? extractLeafCategories(allCategories, pazarYeri) : extractLeafBrands(allCategories, pazarYeri);
+                            callback(leafCategories);
+                        } else {
+                            console.error(`${pazarYeri.toUpperCase()} ${type === 'category' ? 'Kategorileri' : type === 'deliveryMethod' ? 'Teslimat Yöntemleri' : 'Markaları'} yüklenemedi: ${response.message}`);
+                            callback([]);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(`${pazarYeri.toUpperCase()} AJAX Error:`, error, xhr.responseText);
+                        callback([]);
+                    }
+                });
+            }
+
+            // Idefix markalarını yükle
+            function loadIdefixBrands() {
+                $.ajax({
+                    url: '/AdminIdefixUrunEkle/GetIdefixBrands?pazarYeriId=6',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#Idefix_BrandId');
+                            $select.empty();
+                            $select.append('<option value="">Marka Seçin</option>');
+                            response.brands.forEach(function (brand) {
+                                $select.append($('<option>').val(brand.id).text(brand.name || brand.title));
+                            });
+                        } else {
+                            console.error('İdefix markaları yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('İdefix markaları yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            // Pazarama markalarını yükle
+            function loadPazaramaBrands() {
+                $.ajax({
+                    url: '/AdminPazarama/GetPazaramaBrands?pazarYeriId=9',
+                    type: 'GET',
+                    success: function (response) {
+                        console.log('Pazarama Marka Yanıtı:', response);
+                        if (response.success && Array.isArray(response.brands)) {
+                            var $select = $('#Pazarama_BrandId');
+                            $select.empty();
+                            $select.append('<option value="">Marka Seçin</option>');
+                            response.brands.forEach(function (brand) {
+                                if (brand.id && brand.name) {
+                                    $select.append($('<option>').val(brand.id).text(brand.name));
+                                } else {
+                                    console.warn('Geçersiz marka verisi:', brand);
+                                }
+                            });
+                            if ($select.find('option').length === 1) {
+                                console.warn('Pazarama için geçerli marka yüklenmedi');
+                            }
+                        } else {
+                            console.error('Pazarama markaları yüklenemedi:', response.message || 'Geçersiz yanıt');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Pazarama markaları AJAX hatası:', error, xhr.responseText);
+                    }
+                });
+            }
+
+            // GoTurc markalarını yükle
+            function loadGoTurcBrands() {
+                $.ajax({
+                    url: '/AdminGoTurc/GetGoTurcBrands?pazarYeriId=8',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#GoTurc_BrandId');
+                            $select.empty();
+                            $select.append('<option value="">Marka Seçin</option>');
+                            response.brands.forEach(function (brand) {
+                                $select.append($('<option>').val(brand.id).text(brand.name));
+                            });
+                        } else {
+                            console.error('GoTurc markaları yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('GoTurc markaları yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            // Trendyol markalarını yükle
+            function loadTrendyolBrands() {
+                $.ajax({
+                    url: '/AdminTrendyol/GetTrendyolBrands?pazarYeriId=10',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#Trendyol_BrandId');
+                            $select.empty();
+                            $select.append('<option value="">Marka Seçin</option>');
+                            response.brands.forEach(function (brand) {
+                                $select.append($('<option>').val(brand.id).text(brand.name));
+                            });
+                        } else {
+                            console.error('Trendyol markaları yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Trendyol markaları yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            // GoTurc teslimat yöntemlerini yükle
+            function loadGoTurcDeliveryMethods() {
+                var $select = $('#GoTurc_DeliveryNo');
+                if ($select.length === 0) {
+                    console.error('GoTurc_DeliveryNo select elementi bulunamadı.');
+                    return;
+                }
+                $.ajax({
+                    url: '/AdminGoTurc/GetGoTurcDeliveryMethods?pazarYeriId=8',
+                    type: 'GET',
+                    success: function (response) {
+                        console.log('GoTurc Teslimat Yöntemleri Yanıtı:', response);
+                        if (response.success && Array.isArray(response.deliveryMethods)) {
+                            $select.empty();
+                            $select.append('<option value="">Teslimat Yöntemi Seçin</option>');
+                            response.deliveryMethods.forEach(function (method) {
+                                if (method.id && method.description) {
+                                    $select.append($('<option>').val(method.id).text(method.description));
+                                } else {
+                                    console.warn('Geçersiz teslimat yöntemi verisi:', method);
+                                }
+                            });
+                        } else {
+                            console.error('GoTurc teslimat yöntemleri yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('GoTurc teslimat yöntemleri yüklenemedi: ' + error, xhr.responseText);
+                    }
+                });
+            }
+
+            // Kategori seçimi butonu
+            $('.category-select-btn').on('click', function () {
+                currentPazarYeri = $(this).data('pazaryeri');
+                currentType = $(this).data('type');
+                console.log('Kategori seçim butonu tıklandı:', currentPazarYeri, currentType);
+                $('#categoryModalLabel').text(currentType === 'category' ? `${currentPazarYeri.toUpperCase()} Kategori Seçimi` : `${currentPazarYeri.toUpperCase()} Marka Seçimi`);
+                $('#categorySearch').val('');
+                loadCategories(0, currentPazarYeri, currentType, displayCategories);
+            });
+
+            // Kategorileri veya markaları görüntüle
+            function displayCategories(categories) {
+                var $categoryTree = $('#categoryTree');
+                $categoryTree.empty();
+
+                if (categories.length === 0) {
+                    $categoryTree.append(`<div class="text-muted">${currentPazarYeri.toUpperCase()} için ${currentType === 'category' ? 'kategori' : 'marka'} bulunamadı.</div>`);
+                    return;
+                }
+
+                categories.forEach(function (category) {
+                    var $item = $('<div>').addClass(`category-leaf-item ${currentPazarYeri}`).text(category.name || category.title);
+                    $item.append($('<input>').attr('type', 'hidden').val(category.id));
+                    $categoryTree.append($item);
+                });
+
+                $('.category-leaf-item').on('click', function () {
+                    $('.category-leaf-item').removeClass('selected');
+                    $(this).addClass('selected');
+                    var id = $(this).find('input:hidden').val();
+                    var name = $(this).text();
+                    console.log(`Seçilen ${currentPazarYeri} Kategori: ID=${id}, Ad=${name}`);
+                    $(`#${currentPazarYeri}_categoryInput`).val(name);
+                    $(`#${currentPazarYeri}_categoryId`).val(id);
+
+                    if (currentType === 'category') {
+                        $(`#${currentPazarYeri}-toggle`).removeClass('hidden');
+                        $(`.${currentPazarYeri}-fields`).removeClass('hidden');
+                        if (currentPazarYeri === 'pazarama') {
+                            loadPazaramaBrands();
+                        }
+                    }
+                    $('#categoryModal').modal('hide');
+                });
+            }
+
+            // Kategorileri veya markaları istemci tarafında filtrele
+            function filterCategories(searchTerm) {
+                var filteredCategories = leafCategories.filter(function (category) {
+                    var name = (category.name || category.title || '').toLowerCase();
+                    return name.includes(searchTerm.toLowerCase());
+                });
+                displayCategories(filteredCategories);
+            }
+
+            // Kategori veya marka yazdıkça arama
+            $('#categorySearch').on('keyup', debounce(function () {
+                var searchTerm = $(this).val().trim();
+                console.log('Arama terimi:', searchTerm);
+                filterCategories(searchTerm);
+            }, 300));
+
+            // Leaf kategorileri çıkar
+            function extractLeafCategories(categories, pazarYeri) {
+                var leafCategories = [];
+
+                function traverse(cats, path = []) {
+                    cats.forEach(function (cat) {
+                        var currentPath = [...path, cat.name || cat.title];
+                        if (!cat.subCategories || cat.subCategories.length === 0) {
+                            leafCategories.push({
+                                id: cat.id,
+                                name: currentPath.join(' > '),
+                                pazarYeri: pazarYeri
+                            });
+                        } else {
+                            traverse(cat.subCategories, currentPath);
+                        }
+                    });
+                }
+
+                traverse(categories);
+                return leafCategories;
+            }
+
+            // Leaf markaları çıkar
+            function extractLeafBrands(brands, pazarYeri) {
+                return brands.map(function (brand) {
+                    return {
+                        id: brand.id,
+                        name: brand.name || brand.title,
+                        pazarYeri: pazarYeri
+                    };
+                });
+            }
+
+            // Idefix özellik ekleme
+            $('#add-idefix-attribute-btn').on('click', function () {
+                var $container = $('#idefix-attributes-container');
+                var index = $container.find('.attribute-group').length;
+                var $attributeGroup = $(`
+                    <div class="attribute-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="control-label-modern">Özellik Adı</label>
+                                <input type="text" name="Idefix.Attributes[${index}].AttributeId" class="form-control-modern" placeholder="Özellik adı giriniz">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="control-label-modern">Değer</label>
+                                <input type="text" name="Idefix.Attributes[${index}].AttributeValueId" class="form-control-modern" placeholder="Değer giriniz">
+                            </div>
+                            <div class="col-md-12 text-right mt-2">
+                                <button type="button" class="btn-modern-form btn-cancel remove-attribute">Özelliği Sil</button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+                $container.append($attributeGroup);
+            });
+
+            // Idefix özellik kaldırma
+            $(document).on('click', '.remove-attribute', function () {
+                $(this).closest('.attribute-group').remove();
+            });
+
+            // Form gönderimi doğrulama
+            $('form').on('submit', function (e) {
+                console.log('Form verileri:', $(this).serializeArray());
+                var $form = $(this);
+                var hasError = false;
+
+                $form.find('input[required], select[required]').each(function () {
+                    if (!$(this).val()) {
+                        $(this).addClass('is-invalid');
+                        hasError = true;
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                });
+
+                if (hasError) {
+                    e.preventDefault();
+                    alert('Lütfen tüm zorunlu alanları doldurun.');
+                }
+            });
+
+            // İlk yüklemede gerekli verileri yükle
+            loadIdefixAttributes($('#idefix_categoryId').val());
+            loadIdefixBrands();
+            loadIdefixCargoCompanies();
+            loadIdefixVendorProfiles();
+            loadGoTurcDeliveryMethods();
+            loadGoTurcBrands();
+        });
+    </script>
+}

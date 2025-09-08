@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+    <li>
+        <a href="@Url.Action("Index","AddReturnRequest")">İade Taleplerim</a>
+    </li>
+</ul>
+
+<h1 class="title page-title"><span>İade Taleplerim</span></h1>
+
+<div id="account-return" class="container">
+    <div class="row">
+        <div id="content" class="col-sm-9">
+
+            <p>İade numarası istemek için lütfen aşağıdaki formu doldurunuz.</p>
+            <form action="https://www.tilsimbaby.com/index.php?route=account/return/add" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <fieldset>
+                    <legend>Sipariş Bilgileri</legend>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-firstname">Adınız</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="firstname" value="" placeholder="Adınız" id="input-firstname" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-lastname">Soyadınız</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="lastname" value="" placeholder="Soyadınız" id="input-lastname" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-email">E-Posta</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="email" value="" placeholder="E-Posta" id="input-email" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-telephone">Telefon</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="telephone" value="" placeholder="Telefon" id="input-telephone" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-order-id">Sipariş No</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="order_id" value="" placeholder="Sipariş No" id="input-order-id" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-date-ordered">Sipariş Tarihi</label>
+                        <div class="col-sm-3">
+                            <div class="input-group date">
+                                <input type="text" name="date_ordered" value="" placeholder="Sipariş Tarihi" data-date-format="YYYY-MM-DD" id="input-date-ordered" class="form-control" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Ürün Bilgileri</legend>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-product">Ürün Adı</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="product" value="" placeholder="Ürün Adı" id="input-product" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-model">Ürün Kodu</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="model" value="" placeholder="Ürün Kodu" id="input-model" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-quantity">Adet</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="quantity" value="1" placeholder="Adet" id="input-quantity" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label">İade Nedeni</label>
+                        <div class="col-sm-10">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="return_reason_id" value="4" />
+                                    Arızalı, lütfen detayları belirtin
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="return_reason_id" value="5" />
+                                    Diğer, lütfen detayları belirtin
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="return_reason_id" value="1" />
+                                    Hasar Görmüş
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="return_reason_id" value="3" />
+                                    Hatalı Sipariş
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="return_reason_id" value="2" />
+                                    Yanlış Ürün Gönderildi
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label">Ürün Açıldı</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="opened" value="1" />
+                                Evet
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="opened" value="0" checked="checked" />
+                                Hayır
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-comment">Arıza ya da diğer detaylar</label>
+                        <div class="col-sm-10">
+                            <textarea name="comment" rows="10" placeholder="Arıza ya da diğer detaylar" id="input-comment" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <div class="buttons clearfix">
+                    <div class="pull-left"><a href="@Url.Action("Index","Account")" class="btn btn-danger">Geri</a></div>
+                    <div class="pull-right">
+                        <a href="@Url.Action("Index","RebateRules")" target="_blank"><b>İade Şartları</b></a>'nı okudum ve kabul ediyorum.
+                        <input type="checkbox" name="agree" value="1" />
+                        <button type="submit" class="btn btn-primary"><span>Gönder</span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        @Html.Partial("_AccountSidebar")
+    </div>
+</div>
+
+
+
+
+
+
+
+

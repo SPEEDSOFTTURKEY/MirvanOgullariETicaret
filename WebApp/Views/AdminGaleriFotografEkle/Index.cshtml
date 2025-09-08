@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+@using (Html.BeginForm("Kaydet", "AdminGaleriFotografEkle", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-lg-10">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Resim Eke
+                    </header>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group last">
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                    <div class="fileupload-preview thumbnail" style="width: 400px; height: 200px;"></div>
+                                    <div>
+                                        <span class="btn btn-file">
+                                            <i class="icon-paper-clip"></i>
+                                            <span class="fileupload-new">
+                                                Resim Seç
+                                            </span>
+                                            <span class="fileupload-exists">Değiştir</span>
+                                            <input type="file" name="imagefile" class="default" multiple />
+                                        </span>
+                                        <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="icon-trash" style="padding-right:5px"></i>Sil</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <button type="submit" class="btn btn-info">Kaydet</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </section>
+}
+

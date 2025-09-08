@@ -1,0 +1,448 @@
+﻿@{
+    ViewData["Title"] = "Banner Management";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+        margin-top: 40px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        position: relative;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 40px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-action-edit {
+        background: #48bb78;
+        color: white;
+    }
+
+        .btn-action-edit:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .banner-text {
+        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        line-height: 1.6;
+        color: #4a5568;
+    }
+
+    .modern-form-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .modern-form-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .form-panel-content {
+        padding: 30px;
+    }
+
+    .form-group-modern {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .control-label-modern {
+        font-weight: 600;
+        color: #4a5568;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .btn-group-modern {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 30px;
+    }
+
+    .btn-modern-form {
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .btn-cancel {
+        background: #718096;
+        color: white;
+    }
+
+        .btn-cancel:hover {
+            background: #4a5568;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(113, 128, 150, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-save {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .form-control-modern {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 15px;
+    }
+
+        .form-control-modern:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+    .ckeditor-container {
+        border-radius: 8px;
+        overflow: hidden;
+        border: 2px solid #e2e8f0;
+    }
+
+    .icon-left {
+        margin-right: 8px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .banner-text {
+        max-width: 250px;
+    }
+
+    .form-panel-content {
+        padding: 20px;
+    }
+
+    .btn-group-modern {
+        flex-direction: column-reverse;
+    }
+
+    .btn-modern-form {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <!-- Banner List Section -->
+    <div class="row" id="list-section">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-image"></i>
+                    <span>Ana Sayfa Banner Yazısı</span>
+                </div>
+                <div class="panel-content">
+                    <div class="content-header">
+                        <button class="btn-modern" onclick="showAddForm()">
+                            <i class="fa fa-plus"></i>
+                            <span>Yeni Banner Yazısı Ekle</span>
+                        </button>
+                    </div>
+
+                    @if (ViewBag.AnaSayfaBannerMetin != null && ViewBag.AnaSayfaBannerMetin.Count > 0)
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Banner Yazısı</th>
+                                        <th style="text-align: center;">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var bannerMetin in ViewBag.AnaSayfaBannerMetin)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="banner-text">
+                                                    @Html.Raw(bannerMetin.Metin)
+                                                </div>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <a class="btn-action btn-action-edit" href="@Url.Action("Guncelleme", "AdminAnaSayfaBannerMetin", new { id = bannerMetin.Id })">
+                                                    <i class="fa fa-pencil"></i>
+                                                    <span>Düzenle</span>
+                                                </a>
+                                                <a class="btn-action btn-action-delete" href="@Url.Action("Sil", "AdminAnaSayfaBannerMetin", new { id = bannerMetin.Id })"
+                                                   onclick="return confirm('Bu banner yazısını silmek istediğinizden emin misiniz?');">
+                                                    <i class="fa fa-trash"></i>
+                                                    <span>Sil</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-file-text-o"></i>
+                            <h4>Henüz banner yazısı eklenmemiş</h4>
+                            <p>Yukarıdaki "Yeni Banner Yazısı Ekle" butonunu kullanarak ilk yazınızı ekleyebilirsiniz.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Banner Form Section -->
+    <div class="row hidden" id="add-form-section">
+        <div class="col-md-12">
+            <form class="form-horizontal" action="@Url.Action("Kaydet", "AdminAnaSayfaBannerMetinEkle")" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modern-form-panel">
+                    <div class="panel-header">
+                        <i class="fa fa-plus-circle"></i>
+                        <span>Yeni Banner Yazısı Ekle</span>
+                    </div>
+                    <div class="form-panel-content">
+                        <div class="form-group-modern">
+                            <label class="control-label-modern">Banner Yazısı</label>
+                            <div class="ckeditor-container">
+                                <textarea class="form-control-modern ckeditor" name="Metin" rows="20"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="btn-group-modern">
+                            <button type="button" class="btn-modern-form btn-cancel" onclick="showList()">
+                                <i class="fa fa-times icon-left"></i>
+                                <span>İptal</span>
+                            </button>
+                            <button type="submit" class="btn-modern-form btn-save">
+                                <i class="fa fa-check icon-left"></i>
+                                <span>Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@* <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+ *@<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script>
+    // Section toggling
+    function showList() {
+        document.getElementById('list-section').classList.remove('hidden');
+        document.getElementById('add-form-section').classList.add('hidden');
+        resetForms();
+    }
+
+    function showAddForm() {
+        document.getElementById('list-section').classList.add('hidden');
+        document.getElementById('add-form-section').classList.remove('hidden');
+        resetForms();
+    }
+
+    // Reset forms
+    function resetForms() {
+        document.querySelector('#add-form-section form').reset();
+        if (CKEDITOR.instances['Metin']) {
+            CKEDITOR.instances['Metin'].setData('');
+        }
+    }
+
+    // DataTable initialization
+    $(document).ready(function () {
+        if ($.fn.DataTable && $('#TblVeriler').length > 0) {
+            $('#TblVeriler').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                },
+                "pageLength": 10,
+                "order": [[0, "desc"]]
+            });
+        }
+
+        // CKEditor başlatma
+        CKEDITOR.replace('Metin');
+
+        // Form validation for add form
+        document.querySelector('#add-form-section form').addEventListener('submit', function (e) {
+            const metin = CKEDITOR.instances['Metin'].getData();
+            if (!metin.trim()) {
+                alert('Lütfen banner yazısı giriniz.');
+                e.preventDefault();
+            }
+        });
+    });
+</script>

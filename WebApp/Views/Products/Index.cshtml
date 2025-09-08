@@ -1,0 +1,441 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Ürünler";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+    var anaKategoriler = ViewBag.AnaKategori as List<WebApp.Models.UrunAnaKategori>;
+    var altKategoriler = ViewBag.AltKategori as List<WebApp.Models.UrunAltKategori>;
+    var urunler = ViewBag.Urunler as List<WebApp.Models.Urun>;
+    var birimler = ViewBag.Birimler as List<WebApp.Models.Birimler>;
+    var hideBirimFilter = ViewBag.HideBirimFilter as bool? ?? false;
+    var currentPage = ViewBag.CurrentPage as int? ?? 1;
+    var totalPages = ViewBag.TotalPages as int? ?? 1;
+    var totalItems = ViewBag.TotalItems as int? ?? 0;
+    var pageSize = ViewBag.PageSize as int? ?? 12;
+    var sort = ViewBag.Sort as string;
+    var anaKategoriId = ViewBag.AnaKategoriId as int?;
+    var altKategoriId = ViewBag.AltKategoriId as int?;
+    var minPrice = ViewBag.MinPrice as decimal?;
+    var maxPrice = ViewBag.MaxPrice as decimal?;
+    var onlyInStock = ViewBag.OnlyInStock as bool? ?? false;
+    var secilenBirimIds = ViewBag.SecilenBirimIds as List<int> ?? new List<int>();
+}
+
+<ul class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i></a></li>
+    @if (anaKategoriler != null && altKategoriler != null)
+    {
+        if (altKategoriId.HasValue)
+        {
+            var selectedAltKategori = altKategoriler.FirstOrDefault(x => x.Id == altKategoriId.Value);
+            if (selectedAltKategori != null)
+            {
+                var anaKategori = anaKategoriler.FirstOrDefault(x => x.Id == selectedAltKategori.UrunAnaKategoriId);
+                if (anaKategori != null)
+                {
+                    <li><a href="@Url.Action("Index", "Products", new { anaKategoriId = anaKategori.Id })">@anaKategori.Adi</a></li>
+                }
+                <li><a href="@Url.Action("Index", "Products", new { altKategoriId = selectedAltKategori.Id })">@selectedAltKategori.Adi</a></li>
+            }
+        }
+        else if (anaKategoriId.HasValue)
+        {
+            var selectedAnaKategori = anaKategoriler.FirstOrDefault(x => x.Id == anaKategoriId.Value);
+            if (selectedAnaKategori != null)
+            {
+                <li><a href="@Url.Action("Index", "Products", new { anaKategoriId = selectedAnaKategori.Id })">@selectedAnaKategori.Adi</a></li>
+            }
+        }
+    }
+</ul>
+
+<h1 class="title page-title"><span>Ürünler</span></h1>
+
+<div class="container">
+    <div class="row">
+        <aside id="column-left" class="side-column">
+            <div class="grid-rows">
+                <div class="grid-row grid-row-column-left-1">
+                    <div class="grid-cols">
+                        <div class="grid-col grid-col-column-left-1-1">
+                            <div class="grid-items">
+                                <div class="grid-item grid-item-column-left-1-1-1">
+                                    <div class="module module-filter module-filter-36">
+                                        <h3 class="title module-title">
+                                            <span>FİLTRELE</span>
+                                            <button class="reset-filter btn" onclick="window.location.href='@Url.Action("SessionTemizle", "Products")'">Sıfırla</button>
+                                            <a class="x"></a>
+                                        </h3>
+                                        <div class="module-body">
+                                            <div class="panel-group">
+                                                <!-- Fiyat Filtresi -->
+                                                <div class="module-item module-item-p panel panel-active">
+                                                    <div class="panel-heading">
+                                                        <div class="panel-title">
+                                                            <a href="#filter-price-collapse" class="accordion-toggle" data-toggle="collapse" aria-expanded="true" data-filter="p">
+                                                                Fiyat
+                                                                <i class="fa fa-caret-down"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-collapse collapse in" id="filter-price-collapse">
+                                                        <div class="panel-body">
+                                                            <form method="POST" action="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, sort, birims = secilenBirimIds, onlyInStock })" id="price-filter-form">
+                                                                <div class="filter-price">
+                                                                    <div class="extra-controls">
+                                                                        <input type="text" class="filter-price-min" name="minPrice" data-min="0" value="@(minPrice.HasValue ? minPrice.Value : 0)" placeholder="Min Fiyat" />
+                                                                        <span class="currency-symbol currency-right">TL</span>
+                                                                        <input type="text" class="filter-price-max" name="maxPrice" data-max="1000" value="@(maxPrice.HasValue ? maxPrice.Value : 1000)" placeholder="Max Fiyat" />
+                                                                        <span class="currency-symbol currency-right">TL</span>
+                                                                        <button type="submit" class="btn btn-primary">Filtrele</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Birim Filtresi -->
+                                                @if (!hideBirimFilter)
+                                                {
+                                                    <div class="module-item module-item-o13 text-only panel panel-active">
+                                                        <div class="panel-heading">
+                                                            <div class="panel-title">
+                                                                <a href="#filter-birim-collapse" class="accordion-toggle" data-toggle="collapse" aria-expanded="true" data-filter="o13">
+                                                                    Kapasite
+                                                                    <i class="fa fa-caret-down"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-collapse collapse in" id="filter-birim-collapse">
+                                                            <div class="panel-body">
+                                                                <form method="POST" action="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, sort, minPrice, maxPrice, onlyInStock })" id="birim-filter-form">
+                                                                    <div class="filter-checkbox">
+                                                                        @if (birimler != null)
+                                                                        {
+                                                                            foreach (var birim in birimler)
+                                                                            {
+                                                                                <label>
+                                                                                    <input type="checkbox" name="birims" value="@birim.Id" data-filter-trigger @(secilenBirimIds.Contains(birim.Id) ? "checked" : "") />
+                                                                                    <span class="links-text">@birim.Adi</span>
+                                                                                    <span class="count-badge">0</span>
+                                                                                </label>
+                                                                            }
+                                                                        }
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <!-- Stok Durumu -->
+                                                <div class="module-item module-item-q panel panel-active">
+                                                    <div class="panel-heading">
+                                                        <div class="panel-title">
+                                                            <a href="#filter-stok-collapse" class="accordion-toggle" data-toggle="collapse" aria-expanded="true" data-filter="q">
+                                                                Stok Durumu
+                                                                <i class="fa fa-caret-down"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-collapse collapse in" id="filter-stok-collapse">
+                                                        <div class="panel-body">
+                                                            <form method="POST" action="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, sort, minPrice, maxPrice, birims = secilenBirimIds })" id="stok-filter-form">
+                                                                <div class="filter-checkbox">
+                                                                    <label>
+                                                                        <input type="checkbox" name="onlyInStock" value="true" data-filter-trigger @(onlyInStock ? "checked" : "") />
+                                                                        <span class="links-text">Stokta Mevcut</span>
+                                                                        <span class="count-badge">@(urunler?.Count(x => ViewData[$"StockStatus_{x.Id}"] as bool? ?? false) ?? 0)</span>
+                                                                    </label>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary">Filtrele</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </aside>
+
+        <div id="content">
+            <div class="category-description"></div>
+            <div class="main-products-wrapper">
+                <div class="products-filter">
+                    <div class="grid-list">
+                        <button id="btn-grid-view" class="view-btn active" data-toggle="tooltip" title="Tablo" data-view="grid"></button>
+                        <button id="btn-list-view" class="view-btn" data-toggle="tooltip" title="Liste" data-view="list"></button>
+                        <a href="#" id="compare-total" class="compare-btn"><span class="links-text">Ürün Karşılaştır</span><span class="count-badge count-zero">0</span></a>
+                    </div>
+                    <div class="select-group">
+                        <div class="input-group input-group-sm sort-by">
+                            <label class="input-group-addon" for="input-sort">Sırala:</label>
+                            <select id="input-sort" class="form-control" onchange="location = this.value;">
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(sort == null ? "selected" : "")>Varsayılan</option>
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, sort = "name_asc", birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(sort == "name_asc" ? "selected" : "")>Ürün Adı (A - Z)</option>
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, sort = "name_desc", birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(sort == "name_desc" ? "selected" : "")>Ürün Adı (Z - A)</option>
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, sort = "price_asc", birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(sort == "price_asc" ? "selected" : "")>Ucuzdan > Pahalıya</option>
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, sort = "price_desc", birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(sort == "price_desc" ? "selected" : "")>Pahalıdan > Ucuza</option>
+                            </select>
+                        </div>
+                        <div class="input-group input-group-sm per-page">
+                            <label class="input-group-addon" for="input-limit">Göster:</label>
+                            <select id="input-limit" class="form-control" onchange="location = this.value;">
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, limit = 12, sort, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(pageSize == 12 ? "selected" : "")>12</option>
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, limit = 25, sort, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(pageSize == 25 ? "selected" : "")>25</option>
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, limit = 50, sort, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(pageSize == 50 ? "selected" : "")>50</option>
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, limit = 75, sort, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(pageSize == 75 ? "selected" : "")>75</option>
+                                <option value="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, limit = 100, sort, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })" @(pageSize == 100 ? "selected" : "")>100</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-products product-grid">
+                    @if (urunler != null && urunler.Any())
+                    {
+                        foreach (var urun in urunler)
+                        {
+
+                            bool stockAvailable = ViewData[$"StockStatus_{urun.Id}"] as bool? ?? false;
+                            var photograph = urun.UrunFotograf?.FirstOrDefault();
+                            var discountedPrice = urun.IndirimYuzdesi > 0
+                            ? urun.Fiyat - (urun.Fiyat * (urun.IndirimYuzdesi / 100.0m))
+                            : urun.Fiyat;
+
+                            <div class="product-layout">
+                                <div class="product-thumb">
+                                    <div class="image">
+                                        <div class="quickview-button">
+                                            <a class="btn btn-quickview" data-toggle="tooltip" data-tooltip-class="product-grid quickview-tooltip" data-placement="top" title="Quickview" onclick="quickview('@urun.Id')">
+                                                <span class="btn-text">Quickview</span>
+                                            </a>
+                                        </div>
+                                        <a href="@Url.Action("Index", "ProductDetails", new { id = urun.Id, adi = urun.Adi })" class="product-img">
+                                            <div>
+                                                <img src="@(photograph?.FotografBuyuk ?? "/WebUITheme/image/placeholder.png")"
+                                                alt="@urun.Adi"
+                                                title="@urun.Adi"
+                                                width="1200"
+                                                height="1800"
+                                                class="img-responsive img-first" />
+                                            </div>
+                                        </a>
+                                        @if (!stockAvailable)
+                                        {
+                                            if (ViewBag.OnlyInStock == true)
+                                            {
+                                                <div class="product-labels">
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="product-labels">
+                                                    <span class="product-label product-label-outofstock"><b>Stokta Yok</b></span>
+                                                </div>
+                                            }
+                                       
+                                        }
+                                        else if (urun.IndirimYuzdesi > 0)
+                                        {
+                                            <div class="product-labels">
+                                                <span class="product-label product-label-default"><b>-@urun.IndirimYuzdesi%</b></span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="caption">
+                                        <div class="stats">
+                                            <span class="stat-1">
+                                                <span class="stats-label">Marka:</span>
+                                                <span><a href="#">TILSIM BABY</a></span>
+                                            </span>
+                                            <span class="stat-2"><span class="stats-label">Stok Kodu:</span> <span>@($"TLSM{urun.Id:D7}")</span></span>
+                                        </div>
+                                        <div class="name">
+                                            <a href="@Url.Action("Index", "ProductDetails", new { id = urun.Id, adi = urun.Adi })">@urun.Adi</a>
+                                        </div>
+                                        <div class="description">@(urun.Aciklama?.Length > 100 ? urun.Aciklama.Substring(0, 100) + "..." : urun.Aciklama)</div>
+                                        <div class="price">
+                                            <div>
+                                                @if (urun.IndirimYuzdesi > 0)
+                                                {
+                                                    <span class="price-old">@urun.Fiyat TL</span>
+                                                    <span class="price-new">@(discountedPrice.HasValue ? Math.Round(discountedPrice.Value, 2) + " TL" : "")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="price-normal">@urun.Fiyat TL</span>
+                                                }
+                                            </div>
+                                            <span class="price-tax">Vergiler Hariç: @(Math.Round((urun.Fiyat ?? 0) / 1.1m, 2)) TL</span>
+                                        </div>
+                                        <div class="rating no-rating rating-hover">
+                                            <div class="rating-stars">
+                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="buttons-wrapper">
+                                            <div class="button-group">
+                                                <div class="cart-group">
+                                                    <div class="stepper">
+                                                        <input type="text" name="quantity" value="1" data-minimum="1" class="form-control" />
+                                                        <input type="hidden" name="product_id" value="@urun.Id" />
+                                                        <span>
+                                                            <i class="fa fa-angle-up"></i>
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </span>
+                                                    </div>
+                                                    <a class="btn btn-cart" onclick="cart.add('@urun.Id', $(this).closest('.product-thumb').find('.button-group input[name=\'quantity\']').val());"
+                                                       data-loading-text="<span class='btn-text'>Sepete Ekle</span>">
+                                                        <span class="btn-text">Sepete Ekle</span>
+                                                    </a>
+                                                </div>
+                                                <div class="wish-group">
+                                                    <a class="btn btn-wishlist" data-toggle="tooltip" data-tooltip-class="product-grid wishlist-tooltip" data-placement="top" title="Alışveriş Listeme Ekle" onclick="wishlist.add('@urun.Id')">
+                                                        <span class="btn-text">Alışveriş Listeme Ekle</span>
+                                                    </a>
+                                                    <a class="btn btn-compare" data-toggle="tooltip" data-tooltip-class="product-grid compare-tooltip" data-placement="top" title="Karşılaştırma listesine ekle" onclick="compare.add('@urun.Id')">
+                                                        <span class="btn-text">Karşılaştırma listesine ekle</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-center">Ürün bulunamadı.</p>
+                    }
+                </div>
+                <div class="row pagination-results">
+                    <div class="col-sm-6 text-left">
+                        <ul class="pagination">
+                            @if (currentPage > 1)
+                            {
+                                <li><a href="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, page = currentPage - 1, sort, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })">&lt;</a></li>
+                            }
+                            @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
+                            {
+                                <li class="@(i == currentPage ? "active" : "")">
+                                    @if (i == currentPage)
+                                    {
+                                        <span>@i</span>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, page = i, sort, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })">@i</a>
+                                    }
+                                </li>
+                            }
+                            @if (currentPage < totalPages)
+                            {
+                                <li><a href="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, page = currentPage + 1, sort, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })">&gt;</a></li>
+                                <li><a href="@Url.Action("Index", "Products", new { anaKategoriId, altKategoriId, page = totalPages, sort, birims = secilenBirimIds, minPrice, maxPrice, onlyInStock })">&gt;|</a></li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        Gösterilen: @((currentPage - 1) * pageSize + 1) ile @(Math.Min(currentPage * pageSize, totalItems)) arası, toplam: @totalItems (@totalPages Sayfa)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@section Script {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <script src="/path/to/common.js"></script>
+    <script src="/path/to/journal.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Grid/List view switching
+            $('#btn-grid-view').click(function () {
+                $('.main-products').removeClass('product-list').addClass('product-grid');
+                $(this).addClass('active');
+                $('#btn-list-view').removeClass('active');
+            });
+
+            $('#btn-list-view').click(function () {
+                $('.main-products').removeClass('product-grid').addClass('product-list');
+                $(this).addClass('active');
+                $('#btn-grid-view').removeClass('active');
+            });
+
+            // Filter form submits
+            $('.filter-price-min, .filter-price-max').on('change', function () {
+                $('#price-filter-form').submit();
+            });
+
+            $('#birim-filter-form input[type="checkbox"]').on('change', function () {
+                $('#birim-filter-form').submit();
+            });
+
+            $('#stok-filter-form input[type="checkbox"]').on('change', function () {
+                $('#stok-filter-form').submit();
+            });
+
+            // Pagination and sorting
+            $('#input-sort, #input-limit').on('change', function () {
+                window.location = $(this).val();
+            });
+
+            // Stepper (quantity increment/decrement)
+            $('.stepper .fa-angle-up').click(function () {
+                var input = $(this).closest('.stepper').find('input[name="quantity"]');
+                var val = parseInt(input.val()) || 1;
+                input.val(val + 1);
+            });
+
+            $('.stepper .fa-angle-down').click(function () {
+                var input = $(this).closest('.stepper').find('input[name="quantity"]');
+                var val = parseInt(input.val()) || 1;
+                if (val > 1) input.val(val - 1);
+            });
+        });
+
+        // Placeholder functions for cart, wishlist, compare, and quickview
+        var cart = {
+            add: function (productId, quantity) {
+                $.post('@Url.Action("Add", "Cart")', { productId: productId, quantity: quantity }, function () {
+                    alert('Ürün sepete eklendi: ' + productId + ', Adet: ' + quantity);
+                });
+            }
+        };
+
+        var wishlist = {
+            add: function (productId) {
+                $.post('@Url.Action("Add", "Wishlist")', { productId: productId }, function () {
+                    alert('Ürün istek listesine eklendi: ' + productId);
+                });
+            }
+        };
+
+        var compare = {
+            add: function (productId) {
+                $.post('@Url.Action("Add", "Compare")', { productId: productId }, function () {
+                    alert('Ürün karşılaştırma listesine eklendi: ' + productId);
+                });
+            }
+        };
+
+        var quickview = function (productId) {
+            $.get('@Url.Action("QuickView", "ProductDetails")', { id: productId }, function (data) {
+                // Assume a modal or similar for quick view
+                alert('Hızlı görünüm: ' + productId);
+            });
+        };
+    </script>
+}

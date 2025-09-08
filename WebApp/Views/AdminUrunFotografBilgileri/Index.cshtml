@@ -1,0 +1,380 @@
+﻿@{
+    ViewData["Title"] = "Ürün Medya Listesi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+    string baslik = "Ürün Medya Listesi - Kayıt Sayısı: 0";
+    if (ViewBag.FotografList != null || ViewBag.VideoList != null)
+    {
+        int totalCount = (ViewBag.FotografList?.Count ?? 0) + (ViewBag.VideoList?.Count ?? 0);
+        baslik = $"Ürün Medya Listesi - Kayıt Sayısı: {totalCount}";
+    }
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .btn-search {
+        background: #48bb78;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+    }
+
+        .btn-search:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+            color: white;
+        }
+
+    .btn-reset {
+        background: #e2e8f0;
+        color: #4a5568;
+        padding: 10px 20px;
+        border-radius: 8px;
+    }
+
+        .btn-reset:hover {
+            background: #cbd5e0;
+            transform: translateY(-2px);
+            color: #4a5568;
+            text-decoration: none;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-action-edit {
+        background: #48bb78;
+        color: white;
+    }
+
+        .btn-action-edit:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .content-text {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #4a5568;
+    }
+
+    .form-control-modern {
+        padding: 10px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        color: #000;
+    }
+
+        .form-control-modern:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+    .search-form {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .form-group-modern {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form-group-modern label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+    .media-preview {
+        max-width: 75px;
+        max-height: 75px;
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+    }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .content-text {
+        max-width: 100px;
+    }
+
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-modern, .btn-search, .btn-reset {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .form-group-modern {
+        width: 100%;
+    }
+
+    .media-preview {
+        max-width: 50px;
+        max-height: 50px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-camera"></i>
+                    <span>@baslik</span>
+                </div>
+                <div class="panel-content">
+                    <!-- Search Form -->
+                    <form action="/AdminUrunFotografBilgileri/Search" method="post" class="search-form">
+                        <div class="form-group-modern">
+                            <label>Ürün Adı</label>
+                            <input type="text" class="form-control-modern" name="adi" placeholder="Ürün adına göre ara" />
+                        </div>
+                        <button type="submit" class="btn-modern btn-search">
+                            <i class="fa fa-search"></i>
+                            <span>Bul</span>
+                        </button>
+                        <a class="btn-modern btn-reset" href="/AdminUrunFotografBilgileri/GetAllData">
+                            <i class="fa fa-list"></i>
+                            <span>Tümü</span>
+                        </a>
+                        <a class="btn-modern" href="/AdminUrunFotografBilgileriEkle/">
+                            <i class="fa fa-plus"></i>
+                            <span>Yeni Medya Ekle</span>
+                        </a>
+                    </form>
+
+                    @if ((ViewBag.FotografList != null && ViewBag.FotografList.Count > 0) || (ViewBag.VideoList != null && ViewBag.VideoList.Count > 0))
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün Adı</th>
+                                        <th>Medya</th>
+                                        <th>Renk</th>
+                                        <th>Tür</th>
+                                        <th style="text-align: center;">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.FotografList != null)
+                                    {
+                                        foreach (var item in ViewBag.FotografList)
+                                        {
+                                            <tr>
+                                                <td class="content-text">@(item.Urun?.Adi ?? "Ürün Bulunamadı")</td>
+                                                <td>
+                                                    <img src="@Url.Content(item.FotografKucuk)" alt="Fotoğraf" class="media-preview" />
+                                                </td>
+                                                <td class="content-text">@(item.Renk?.Adi ?? "Renk Seçilmedi")</td>
+                                                <td>Fotoğraf</td>
+                                                <td style="text-align: center;">
+                                    
+                                                    <a class="btn-action btn-action-delete" href="/AdminUrunFotografBilgileri/Sil/@item.Id"
+                                                       onclick="return confirm('Bu fotoğrafı silmek istediğinizden emin misiniz?');">
+                                                        <i class="fa fa-trash"></i>
+                                                        <span>Sil</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    @if (ViewBag.VideoList != null)
+                                    {
+                                        foreach (var item in ViewBag.VideoList)
+                                        {
+                                            <tr>
+                                                <td class="content-text">@(item.Urun?.Adi ?? "Ürün Bulunamadı")</td>
+                                                <td>
+                                                    <video class="media-preview" controls>
+                                                        <source src="@Url.Content(item.DosyaYolu)" type="video/mp4">
+                                                        Tarayıcınız video etiketini desteklemiyor.
+                                                    </video>
+                                                </td>
+                                                <td class="content-text">@(item.Renk?.Adi ?? "Renk Seçilmedi")</td>
+                                                <td>Video</td>
+                                                <td style="text-align: center;">
+                                              
+                                                    <a class="btn-action btn-action-delete" href="/AdminUrunFotografBilgileri/SilVideo/@item.Id"
+                                                       onclick="return confirm('Bu videoyu silmek istediğinizden emin misiniz?');">
+                                                        <i class="fa fa-trash"></i>
+                                                        <span>Sil</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-camera"></i>
+                            <h4>Henüz medya eklenmemiş</h4>
+                            <p>Yukarıdaki "Yeni Medya Ekle" butonunu kullanarak fotoğraf veya video ekleyebilirsiniz.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+}

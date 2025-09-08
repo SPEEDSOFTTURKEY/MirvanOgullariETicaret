@@ -1,0 +1,848 @@
+﻿@using System.Globalization
+@using Newtonsoft.Json
+@using WebApp.Models
+
+@{
+    ViewData["Title"] = "Pazarama Ürün Yönetimi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic" rel="stylesheet" type="text/css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" type="text/css">
+
+<style>
+    /* Existing styles remain unchanged */
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-modern:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-action-update {
+        background: #38a169;
+        color: white;
+    }
+
+        .btn-action-update:hover {
+            background: #2f855a;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(56, 161, 105, 0.3);
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .content-text {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #4a5568;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+        padding: 15px 20px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+        width: 100%;
+    }
+
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .content-text {
+        max-width: 150px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Pazarama Ürünleri</span>
+                    <button class="btn-modern" data-toggle="modal" data-target="#addProductModal">
+                        <i class="fas fa-plus"></i>
+                        <span>Ürün Ekle</span>
+                    </button>
+                </div>
+                <div class="panel-content">
+                    @if (ViewBag.Products != null && ViewBag.Products.Count > 0)
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün Adı</th>
+                                        <th>Kategori</th>
+                                        <th>Barkod</th>
+                                        <th>Fiyat</th>
+                                        <th>Stok</th>
+                                        <th>Durum</th>
+                                        <th style="text-align: center;">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in ViewBag.Products)
+                                    {
+                                        var pazaramaProduct = product as PazaramaProduct;
+                                        <tr>
+                                            <td class="content-text">@(pazaramaProduct?.Name ?? "Bilinmiyor")</td>
+                                            <td class="content-text">@(pazaramaProduct?.CategoryName ?? "Bilinmiyor")</td>
+                                            <td class="content-text">@(pazaramaProduct?.Code ?? "Bilinmiyor")</td>
+                                            <td class="content-text">@(pazaramaProduct != null ? pazaramaProduct.SalePrice.ToString("C", CultureInfo.GetCultureInfo("tr-TR")) : "0,00 ₺")</td>
+                                            <td class="content-text">@(pazaramaProduct?.StockCount.ToString() ?? "0")</td>
+                                            <td class="content-text">@(pazaramaProduct?.Status ?? "Bilinmiyor")</td>
+                                            <td style="text-align: center;">
+                                            
+                                                <button class="btn-action btn-action-update"
+                                                        style="background: #4299e1;"
+                                                        data-code="@(pazaramaProduct?.Code ?? "")"
+                                                        data-saleprice="@(pazaramaProduct?.SalePrice.ToString("F2", CultureInfo.InvariantCulture) ?? "0.00")"
+                                                        data-listprice="@(pazaramaProduct?.ListPrice.ToString("F2", CultureInfo.InvariantCulture) ?? "0.00")"
+                                                        onclick="updatePrice(this)">
+                                                    <i class="fas fa-tag"></i>
+                                                    <span>Fiyat Güncelle</span>
+                                                </button>
+                                                <button class="btn-action btn-action-update"
+                                                        style="background: #ed8936;"
+                                                        data-code="@(pazaramaProduct?.Code ?? "")"
+                                                        data-stockcount="@(pazaramaProduct?.StockCount ?? 0)"
+                                                        onclick="updateStock(this)">
+                                                    <i class="fas fa-cubes"></i>
+                                                    <span>Stok Güncelle</span>
+                                                </button>
+                                                <a class="btn-action btn-action-delete" href="/AdminPazarama/Sil/@(pazaramaProduct?.Code ?? "")?pazarYeriId=@ViewBag.PazarYeriId"
+                                                   onclick="return confirm('Bu ürünü silmek istediğinizden emin misiniz?');">
+                                                    <i class="fas fa-trash"></i>
+                                                    <span>Sil</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h4>Henüz ürün bulunamadı</h4>
+                            <p>Pazar yeri seçip ürünleri listeleyebilirsiniz.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Yeni Pazarama Ürün Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm" class="form-row">
+                        <input type="hidden" id="pazarYeriId" value="@ViewBag.PazarYeriId">
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_name">Ürün Adı</label>
+                            <input type="text" class="form-control" id="pazarama_name" name="pazarama_name" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_categoryId">Kategori</label>
+                            <select class="form-control" id="pazarama_categoryId" name="pazarama_categoryId" required>
+                                <option value="">Kategori Seçiniz</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_brandId">Marka</label>
+                            <select class="form-control" id="pazarama_brandId" name="pazarama_brandId" required>
+                                <option value="">Marka Seçiniz</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_description">Açıklama</label>
+                            <textarea class="form-control" id="pazarama_description" name="pazarama_description" style="height: 100px;"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_code">Barkod</label>
+                            <input type="text" class="form-control" id="pazarama_code" name="pazarama_code" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_stockCode">Stok Kodu</label>
+                            <input type="text" class="form-control" id="pazarama_stockCode" name="pazarama_stockCode" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_stockCount">Stok Miktarı</label>
+                            <input type="number" class="form-control" id="pazarama_stockCount" name="pazarama_stockCount" required min="0">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_salePrice">Satış Fiyatı</label>
+                            <input type="number" class="form-control" id="pazarama_salePrice" name="pazarama_salePrice" required min="0" step="0.01">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_listPrice">Liste Fiyatı</label>
+                            <input type="number" class="form-control" id="pazarama_listPrice" name="pazarama_listPrice" required min="0" step="0.01">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_vatRate">KDV Oranı</label>
+                            <select class="form-control" id="pazarama_vatRate" name="pazarama_vatRate" required>
+                                <option value="0">0%</option>
+                                <option value="1">1%</option>
+                                <option value="10">10%</option>
+                                <option value="20">20%</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_attributes">Özellikler (JSON)</label>
+                            <textarea class="form-control" id="pazarama_attributes" name="pazarama_attributes" placeholder='[{"id": 1, "value": "Özellik Değeri"}]' style="height: 100px;"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_images">Görseller (JSON)</label>
+                            <textarea class="form-control" id="pazarama_images" name="pazarama_images" placeholder='[{"url": "https://example.com/image.jpg"}]' style="height: 100px;"></textarea>
+                        </div>
+                        <div class="form-group col-12">
+                            <button type="submit" class="btn btn-modern">Ekle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Product Modal -->
+    <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="updateProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateProductModalLabel">Pazarama Ürün Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 24px;"></i>
+                    </div>
+                    <form id="updateProductForm" class="form-row">
+                        <input type="hidden" id="updateProductCode">
+                        <input type="hidden" id="updatePazarYeriId" value="@ViewBag.PazarYeriId">
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateName">Ürün Adı</label>
+                            <input type="text" class="form-control" id="pazarama_updateName" name="pazarama_updateName" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateCategoryId">Kategori</label>
+                            <select class="form-control" id="pazarama_updateCategoryId" name="pazarama_updateCategoryId" required>
+                                <option value="">Kategori Seçiniz</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateBrandId">Marka</label>
+                            <select class="form-control" id="pazarama_updateBrandId" name="pazarama_updateBrandId" required>
+                                <option value="">Marka Seçiniz</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateStockCode">Stok Kodu</label>
+                            <input type="text" class="form-control" id="pazarama_updateStockCode" name="pazarama_updateStockCode" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateStatus">Durum</label>
+                            <select class="form-control" id="pazarama_updateStatus" name="pazarama_updateStatus">
+                                <option value="Active">Aktif</option>
+                                <option value="Suspended">Pasif</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateStockCount">Stok Miktarı</label>
+                            <input type="number" class="form-control" id="pazarama_updateStockCount" name="pazarama_updateStockCount" min="0">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateSalePrice">Satış Fiyatı</label>
+                            <input type="number" class="form-control" id="pazarama_updateSalePrice" name="pazarama_updateSalePrice" min="0" step="0.01">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateListPrice">Liste Fiyatı</label>
+                            <input type="number" class="form-control" id="pazarama_updateListPrice" name="pazarama_updateListPrice" min="0" step="0.01">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateVatRate">KDV Oranı</label>
+                            <select class="form-control" id="pazarama_updateVatRate" name="pazarama_updateVatRate" required>
+                                <option value="0">0%</option>
+                                <option value="1">1%</option>
+                                <option value="10">10%</option>
+                                <option value="20">20%</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateDescription">Açıklama</label>
+                            <textarea class="form-control" id="pazarama_updateDescription" name="pazarama_updateDescription" style="height: 100px;"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateAttributes">Özellikler (JSON)</label>
+                            <textarea class="form-control" id="pazarama_updateAttributes" name="pazarama_updateAttributes" placeholder='[{"id": 1, "value": "Özellik Değeri"}]' style="height: 100px;"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pazarama_updateImages">Görseller (JSON)</label>
+                            <textarea class="form-control" id="pazarama_updateImages" name="pazarama_updateImages" placeholder='[{"url": "https://example.com/image.jpg"}]' style="height: 100px;"></textarea>
+                        </div>
+                        <div class="form-group col-12">
+                            <button type="submit" class="btn btn-modern" id="updateSubmitButton">Güncelle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Price Update Modal -->
+    <div class="modal fade" id="priceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="priceUpdateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="priceUpdateModalLabel">Fiyat Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="priceUpdateForm">
+                        <input type="hidden" id="priceUpdateCode">
+                        <div class="form-group">
+                            <label for="pazarama_newSalePrice">Yeni Satış Fiyatı</label>
+                            <input type="number" class="form-control" id="pazarama_newSalePrice" name="pazarama_newSalePrice" required min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="pazarama_newListPrice">Yeni Liste Fiyatı</label>
+                            <input type="number" class="form-control" id="pazarama_newListPrice" name="pazarama_newListPrice" required min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-modern">Güncelle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock Update Modal -->
+    <div class="modal fade" id="stockUpdateModal" tabindex="-1" role="dialog" aria-labelledby="stockUpdateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="stockUpdateModalLabel">Stok Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="stockUpdateForm">
+                        <input type="hidden" id="stockUpdateCode">
+                        <div class="form-group">
+                            <label for="pazarama_newStockCount">Yeni Stok Miktarı</label>
+                            <input type="number" class="form-control" id="pazarama_newStockCount" name="pazarama_newStockCount" required min="0">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-modern">Güncelle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        // Define global functions
+        window.openUpdateModal = function (button) {
+            var $button = $(button);
+            try {
+                $('#updateProductCode').val(sanitizeInput($button.data('code')));
+                $('#pazarama_updateName').val(sanitizeInput($button.data('name')));
+                $('#pazarama_updateStockCode').val(sanitizeInput($button.data('stockcode')));
+                $('#pazarama_updateStatus').val($button.data('status') || 'Active');
+                $('#pazarama_updateStockCount').val(parseInt($button.data('stockcount')) || 0);
+                $('#pazarama_updateSalePrice').val(parseFloat($button.data('saleprice')).toFixed(2) || '0.00');
+                $('#pazarama_updateListPrice').val(parseFloat($button.data('listprice')).toFixed(2) || '0.00');
+                $('#pazarama_updateVatRate').val(parseInt($button.data('vatrate')) || 0);
+                $('#pazarama_updateDescription').val(sanitizeInput($button.data('description')) || '');
+                $('#pazarama_updateAttributes').val($button.data('attributes') || '[]');
+                $('#pazarama_updateImages').val($button.data('images') || '[]');
+                $('#updateProductModal').modal('show');
+            } catch (e) {
+                alert('Hata: Ürün verileri yüklenirken bir sorun oluştu.');
+                console.error('Update modal error:', e);
+            }
+        };
+
+        window.updatePrice = function (button) {
+            var $button = $(button);
+            $('#priceUpdateCode').val($button.data('code'));
+            $('#pazarama_newSalePrice').val(parseFloat($button.data('saleprice')).toFixed(2));
+            $('#pazarama_newListPrice').val(parseFloat($button.data('listprice')).toFixed(2));
+            $('#priceUpdateModal').modal('show');
+        };
+
+        window.updateStock = function (button) {
+            var $button = $(button);
+            $('#stockUpdateCode').val($button.data('code'));
+            $('#pazarama_newStockCount').val(parseInt($button.data('stockcount')) || 0);
+            $('#stockUpdateModal').modal('show');
+        };
+
+        $(document).ready(function () {
+            // Utility function to sanitize input
+            function sanitizeInput(value) {
+                return typeof value === 'string' ? value.replace(/[<>"'&]/g, function (match) {
+                    return { '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '&': '&amp;' }[match];
+                }) : value;
+            }
+
+            // Initialize DataTable
+            if ($.fn.DataTable && $('#TblVeriler').length && @ViewBag.Products?.Count > 0) {
+                try {
+                    $('#TblVeriler').DataTable({
+                        language: { url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json" },
+                        pageLength: 10,
+                        order: [[0, "desc"]],
+                        responsive: true,
+                        bDestroy: true
+                    });
+                } catch (e) {
+                    console.error("DataTable initialization error:", e);
+                }
+            }
+
+            // Load categories and brands
+            function loadSelectOptions(url, selector, type, selectedId = null) {
+                console.log(`Loading ${type} from: ${url}`);
+                return $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (response) {
+                        console.log(`${type} response:`, response);
+                        var $select = $(selector);
+                        $select.empty().append(`<option value="">${type} Seçiniz</option>`);
+                        if (response.success && response[type.toLowerCase() + 's']) {
+                            response[type.toLowerCase() + 's'].forEach(item => {
+                                var option = $('<option>').val(item.id).text(item.name);
+                                if (selectedId && item.id == selectedId) option.prop('selected', true);
+                                $select.append(option);
+                            });
+                        } else {
+                            console.error(`${type} yüklenemedi:`, response.message || 'Bilinmeyen hata');
+                            alert(`${type} yüklenemedi: ${response.message || 'Bilinmeyen hata'}`);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(`${type} AJAX error:`, { status, error, xhr });
+                        alert(`${type} yüklenemedi: ${error}`);
+                    }
+                });
+            }
+
+            // Load categories and brands for modals
+            $('#addProductModal, #updateProductModal').on('show.bs.modal', function (e) {
+                var pazarYeriId = $('#pazarYeriId, #updatePazarYeriId').val() || '@ViewBag.PazarYeriId';
+                if (!pazarYeriId) {
+                    console.error('pazarYeriId is undefined');
+                    alert('Pazar yeri ID bulunamadı.');
+                    return;
+                }
+                var $modal = $(this);
+                var isUpdate = $modal.attr('id') === 'updateProductModal';
+                var categorySelector = isUpdate ? '#pazarama_updateCategoryId' : '#pazarama_categoryId';
+                var brandSelector = isUpdate ? '#pazarama_updateBrandId' : '#pazarama_brandId';
+                var selectedCategoryId = isUpdate ? $(e.relatedTarget).data('categoryid') : null;
+                var selectedBrandId = isUpdate ? $(e.relatedTarget).data('brandid') : null;
+
+                if (isUpdate) $('#loadingOverlay').show();
+                $.when(
+                    loadSelectOptions(`/AdminPazarama/GetPazaramaCategories?pazarYeriId=${pazarYeriId}`, categorySelector, 'Kategori', selectedCategoryId),
+                    loadSelectOptions(`/AdminPazarama/GetPazaramaBrands?pazarYeriId=${pazarYeriId}`, brandSelector, 'Marka', selectedBrandId)
+                ).always(() => {
+                    if (isUpdate) {
+                        $('#loadingOverlay').hide();
+                        $('#updateSubmitButton').prop('disabled', false);
+                    }
+                });
+
+                if (!isUpdate) $modal.find('form')[0].reset();
+            });
+
+            // Add product form submission
+            $('#addProductForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = $('#pazarYeriId').val();
+                if (!pazarYeriId || !$('#pazarama_name').val() || !$('#pazarama_categoryId').val() ||
+                    !$('#pazarama_brandId').val() || !$('#pazarama_code').val() ||
+                    !$('#pazarama_stockCode').val() || !$('#pazarama_stockCount').val() ||
+                    !$('#pazarama_salePrice').val() || !$('#pazarama_listPrice').val() ||
+                    !$('#pazarama_vatRate').val()) {
+                    alert('Lütfen tüm zorunlu alanları doldurun.');
+                    return;
+                }
+
+                var attributes = [], images = [];
+                try {
+                    if ($('#pazarama_attributes').val()) attributes = JSON.parse($('#pazarama_attributes').val());
+                    if ($('#pazarama_images').val()) images = JSON.parse($('#pazarama_images').val());
+                } catch (e) {
+                    console.error('JSON parse error:', e);
+                    alert('Özellikler veya görseller geçerli JSON formatında olmalıdır.');
+                    return;
+                }
+
+                var productData = {
+                    code: sanitizeInput($('#pazarama_code').val()),
+                    name: sanitizeInput($('#pazarama_name').val()),
+                    categoryId: $('#pazarama_categoryId').val(),
+                    brandId: $('#pazarama_brandId').val(),
+                    description: sanitizeInput($('#pazarama_description').val()) || null,
+                    stockCode: sanitizeInput($('#pazarama_stockCode').val()),
+                    stockCount: parseInt($('#pazarama_stockCount').val()) || 0,
+                    salePrice: parseFloat($('#pazarama_salePrice').val()) || 0,
+                    listPrice: parseFloat($('#pazarama_listPrice').val()) || 0,
+                    vatRate: parseInt($('#pazarama_vatRate').val()) || 0,
+                    attributes: attributes,
+                    images: images,
+                    status: "Active"
+                };
+
+                console.log('Adding product:', productData);
+
+                $.ajax({
+                    url: `/AdminPazarama/AddPazaramaProduct?pazarYeriId=${pazarYeriId}`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    success: function (response) {
+                        console.log('Add product response:', response);
+                        alert(response.success ? `Ürün başarıyla eklendi: ${response.message}` : `Hata: ${response.message}`);
+                        if (response.success) {
+                            $('#addProductModal').modal('hide');
+                            location.reload();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Add product error:', { xhr, status, error });
+                        alert(`Hata: ${xhr.responseText || error}`);
+                    }
+                });
+            });
+
+            // Update product form submission
+            $('#updateProductForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = $('#updatePazarYeriId').val();
+                if (!pazarYeriId || !$('#pazarama_updateName').val() || !$('#pazarama_updateCategoryId').val() ||
+                    !$('#pazarama_updateBrandId').val() || !$('#pazarama_updateStockCode').val() ||
+                    !$('#pazarama_updateVatRate').val()) {
+                    alert('Lütfen tüm zorunlu alanları doldurun.');
+                    return;
+                }
+
+                var attributes = [], images = [];
+                try {
+                    if ($('#pazarama_updateAttributes').val()) attributes = JSON.parse($('#pazarama_updateAttributes').val());
+                    if ($('#pazarama_updateImages').val()) images = JSON.parse($('#pazarama_updateImages').val());
+                } catch (e) {
+                    console.error('JSON parse error:', e);
+                    alert('Özellikler veya görseller geçerli JSON formatında olmalıdır.');
+                    return;
+                }
+
+                var productData = {
+                    code: sanitizeInput($('#updateProductCode').val()),
+                    name: sanitizeInput($('#pazarama_updateName').val()),
+                    categoryId: $('#pazarama_updateCategoryId').val(),
+                    brandId: $('#pazarama_updateBrandId').val(),
+                    stockCode: sanitizeInput($('#pazarama_updateStockCode').val()),
+                    status: $('#pazarama_updateStatus').val() || "Active",
+                    stockCount: parseInt($('#pazarama_updateStockCount').val()) || 0,
+                    salePrice: parseFloat($('#pazarama_updateSalePrice').val()) || 0,
+                    listPrice: parseFloat($('#pazarama_updateListPrice').val()) || 0,
+                    vatRate: parseInt($('#pazarama_updateVatRate').val()) || 0,
+                    description: sanitizeInput($('#pazarama_updateDescription').val()) || null,
+                    attributes: attributes,
+                    images: images
+                };
+
+                console.log('Updating product:', productData);
+
+                $.ajax({
+                    url: `/AdminPazarama/AddPazaramaProduct?pazarYeriId=${pazarYeriId}`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    beforeSend: function () {
+                        $('#updateSubmitButton').prop('disabled', true).text('Güncelleniyor...');
+                    },
+                    success: function (response) {
+                        console.log('Update product response:', response);
+                        alert(response.success ? `Ürün başarıyla güncellendi: ${response.message}` : `Hata: ${response.message}`);
+                        if (response.success) {
+                            $('#updateProductModal').modal('hide');
+                            location.reload();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Update product error:', { xhr, status, error });
+                        alert(`Hata: ${xhr.responseText || error}`);
+                    },
+                    complete: function () {
+                        $('#updateSubmitButton').prop('disabled', false).text('Güncelle');
+                    }
+                });
+            });
+
+            // Price update form submission
+            $('#priceUpdateForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = '@ViewBag.PazarYeriId';
+                var code = $('#priceUpdateCode').val();
+                var newSalePrice = parseFloat($('#pazarama_newSalePrice').val()) || 0;
+                var newListPrice = parseFloat($('#pazarama_newListPrice').val()) || 0;
+
+                if (!code || newSalePrice <= 0 || newListPrice <= 0) {
+                    alert('Lütfen geçerli fiyat bilgileri girin.');
+                    return;
+                }
+
+                var priceUpdate = [{ code: code, salePrice: newSalePrice, listPrice: newListPrice }];
+
+                console.log('Updating price:', priceUpdate);
+
+                $.ajax({
+                    url: `/AdminPazarama/UpdatePazaramaPrice?pazarYeriId=${pazarYeriId}`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(priceUpdate),
+                    success: function (response) {
+                        console.log('Update price response:', response);
+                        alert(response.success ? 'Fiyat başarıyla güncellendi!' : `Hata: ${response.message || 'Fiyat güncellenemedi'}`);
+                        if (response.success) {
+                            $('#priceUpdateModal').modal('hide');
+                            location.reload();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Update price error:', { xhr, status, error });
+                        alert(`Hata: ${xhr.responseText || error}`);
+                    }
+                });
+            });
+
+            // Stock update form submission
+            $('#stockUpdateForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = '@ViewBag.PazarYeriId';
+                var code = $('#stockUpdateCode').val();
+                var newStock = parseInt($('#pazarama_newStockCount').val()) || 0;
+
+                if (!code || newStock < 0) {
+                    alert('Lütfen geçerli stok miktarı girin.');
+                    return;
+                }
+
+                var stockUpdate = [{ code: code, stockCount: newStock }];
+
+                console.log('Updating stock:', stockUpdate);
+
+                $.ajax({
+                    url: `/AdminPazarama/UpdatePazaramaStock?pazarYeriId=${pazarYeriId}`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(stockUpdate),
+                    success: function (response) {
+                        console.log('Update stock response:', response);
+                        alert(response.success ? 'Stok başarıyla güncellendi!' : `Hata: ${response.message || 'Stok güncellenemedi'}`);
+                        if (response.success) {
+                            $('#stockUpdateModal').modal('hide');
+                            location.reload();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Update stock error:', { xhr, status, error });
+                        alert(`Hata: ${xhr.responseText || error}`);
+                    }
+                });
+            });
+        });
+    </script>
+}

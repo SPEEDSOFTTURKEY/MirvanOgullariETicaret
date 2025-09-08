@@ -1,0 +1,27 @@
+﻿.marquee {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+}
+
+.marquee__content {
+    display: flex;
+    animation: marquee 55s linear infinite;
+    white-space: nowrap;
+}
+
+.marquee__item {
+    flex-shrink: 0;
+    margin-right: 100px;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+

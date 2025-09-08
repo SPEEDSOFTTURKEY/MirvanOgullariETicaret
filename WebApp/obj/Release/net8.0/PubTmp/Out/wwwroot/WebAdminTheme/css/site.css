@@ -1,0 +1,120 @@
+﻿
+/* General container styling */
+.container {
+    margin-top: 20px;
+}
+
+/* Table styling */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-collapse: collapse;
+}
+
+    .table th,
+    .table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+/* Button styling */
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        border-color: #d39e00;
+    }
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+
+/* Modal styling */
+.modal-content {
+    border-radius: 0.3rem;
+}
+
+.modal-header {
+    background-color: #007bff;
+    color: white;
+}
+
+    .modal-header .close {
+        color: white;
+        opacity: 1;
+    }
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+.form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+}
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+
+    .modal-dialog {
+        max-width: 90%;
+    }
+}
+
+

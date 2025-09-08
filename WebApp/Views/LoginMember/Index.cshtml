@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+    <li><a href="@Url.Action("Index","Login")">Oturum Aç</a></li>
+</ul>
+<h1 class="title page-title"><span>Oturum Aç</span></h1>
+<div id="account-login" class="container">
+    <div class="row">
+        <div id="content" class="col-sm-12">
+            <div class="row login-box">
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h2 class="title">Yeni Müşteriyim</h2>
+                        <p><strong>Hesap Oluştur</strong></p>
+                        <p>Hızlı ve güvenli bir alışveriş için yeni bir hesap oluşturun. Böylece sipariş durumunuzu takip edebilir ve önceki siparişlerinize göz atabilirsiniz.</p>
+                        <div class="buttons">
+                            <div class="pull-right">
+                                <a href="@Url.Action("Index","CreateAccount")" class="btn btn-primary">Devam</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h2 class="title">Kayıtlı Müşteriyim</h2>
+                        <p><strong>Daha önce kayıt oldum.</strong></p>
+                        <form class="bg0 p-t-75" action="/LoginMember/Login" method="post">
+
+                            <div class="form-group">
+                                <label class="control-label" for="input-email">E-Posta Adresi</label>
+                                <input type="text" name="EMail" value="" placeholder="E-Posta Adresi" id="input-email" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="input-password">Parola</label>
+                                <input type="password" name="Sifre" value="" placeholder="Parola" id="input-password" class="form-control" />
+                                <div><a href="@Url.Action("Index","ForgotPassword")" target="_top">Parolamı Unuttum</a></div>
+                            </div>
+                            <div class="buttons">
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-primary" data-loading-text="<span>Oturum Aç</span>"><span>Oturum Aç</span></button>
+                                </div>
+                            </div>
+                            <input type="hidden" name="redirect" value="@Url.Action("Index","Orders")" />
+                        </form>
+                    </div>
+                </div>

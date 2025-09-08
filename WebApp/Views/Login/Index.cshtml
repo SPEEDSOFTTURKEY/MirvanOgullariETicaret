@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="keyword" content="">
+	<link rel="shortcut icon" href="img/favicon.png">
+	<title>YÖNETİM PANELİ</title>
+	<!-- Bootstrap core CSS -->
+	<link href="/WebAdminTheme/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/WebAdminTheme/css/bootstrap-reset.css" rel="stylesheet">
+	<!--external css-->
+	<link href="/WebAdminTheme/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+	<!-- Custom styles for this template -->
+	<link href="/WebAdminTheme/css/style.css" rel="stylesheet">
+	<link href="/WebAdminTheme/css/style-responsive.css" rel="stylesheet" />
+	<script src="~/WebAdminTheme/js/jquery-1.8.3.min.js"></script>
+	<script src="~/WebAdminTheme/js/bootstrap.min.js"></script>
+</head>
+<body class="lock-screen" onload="startTime()">
+
+	<div class="lock-wrapper" style="margin-top:0px">
+		<div id="time-container">
+			<div id="date"><i class="fas fa-calendar-alt"></i> <span id="dateText"></span></div>
+			<div id="clock"><i class="fas fa-clock"></i> <span id="clockText"></span></div>
+		</div>
+		<div id="time"></div>
+		<div class="lock-box text-center">
+
+			<img src="/WebAdminTheme/img/admin-avatar.png" alt="lock avatar" style=" width: 75px; height:75px; background-color: white;" />
+			<h1>YÖNETİM PANELİ</h1>
+			<form role="form" class="form-inline" action="#">
+				<div class="form-group col-lg-12 text-center align-content-center justify-content-center">
+					<div class="form-group col-lg-12">
+						<input name="KullaniciAdi" type="text" id="KullaniciAdi" class="form-control" placeholder="Kullanıcı Adınız*" style="color:#000">
+					</div>
+					<br />
+					<br />
+					<div class="form-group col-lg-12">
+						<input name="Sifre" type="password" id="Sifre" class="form-control" placeholder="Şifreniz*" style="color:#000">
+					</div>
+					<br />
+					<br />
+					<div class="form-group col-lg-12 d-flex justify-content-center gap-3 mt-3">
+						<button class="btn btn-primary btn-block w-50" id="btnGiris" type="button">
+							Tamam <i class="icon-login"></i>
+						</button>
+						<a href="@Url.Action("Index", "Home")" class="btn btn-danger btn-block w-50 text-white text-center">
+							<i class="icon-off"></i> Çıkış
+						</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalLoading" class="modal fade">
+		<div class="modal-dialog">
+			<div class="col-md-12 text-center">
+				<img src="~/WebAdminTheme/img/loading-buffering.gif" class="text-center" />
+			</div>
+		</div>
+	</div>
+	<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalMesaj" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><i class="icon-warning-sign" style="padding-right:5px"></i>Uyarı</h4>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<p style="color:#ff0000;font-size:14px;font-weight:bold" id="MesajMetin"></p>
+					</div>
+					<small style="font-size: 12px; color: #666; text-align:center;">
+						💬 <a href="https://wa.me/905063664643" target="_blank" style="color: #25D366; text-decoration: none;">WhatsApp ile mesaj gönder</a>
+						📞 <a href="tel:+905063664643" style="color: #007bff; text-decoration: none;">+90 555 111 22 33</a>
+						🌐 <a href="https://https://speedsoft.com.tr/" target="_blank" style="color: #007bff; text-decoration: none;">speedsoft.com.tr</a>
+					</small>
+				</div>
+				<div class="modal-footer d-flex flex-column align-items-center" style="text-align: center;">
+
+					<button type="button" data-dismiss="modal" class="btn btn-danger mb-2" id="btnKaydetTamam">Tamam</button><br />
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- Font Awesome -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
+	<style>
+		#time-container {
+			margin-top: 30px;
+			text-align: center;
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(10px);
+			border-radius: 20px;
+			padding: 20px 40px;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+			display: inline-block;
+		}
+
+		#date {
+			font-size: 24px;
+			font-weight: bold;
+			background: #fff;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+
+		#clock {
+			font-size: 42px;
+			font-weight: bold;
+			margin-top: 10px;
+			background: #fff;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+	</style>
+
+	<script>
+		function startTime() {
+			var today = new Date();
+			var h = today.getHours();
+			var m = today.getMinutes();
+			var s = today.getSeconds();
+			var d = today.getDate();
+			var mo = today.getMonth() + 1;
+			var y = today.getFullYear();
+			var days = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+			var gun = days[today.getDay()];
+
+			m = checkTime(m);
+			s = checkTime(s);
+			d = checkTime(d);
+			mo = checkTime(mo);
+
+			document.getElementById('dateText').innerHTML = `${gun}, ${d}.${mo}.${y}`;
+			document.getElementById('clockText').innerHTML = `${h}:${m}:${s}`;
+			setTimeout(startTime, 500);
+		}
+
+		function checkTime(i) {
+			return (i < 10) ? "0" + i : i;
+		}
+
+		window.onload = startTime;
+	</script>
+
+
+
+
+	<script type="text/javascript">
+		$(document).ready(function ()
+		{
+			$("#Sifre").on("keypress", function (e) {
+				if (e.which == 13) {
+					$("#btnGiris").click();
+				}
+
+			});
+
+
+
+			$("#btnGiris").click(function ()
+			{
+				$("#ModalLoading").modal("show");
+
+
+				var Kullanici = $("#KullaniciAdi").val();
+				var Sifre = $("#Sifre").val();
+				$.ajax({
+					type: "POST",
+					url: "/Login/Giris",
+					data: { KullaniciAdi: Kullanici, Sifre: Sifre },
+					success: function (event)
+					{
+						if (event.sonuc == true)
+						{
+							window.location.href = "@Url.Action("Index", "AdminAnaSayfa")";
+						}
+						else
+						{
+							$("#ModalLoading").modal("hide");
+							$("#MesajMetin").text(event.mesaj);
+							$("#ModalMesaj").modal("show");
+						}
+					},
+
+					error: function (err) { }
+				})
+			});
+		});
+	</script>
+</body>
+</html>

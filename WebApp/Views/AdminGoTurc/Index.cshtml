@@ -1,0 +1,991 @@
+﻿@using System.Globalization
+@using WebApp.Models
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "GoTurc Ürünleri Yönetimi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        position: relative;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-action-update {
+        background: #38a169;
+        color: white;
+    }
+
+        .btn-action-update:hover {
+            background: #2f855a;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(56, 161, 105, 0.3);
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .content-text {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #4a5568;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+        padding: 15px 20px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+        width: 100%;
+    }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .content-text {
+        max-width: 150px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>GoTurc Ürünleri</span>
+                    <button class="btn-modern" data-toggle="modal" data-target="#addProductModal">
+                        <i class="fa fa-plus"></i>
+                        <span>Ürün Ekle</span>
+                    </button>
+                </div>
+                <div class="panel-content">
+                    @if (ViewBag.Products != null && ViewBag.Products.Count > 0)
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün Adı</th>
+                                        <th>Mağaza Kodu</th>
+                                        <th>Kategori</th>
+                                        <th>Marka</th>
+                                        <th>Fiyat</th>
+                                        <th>Stok</th>
+                                        <th>Durum</th>
+                                        <th style="text-align: center;">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in ViewBag.Products)
+                                    {
+                                        var goTurcProduct = product as GoTurcProduct;
+                                        var categories = ViewBag.Categories as List<GoTurcCategory>;
+                                        var brands = ViewBag.Brands as List<GoTurcBrand>;
+
+                                        var category = categories?.FirstOrDefault(c => c.Id == goTurcProduct.CategoryId);
+                                        var brand = brands?.FirstOrDefault(b => b.Id == goTurcProduct.BrandId);
+
+                                        <tr data-product='@JsonConvert.SerializeObject(goTurcProduct)'>
+                                            <td class="content-text">@goTurcProduct.Title</td>
+                                            <td class="content-text">@goTurcProduct.ShopProductCode</td>
+                                            <td class="content-text">@(category?.Name ?? "Bilinmiyor")</td>
+                                            <td class="content-text">@(brand?.Name ?? "Bilinmiyor")</td>
+                                            <td class="content-text">@goTurcProduct.Price.ToString("C", CultureInfo.GetCultureInfo("tr-TR"))</td>
+                                            <td class="content-text">@goTurcProduct.StockQuantity</td>
+                                            <td class="content-text">@goTurcProduct.Status</td>
+                                            <td style="text-align: center;">
+                                                <button class="btn-action btn-action-update" onclick="openUpdateModal('@goTurcProduct.ShopProductCode', this)">
+                                                    <i class="fa fa-edit"></i>
+                                                    <span>Güncelle</span>
+                                                </button>
+                                                <button class="btn-action btn-action-update" onclick="openStockPriceUpdateModal('@goTurcProduct.ShopProductCode', this)">
+                                                    <i class="fa fa-dollar-sign"></i>
+                                                    <span>Stok/Fiyat</span>
+                                                </button>
+                                                <a class="btn-action btn-action-delete" href="/AdminGoTurc/DeleteGoTurcProduct?shopProductCode=@goTurcProduct.ShopProductCode&pazarYeriId=@ViewBag.PazarYeriId"
+                                                   onclick="return confirm('Bu ürünü silmek istediğinizden emin misiniz?');">
+                                                    <i class="fa fa-trash"></i>
+                                                    <span>Sil</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-shopping-cart"></i>
+                            <h4>Henüz ürün bulunamadı</h4>
+                            <p>Ürün eklemek için "Ürün Ekle" butonunu kullanabilirsiniz.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Yeni Ürün Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_title">Ürün Başlığı</label>
+                                    <input type="text" class="form-control" id="gt_title" name="Title" maxlength="65" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_subTitle">Ürün Alt Başlığı</label>
+                                    <input type="text" class="form-control" id="gt_subTitle" name="SubTitle" maxlength="65">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_shopProductCode">Mağaza Ürün Kodu</label>
+                                    <input type="text" class="form-control" id="gt_shopProductCode" name="ShopProductCode" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_categoryId">Kategori</label>
+                                    <select class="form-control" id="gt_categoryId" name="CategoryId" required>
+                                        <option value="">Kategori Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_brandId">Marka</label>
+                                    <select class="form-control" id="gt_brandId" name="BrandId" required>
+                                        <option value="">Marka Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_deliveryNo">Teslimat Şablonu</label>
+                                    <select class="form-control" id="gt_deliveryNo" name="DeliveryNo" required>
+                                        <option value="">Teslimat Şablonu Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_price">Fiyat (TRY)</label>
+                                    <input type="number" class="form-control" id="gt_price" name="Price" step="0.01" min="0" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_stockQuantity">Stok Miktarı</label>
+                                    <input type="number" class="form-control" id="gt_stockQuantity" name="StockQuantity" min="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_imageUrl">Görsel URL</label>
+                                    <input type="text" class="form-control" id="gt_imageUrl" name="ImageUrl">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_isDomesticProduction">Yerli Üretim</label>
+                                    <input type="checkbox" id="gt_isDomesticProduction" name="IsDomesticProduction" checked>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_productionDate">Üretim Tarihi</label>
+                                    <input type="datetime-local" class="form-control" id="gt_productionDate" name="ProductionDate">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_expirationDate">Son Kullanım Tarihi</label>
+                                    <input type="datetime-local" class="form-control" id="gt_expirationDate" name="ExpirationDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_discountType">İndirim Türü</label>
+                                    <input type="number" class="form-control" id="gt_discountType" name="DiscountType" min="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_discountAmount">İndirim Miktarı</label>
+                                    <input type="number" class="form-control" id="gt_discountAmount" name="DiscountAmount" step="0.01" min="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_discountStartDate">İndirim Başlangıç Tarihi</label>
+                                    <input type="datetime-local" class="form-control" id="gt_discountStartDate" name="DiscountStartDate">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_discountEndDate">İndirim Bitiş Tarihi</label>
+                                    <input type="datetime-local" class="form-control" id="gt_discountEndDate" name="DiscountEndDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_maxCustomerQuantity">Maksimum Müşteri Miktarı</label>
+                                    <input type="number" class="form-control" id="gt_maxCustomerQuantity" name="MaxCustomerQuantity" min="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gt_descriptionHTML">Açıklama (HTML)</label>
+                            <textarea class="form-control" id="gt_descriptionHTML" name="DescriptionHTML"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="gt_deliveryDescription">Teslimat Açıklaması</label>
+                            <textarea class="form-control" id="gt_deliveryDescription" name="DeliveryDescription"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="gt_returnExchangeInformation">İade/Değişim Bilgisi</label>
+                            <textarea class="form-control" id="gt_returnExchangeInformation" name="ReturnExchangeInformation"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="gt_afterSalesService">Satış Sonrası Hizmet</label>
+                            <textarea class="form-control" id="gt_afterSalesService" name="AfterSalesService"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-modern">Ekle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Product Modal -->
+    <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="updateProductModalLabel" aria
+         -hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateProductModalLabel">Ürün Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateProductForm">
+                        <input type="hidden" id="gt_updateShopProductCode" name="ShopProductCode">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateTitle">Ürün Başlığı</label>
+                                    <input type="text" class="form-control" id="gt_updateTitle" name="Title" maxlength="65" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateSubTitle">Ürün Alt Başlığı</label>
+                                    <input type="text" class="form-control" id="gt_updateSubTitle" name="SubTitle" maxlength="65">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateCategoryId">Kategori</label>
+                                    <select class="form-control" id="gt_updateCategoryId" name="CategoryId" required>
+                                        <option value="">Kategori Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateBrandId">Marka</label>
+                                    <select class="form-control" id="gt_updateBrandId" name="BrandId" required>
+                                        <option value="">Marka Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateDeliveryNo">Teslimat Şablonu</label>
+                                    <select class="form-control" id="gt_updateDeliveryNo" name="DeliveryNo" required>
+                                        <option value="">Teslimat Şablonu Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updatePrice">Fiyat (TRY)</label>
+                                    <input type="number" class="form-control" id="gt_updatePrice" name="Price" step="0.01" min="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateStockQuantity">Stok Miktarı</label>
+                                    <input type="number" class="form-control" id="gt_updateStockQuantity" name="StockQuantity" min="0" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateImageUrl">Görsel URL</label>
+                                    <input type="text" class="form-control" id="gt_updateImageUrl" name="ImageUrl">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateIsDomesticProduction">Yerli Üretim</label>
+                                    <input type="checkbox" id="gt_updateIsDomesticProduction" name="IsDomesticProduction">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateProductionDate">Üretim Tarihi</label>
+                                    <input type="datetime-local" class="form-control" id="gt_updateProductionDate" name="ProductionDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateExpirationDate">Son Kullanım Tarihi</label>
+                                    <input type="datetime-local" class="form-control" id="gt_updateExpirationDate" name="ExpirationDate">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateDiscountType">İndirim Türü</label>
+                                    <input type="number" class="form-control" id="gt_updateDiscountType" name="DiscountType" min="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateDiscountAmount">İndirim Miktarı</label>
+                                    <input type="number" class="form-control" id="gt_updateDiscountAmount" name="DiscountAmount" step="0.01" min="0">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateDiscountStartDate">İndirim Başlangıç Tarihi</label>
+                                    <input type="datetime-local" class="form-control" id="gt_updateDiscountStartDate" name="DiscountStartDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateDiscountEndDate">İndirim Bitiş Tarihi</label>
+                                    <input type="datetime-local" class="form-control" id="gt_updateDiscountEndDate" name="DiscountEndDate">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gt_updateMaxCustomerQuantity">Maksimum Müşteri Miktarı</label>
+                                    <input type="number" class="form-control" id="gt_updateMaxCustomerQuantity" name="MaxCustomerQuantity" min="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gt_updateDescriptionHTML">Açıklama (HTML)</label>
+                            <textarea class="form-control" id="gt_updateDescriptionHTML" name="DescriptionHTML"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="gt_updateDeliveryDescription">Teslimat Açıklaması</label>
+                            <textarea class="form-control" id="gt_updateDeliveryDescription" name="DeliveryDescription"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="gt_updateReturnExchangeInformation">İade/Değişim Bilgisi</label>
+                            <textarea class="form-control" id="gt_updateReturnExchangeInformation" name="ReturnExchangeInformation"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="gt_updateAfterSalesService">Satış Sonrası Hizmet</label>
+                            <textarea class="form-control" id="gt_updateAfterSalesService" name="AfterSalesService"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-modern">Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock and Price Update Modal -->
+    <div class="modal fade" id="updateStockPriceModal" tabindex="-1" role="dialog" aria-labelledby="updateStockPriceModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateStockPriceModalLabel">Stok ve Fiyat Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateStockPriceForm">
+                        <input type="hidden" id="gt_updateStockPriceShopProductCode" name="ShopProductCode">
+                        <div class="form-group">
+                            <label for="gt_updateStockPricePrice">Fiyat (TRY)</label>
+                            <input type="number" class="form-control" id="gt_updateStockPricePrice" name="Price" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gt_updateStockPriceQuantity">Stok Miktarı</label>
+                            <input type="number" class="form-control" id="gt_updateStockPriceQuantity" name="Quantity" min="0" required>
+                        </div>
+                        <button type="submit" class="btn btn-modern">Güncelle</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            if ($.fn.DataTable && $('#TblVeriler').length > 0) {
+                $('#TblVeriler').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                    },
+                    "pageLength": 10,
+                    "order": [[0, "desc"]],
+                    "responsive": true,
+                    "bDestroy": true
+                });
+            }
+
+            $('#addProductModal').on('show.bs.modal', function () {
+                clearAddForm();
+                loadGoTurcCategories();
+                loadGoTurcBrands();
+                loadGoTurcDeliveryMethods();
+            });
+
+            $('#updateProductModal').on('show.bs.modal', function () {
+                loadGoTurcCategories();
+                loadGoTurcBrands();
+                loadGoTurcDeliveryMethods();
+            });
+
+            $('#updateStockPriceModal').on('show.bs.modal', function () {
+            });
+
+            function loadGoTurcCategories() {
+                $.ajax({
+                    url: '/AdminGoTurc/GetGoTurcCategories?pazarYeriId=@ViewBag.PazarYeriId',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#gt_categoryId, #gt_updateCategoryId');
+                            $select.empty();
+                            $select.append('<option value="">Kategori Seçiniz</option>');
+                            response.categories.forEach(function (category) {
+                                $select.append('<option value="' + category.id + '">' + category.name + '</option>');
+                            });
+                        } else {
+                            alert('Kategoriler yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Categories AJAX error:", error);
+                        alert('Kategoriler yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            function loadGoTurcBrands() {
+                $.ajax({
+                    url: '/AdminGoTurc/GetGoTurcBrands?pazarYeriId=@ViewBag.PazarYeriId',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#gt_brandId, #gt_updateBrandId');
+                            $select.empty();
+                            $select.append('<option value="">Marka Seçiniz</option>');
+                            response.brands.forEach(function (brand) {
+                                $select.append('<option value="' + brand.id + '">' + brand.name + '</option>');
+                            });
+                        } else {
+                            alert('Markalar yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Brands AJAX error:", error);
+                        alert('Markalar yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            function loadGoTurcDeliveryMethods() {
+                $.ajax({
+                    url: '/AdminGoTurc/GetGoTurcDeliveryMethods?pazarYeriId=@ViewBag.PazarYeriId',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#gt_deliveryNo, #gt_updateDeliveryNo');
+                            $select.empty();
+                            $select.append('<option value="">Teslimat Şablonu Seçiniz</option>');
+                            response.deliveryMethods.forEach(function (deliveryMethod) {
+                                $select.append('<option value="' + deliveryMethod.id + '">' + deliveryMethod.description + '</option>');
+                            });
+                        } else {
+                            alert('Teslimat şablonları yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Delivery Methods AJAX error:", error);
+                        alert('Teslimat şablonları yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            $('#addProductForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = @ViewBag.PazarYeriId;
+
+                var productData = {
+                    CategoryId: $('#gt_categoryId').val() ? parseInt($('#gt_categoryId').val()) : null,
+                    BrandId: $('#gt_brandId').val() ? parseInt($('#gt_brandId').val()) : null,
+                    Title: $('#gt_title').val() || null,
+                    SubTitle: $('#gt_subTitle').val() || null,
+                    ShopProductCode: $('#gt_shopProductCode').val() || null,
+                    IsDomesticProduction: $('#gt_isDomesticProduction').is(':checked'),
+                    ProductionDate: $('#gt_productionDate').val() || null,
+                    ExpirationDate: $('#gt_expirationDate').val() || null,
+                    ProductState: 1,
+                    PreparationDay: 2,
+                    IsActive: true,
+                    DeliveryNo: $('#gt_deliveryNo').val() ? parseInt($('#gt_deliveryNo').val()) : null,
+                    ImageUrls: $('#gt_imageUrl').val() ? [{ RowNumber: 1, ImageUrl: $('#gt_imageUrl').val() }] : [],
+                    Attrs: [{ Name: "Renk", Value: "Kırmızı" }], // Örnek veri, dinamik olarak eklenebilir
+                    SalesInfo: [{
+                        CurrencyUnit: "TRY",
+                        Price: $('#gt_price').val() ? parseFloat($('#gt_price').val()) : null,
+                        Quantity: $('#gt_stockQuantity').val() ? parseInt($('#gt_stockQuantity').val()) : null,
+                        Variants: [{ Name: "Beden", Value: "M" }] // Örnek veri, dinamik olarak eklenebilir
+                    }],
+                    DiscountType: $('#gt_discountType').val() ? parseInt($('#gt_discountType').val()) : 0,
+                    DiscountAmount: $('#gt_discountAmount').val() ? parseFloat($('#gt_discountAmount').val()) : 0,
+                    DiscountStartDate: $('#gt_discountStartDate').val() || null,
+                    DiscountEndDate: $('#gt_discountEndDate').val() || null,
+                    MaxCustomerQuantity: $('#gt_maxCustomerQuantity').val() ? parseInt($('#gt_maxCustomerQuantity').val()) : 0,
+                    DescriptionHTML: $('#gt_descriptionHTML').val() || null,
+                    DeliveryDescription: $('#gt_deliveryDescription').val() || null,
+                    ReturnExchangeInformation: $('#gt_returnExchangeInformation').val() || "Cayma Hakkı Kullanımı ve İade şartları, 6502 Sayılı Tüketicinin Korunması Hakkındaki Kanun ve Mesafeli Satışlara Dair Yönetmelik hükümlerine tabi olacaktır.",
+                    AfterSalesService: $('#gt_afterSalesService').val() || null
+                };
+
+                console.log("Adding productData:", JSON.stringify(productData));
+
+                $.ajax({
+                    url: '/AdminGoTurc/AddGoTurcProduct?pazarYeriId=' + pazarYeriId,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#addProductModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('Hata: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX error:", error, xhr.responseText);
+                        alert('Hata: ' + error + ' - ' + xhr.responseText);
+                    }
+                });
+            });
+
+            $('#updateProductForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = @ViewBag.PazarYeriId;
+
+                var productData = {
+                    CategoryId: $('#gt_updateCategoryId').val() ? parseInt($('#gt_updateCategoryId').val()) : null,
+                    BrandId: $('#gt_updateBrandId').val() ? parseInt($('#gt_updateBrandId').val()) : null,
+                    Title: $('#gt_updateTitle').val() || null,
+                    SubTitle: $('#gt_updateSubTitle').val() || null,
+                    ShopProductCode: $('#gt_updateShopProductCode').val() || null,
+                    IsDomesticProduction: $('#gt_updateIsDomesticProduction').is(':checked'),
+                    ProductionDate: $('#gt_updateProductionDate').val() || null,
+                    ExpirationDate: $('#gt_updateExpirationDate').val() || null,
+                    ProductState: 1,
+                    PreparationDay: 2,
+                    IsActive: true,
+                    DeliveryNo: $('#gt_updateDeliveryNo').val() ? parseInt($('#gt_updateDeliveryNo').val()) : null,
+                    ImageUrls: $('#gt_updateImageUrl').val() ? [{ RowNumber: 1, ImageUrl: $('#gt_updateImageUrl').val() }] : [],
+                    Attrs: [{ Name: "Renk", Value: "Kırmızı" }], // Örnek veri, dinamik olarak eklenebilir
+                    SalesInfo: [{
+                        CurrencyUnit: "TRY",
+                        Price: $('#gt_updatePrice').val() ? parseFloat($('#gt_updatePrice').val()) : null,
+                        Quantity: $('#gt_updateStockQuantity').val() ? parseInt($('#gt_updateStockQuantity').val()) : null,
+                        Variants: [{ Name: "Beden", Value: "M" }] // Örnek veri, dinamik olarak eklenebilir
+                    }],
+                    DiscountType: $('#gt_updateDiscountType').val() ? parseInt($('#gt_updateDiscountType').val()) : 0,
+                    DiscountAmount: $('#gt_updateDiscountAmount').val() ? parseFloat($('#gt_updateDiscountAmount').val()) : 0,
+                    DiscountStartDate: $('#gt_updateDiscountStartDate').val() || null,
+                    DiscountEndDate: $('#gt_updateDiscountEndDate').val() || null,
+                    MaxCustomerQuantity: $('#gt_updateMaxCustomerQuantity').val() ? parseInt($('#gt_updateMaxCustomerQuantity').val()) : 0,
+                    DescriptionHTML: $('#gt_updateDescriptionHTML').val() || null,
+                    DeliveryDescription: $('#gt_updateDeliveryDescription').val() || null,
+                    ReturnExchangeInformation: $('#gt_updateReturnExchangeInformation').val() || null,
+                    AfterSalesService: $('#gt_updateAfterSalesService').val() || null
+                };
+
+                console.log("Updating productData:", JSON.stringify(productData));
+
+                $.ajax({
+                    url: '/AdminGoTurc/AddGoTurcProduct?pazarYeriId=' + pazarYeriId,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#updateProductModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('Hata: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Update error:", error, xhr.responseText);
+                        alert('Hata: ' + error + ' - ' + xhr.responseText);
+                    }
+                });
+            });
+
+            $('#updateStockPriceForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = @ViewBag.PazarYeriId;
+
+                var stockPriceData = {
+                    ShopProductCode: $('#gt_updateStockPriceShopProductCode').val() || null,
+                    SalesInfo: [{
+                        CurrencyUnit: "TRY",
+                        Price: $('#gt_updateStockPricePrice').val() ? parseFloat($('#gt_updateStockPricePrice').val()) : null,
+                        Quantity: $('#gt_updateStockPriceQuantity').val() ? parseInt($('#gt_updateStockPriceQuantity').val()) : null,
+                        Variants: null
+                    }]
+                };
+
+                console.log("Sending stockPriceData:", JSON.stringify(stockPriceData));
+
+                $.ajax({
+                    url: '/AdminGoTurc/UpdateGoTurcProduct?pazarYeriId=' + pazarYeriId, // Stok/fiyat güncelleme için doğru endpoint
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(stockPriceData),
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#updateStockPriceModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('Hata: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Stock/Price update error:", error, xhr.responseText);
+                        alert('Hata: ' + error + ' - ' + xhr.responseText);
+                    }
+                });
+            });
+
+            function clearAddForm() {
+                $('#addProductForm')[0].reset();
+                $('#gt_categoryId').empty();
+                $('#gt_categoryId').append('<option value="">Kategori Seçiniz</option>');
+                $('#gt_brandId').empty();
+                $('#gt_brandId').append('<option value="">Marka Seçiniz</option>');
+                $('#gt_deliveryNo').empty();
+                $('#gt_deliveryNo').append('<option value="">Teslimat Şablonu Seçiniz</option>');
+            }
+
+            window.openUpdateModal = function (shopProductCode, button) {
+                var productData = $(button).closest('tr').data('product');
+
+                $('#gt_updateShopProductCode').val(productData.ShopProductCode || '');
+                $('#gt_updateTitle').val(productData.Title || '');
+                $('#gt_updateSubTitle').val(productData.SubTitle || '');
+                $('#gt_updatePrice').val(productData.Price || '');
+                $('#gt_updateStockQuantity').val(productData.StockQuantity || '');
+                $('#gt_updateDescriptionHTML').val(productData.DescriptionHTML || '');
+                $('#gt_updateImageUrl').val(productData.ImageUrl || '');
+                $('#gt_updateIsDomesticProduction').prop('checked', productData.IsDomesticProduction || false);
+                $('#gt_updateProductionDate').val(productData.ProductionDate ? new Date(productData.ProductionDate).toISOString().slice(0, 16) : '');
+                $('#gt_updateExpirationDate').val(productData.ExpirationDate ? new Date(productData.ExpirationDate).toISOString().slice(0, 16) : '');
+                $('#gt_updateDiscountType').val(productData.DiscountType || 0);
+                $('#gt_updateDiscountAmount').val(productData.DiscountAmount || 0);
+                $('#gt_updateDiscountStartDate').val(productData.DiscountStartDate ? new Date(productData.DiscountStartDate).toISOString().slice(0, 16) : '');
+                $('#gt_updateDiscountEndDate').val(productData.DiscountEndDate ? new Date(productData.DiscountEndDate).toISOString().slice(0, 16) : '');
+                $('#gt_updateMaxCustomerQuantity').val(productData.MaxCustomerQuantity || 0);
+                $('#gt_updateDeliveryDescription').val(productData.DeliveryDescription || '');
+                $('#gt_updateReturnExchangeInformation').val(productData.ReturnExchangeInformation || '');
+                $('#gt_updateAfterSalesService').val(productData.AfterSalesService || '');
+
+                // Load categories and set selected
+                $.ajax({
+                    url: '/AdminGoTurc/GetGoTurcCategories?pazarYeriId=@ViewBag.PazarYeriId',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#gt_updateCategoryId');
+                            $select.empty();
+                            $select.append('<option value="">Kategori Seçiniz</option>');
+                            response.categories.forEach(function (category) {
+                                var selected = category.id == productData.CategoryId ? 'selected' : '';
+                                $select.append('<option value="' + category.id + '" ' + selected + '>' + category.name + '</option>');
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Categories AJAX error:", error);
+                    }
+                });
+
+                // Load brands and set selected
+                $.ajax({
+                    url: '/AdminGoTurc/GetGoTurcBrands?pazarYeriId=@ViewBag.PazarYeriId',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#gt_updateBrandId');
+                            $select.empty();
+                            $select.append('<option value="">Marka Seçiniz</option>');
+                            response.brands.forEach(function (brand) {
+                                var selected = brand.id == productData.BrandId ? 'selected' : '';
+                                $select.append('<option value="' + brand.id + '" ' + selected + '>' + brand.name + '</option>');
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Brands AJAX error:", error);
+                    }
+                });
+
+                // Load delivery methods and set selected
+                $.ajax({
+                    url: '/AdminGoTurc/GetGoTurcDeliveryMethods?pazarYeriId=@ViewBag.PazarYeriId',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            var $select = $('#gt_updateDeliveryNo');
+                            $select.empty();
+                            $select.append('<option value="">Teslimat Şablonu Seçiniz</option>');
+                            response.deliveryMethods.forEach(function (deliveryMethod) {
+                                var selected = deliveryMethod.id == productData.DeliveryNo ? 'selected' : '';
+                                $select.append('<option value="' + deliveryMethod.id + '" ' + selected + '>' + deliveryMethod.description + '</option>');
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Delivery Methods AJAX error:", error);
+                    }
+                });
+
+                $('#updateProductModal').modal('show');
+            };
+
+            window.openStockPriceUpdateModal = function (shopProductCode, button) {
+                var productData = $(button).closest('tr').data('product');
+
+                $('#gt_updateStockPriceShopProductCode').val(productData.ShopProductCode || '');
+                $('#gt_updateStockPricePrice').val(productData.Price || '');
+                $('#gt_updateStockPriceQuantity').val(productData.StockQuantity || '');
+
+                $('#updateStockPriceModal').modal('show');
+            };
+        });
+    </script>
+}

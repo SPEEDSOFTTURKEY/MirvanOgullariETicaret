@@ -1,0 +1,339 @@
+﻿@using WebApp.Models
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Üyeliksiz Sipariş";
+    Layout = "~/Views/Shared/_LayoutWebUI.cshtml";
+    // Retrieve session data using Context.Session
+    var uyeliksizUyeler = Context.Session.GetObjectFromJson<Uyeler>("UyeliksizUyeler") ?? new Uyeler();
+    var uyeliksizUyeAdres = Context.Session.GetObjectFromJson<UyeAdres>("UyeliksizUyeAdres") ?? new UyeAdres();
+    var siparisNotu = Context.Session.GetString("SiparisNotu") ?? "";
+}
+<style>
+    .checkout-container {
+        max-width: 1000px;
+        margin: 50px auto;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    }
+
+    .checkout-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+        .checkout-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .checkout-header p {
+            color: #777;
+            font-size: 16px;
+        }
+
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+    }
+
+    .form-group {
+        padding: 0 15px;
+        margin-bottom: 20px;
+        flex: 1 0 100%;
+    }
+
+
+    .form-label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 15px;
+    }
+
+    .required-field::after {
+        content: " *";
+        color: #e74c3c;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+            outline: none;
+        }
+
+    .address-section {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+    }
+
+        .address-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+    .checkout-footer {
+        margin-top: 30px;
+        text-align: right;
+    }
+
+    .btn-submit {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 14px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .form-icon {
+        margin-right: 8px;
+        color: #666;
+    }
+
+    /* Input field icons styling */
+    .input-group {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+    }
+
+    .icon-input {
+        padding-left: 40px;
+    }
+
+    /* Progress indicator */
+    .checkout-progress {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 20px;
+    }
+
+    .step-number {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .active-step .step-number {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .step-label {
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .active-step .step-label {
+        color: #28a745;
+        font-weight: 500;
+    }
+</style>
+
+<div class="checkout-container">
+    <div class="checkout-header">
+        <h2>Üyeliksiz Sipariş</h2>
+        <p>Lütfen sipariş bilgilerinizi doldurunuz</p>
+    </div>
+
+    <div class="checkout-progress">
+        <div class="progress-step active-step">
+            <div class="step-number">1</div>
+            <div class="step-label">Kişisel Bilgiler</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-number">2</div>
+            <div class="step-label">Teslimat</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-number">3</div>
+            <div class="step-label">Ödeme</div>
+        </div>
+    </div>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> @ViewBag.Message
+        </div>
+    }
+
+    <form class="checkout-form" action="@Url.Action("Index", "SepetSayfasi")" method="post">
+        <div class="form-row">
+            <div class="form-group half">
+                <label for="MusteriAdiSoyadi" class="form-label required-field">Ad </label>
+                <div class="input-group">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" class="form-control icon-input" id="MusteriAdiSoyadi" name="MusteriAdiSoyadi"
+                           value="@((uyeliksizUyeler.Adi + " " + uyeliksizUyeler.Soyadi).Trim())" required
+                           placeholder="Adınız ve soyadınız" />
+                </div>
+            </div>
+      
+
+            <div class="form-group half">
+                <label for="MusteriEmail" class="form-label required-field">E-Posta</label>
+                <div class="input-group">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" class="form-control icon-input" id="MusteriEmail" name="MusteriEmail"
+                           value="@uyeliksizUyeler.EMail" required
+                           placeholder="ornek@mail.com" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group half">
+                <label for="MusteriTelefon" class="form-label required-field">Telefon</label>
+                <div class="input-group">
+                    <i class="fas fa-phone input-icon"></i>
+                    <input type="tel" class="form-control icon-input" id="MusteriTelefon" name="MusteriTelefon"
+                           maxlength="11" value="@uyeliksizUyeler.Telefon" required
+                           placeholder="05XXXXXXXXX" />
+                </div>
+            </div>
+
+            <div class="form-group half">
+                <label for="MusteriVergiDairesi" class="form-label">Şehir</label>
+                <div class="input-group">
+                    <i class="fas fa-map-marker-alt input-icon"></i>
+                    <input type="text" class="form-control icon-input" id="MusteriVergiDairesi" name="MusteriVergiDairesi"
+                           value="@uyeliksizUyeAdres.il"
+                           placeholder="Şehir" />
+                </div>
+            </div>
+        </div>
+
+        <div class="address-section">
+            <h4><i class="fas fa-home form-icon"></i> Teslimat Bilgileri</h4>
+            <div class="form-group">
+                <label for="MusteriAdres" class="form-label required-field">Teslimat Adresi</label>
+                <textarea class="form-control" id="MusteriAdres" name="MusteriAdres"
+                          rows="3" required placeholder="Lütfen açık adresinizi giriniz">@uyeliksizUyeAdres.Adres</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Notlar" class="form-label">Sipariş Notu</label>
+            <textarea class="form-control" id="Notlar" name="Notlar"
+                      rows="2" placeholder="Siparişiniz için özel notlar...">@siparisNotu</textarea>
+        </div>
+
+        <div class="checkout-footer">
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-check-circle"></i> Bilgileri Onayla ve Devam Et
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script>
+     document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('.checkout-form');
+
+        form.addEventListener('submit', function (event) {
+            const phoneInput = document.getElementById('MusteriTelefon');
+            const nameInput = document.getElementById('MusteriAdiSoyadi');
+
+            // Adı Soyadı kontrolü (en az 2 kelime)
+            const nameValue = nameInput.value.trim();
+            const nameWords = nameValue.split(/\s+/).filter(word => word.length > 0); // Boşlukları temizle ve kelimeleri ayır
+            if (nameWords.length < 2) {
+                event.preventDefault();
+                alert('Lütfen ad ve soyadınızı giriniz (örnek: Ahmet Yılmaz).');
+                nameInput.focus();
+                return;
+            }
+
+            // Her kelimenin en az 1 karakter olduğundan emin ol
+            const invalidWord = nameWords.some(word => word.length < 1);
+            if (invalidWord) {
+                event.preventDefault();
+                alert('Ad ve soyad geçerli bir formatta olmalıdır.');
+                nameInput.focus();
+                return;
+            }
+
+            // Telefon numarası kontrolü (05XXXXXXXXX formatı)
+            const phonePattern = /^(05)[0-9]{9}$/;
+            if (!phonePattern.test(phoneInput.value)) {
+                event.preventDefault();
+                alert('Lütfen geçerli bir telefon numarası giriniz (05XXXXXXXXX formatında).');
+                phoneInput.focus();
+                return;
+            }
+        });
+
+        // Input focus animasyonu
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function () {
+                this.parentElement.classList.add('input-focus');
+            });
+            input.addEventListener('blur', function () {
+                this.parentElement.classList.remove('input-focus');
+            });
+        });
+    });
+</script>

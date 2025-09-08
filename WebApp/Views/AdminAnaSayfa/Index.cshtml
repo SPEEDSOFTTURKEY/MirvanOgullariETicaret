@@ -1,0 +1,527 @@
+﻿@using WebApp.Models
+@{
+    ViewData["Title"] = "Admin Ana Sayfa";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 30px;
+        background: #f7f9fc;
+        min-height: 100vh;
+    }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 25px 35px;
+        font-size: 24px;
+        font-weight: 700;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+    }
+
+        .panel-header i {
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+    .status-summary {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 35px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .status-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        width: 140px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .status-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+            transition: transform 0.3s ease;
+            transform: scale(0);
+        }
+
+        .status-card:hover::before {
+            transform: scale(1);
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-card.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        .status-card span {
+            display: block;
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .status-card small {
+            font-size: 14px;
+            color: #718096;
+            font-weight: 500;
+        }
+
+        /* Status-specific colors for numbers */
+        .status-card[onclick*="statusId = 1"] span {
+            color: #ecc94b;
+        }
+
+        .status-card[onclick*="statusId = 2"] span {
+            color: #4299e1;
+        }
+
+        .status-card[onclick*="statusId = 3"] span {
+            color: #9f7aea;
+        }
+
+        .status-card[onclick*="statusId = 4"] span {
+            color: #48bb78;
+        }
+
+        .status-card[onclick*="statusId = 5"] span {
+            color: #f56565;
+        }
+
+    .order-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+    }
+
+    .order-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+        border-left: 5px solid;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Status-specific gradient backgrounds */
+        .order-card.bekliyor {
+            border-left-color: #f6e05e;
+            background: linear-gradient(to right, rgba(246, 224, 94, 0.05) 0%, white 100%);
+        }
+
+        .order-card.hazirlaniyor {
+            border-left-color: #4299e1;
+            background: linear-gradient(to right, rgba(66, 153, 225, 0.05) 0%, white 100%);
+        }
+
+        .order-card.kargoya-verildi {
+            border-left-color: #9f7aea;
+            background: linear-gradient(to right, rgba(159, 122, 234, 0.05) 0%, white 100%);
+        }
+
+        .order-card.teslim-edildi {
+            border-left-color: #48bb78;
+            background: linear-gradient(to right, rgba(72, 187, 120, 0.05) 0%, white 100%);
+        }
+
+        .order-card.iptal-edildi {
+            border-left-color: #f56565;
+            background: linear-gradient(to right, rgba(245, 101, 101, 0.05) 0%, white 100%);
+        }
+
+        .order-card.unknown {
+            border-left-color: #a0aec0;
+            background: linear-gradient(to right, rgba(160, 174, 192, 0.05) 0%, white 100%);
+        }
+
+        .order-card h5 {
+            margin: 0 0 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #2d3748;
+        }
+
+            .order-card h5 span:first-child {
+                font-weight: 700;
+                color: #667eea;
+            }
+
+            .order-card h5 span:last-child {
+                font-size: 13px;
+                background: #e6ebff;
+                color: #5a6cae;
+                padding: 3px 10px;
+                border-radius: 15px;
+                font-weight: 500;
+            }
+
+        .order-card p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #4a5568;
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .order-card p strong {
+                color: #2d3748;
+                font-weight: 600;
+            }
+
+        .order-card .btn-group {
+            margin-top: 15px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+    .btn-action {
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: none;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .btn-action i {
+            font-size: 14px;
+        }
+
+    .btn-action-edit {
+        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    }
+
+        .btn-action-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        }
+
+    .btn-action-delete {
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+    }
+
+        .btn-action-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+        }
+
+    .btn-action-detail {
+        background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    }
+
+        .btn-action-detail:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+        }
+
+    .btn-action-cargo {
+        background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+    }
+
+        .btn-action-cargo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
+        }
+
+    .btn-action-invoice {
+        background: linear-gradient(135deg, #38b2ac 0%, #319795 100%);
+    }
+
+        .btn-action-invoice:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(56, 178, 172, 0.3);
+        }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-modern i {
+            font-size: 18px;
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 80px;
+        color: #718096;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+    }
+
+        .empty-state i {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+            display: block;
+        }
+
+        .empty-state h4 {
+            font-size: 24px;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            color: #718096;
+        }
+
+    /* Additional hover effects */
+    .order-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, transparent 0%, rgba(102, 126, 234, 0.1) 100%);
+        border-radius: 0 12px 0 100%;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .order-card:hover::before {
+        opacity: 1;
+    }
+
+    /* Responsive improvements */
+    media (max-width: 768px) {
+        .modern-wrapper
+
+    {
+        padding: 20px;
+    }
+
+    .panel-header {
+        padding: 20px;
+        font-size: 20px;
+    }
+
+    .status-summary {
+        gap: 10px;
+    }
+
+    .status-card {
+        width: calc(50% - 10px);
+        padding: 15px;
+    }
+
+
+    .order-cards {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .btn-action {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .btn-modern {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    }
+
+    /* Loading animation */
+    .order-card {
+        animation: fadeIn 0.3s ease;
+    }
+
+    keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="panel-header">
+        <i class="fa fa-shopping-cart"></i>
+        <span>Sipariş Durum Takip</span>
+    </div>
+    <div class="status-summary">
+        <div class="status-card @(ViewBag.SelectedStatusId == 1 ? "active" : "")" onclick="location.href='@Url.Action("Index", new { statusId = 1 })'">
+            <span>@ViewBag.StatusCounts[1]</span>
+            <small>Bekliyor</small>
+        </div>
+        <div class="status-card @(ViewBag.SelectedStatusId == 2 ? "active" : "")" onclick="location.href='@Url.Action("Index", new { statusId = 2 })'">
+            <span>@ViewBag.StatusCounts[2]</span>
+            <small>Hazırlanıyor</small>
+        </div>
+        <div class="status-card @(ViewBag.SelectedStatusId == 3 ? "active" : "")" onclick="location.href='@Url.Action("Index", new { statusId = 3 })'">
+            <span>@ViewBag.StatusCounts[3]</span>
+            <small>Kargoya Verildi</small>
+        </div>
+        <div class="status-card @(ViewBag.SelectedStatusId == 4 ? "active" : "")" onclick="location.href='@Url.Action("Index", new { statusId = 4 })'">
+            <span>@ViewBag.StatusCounts[4]</span>
+            <small>Teslim Edildi</small>
+        </div>
+        <div class="status-card @(ViewBag.SelectedStatusId == 5 ? "active" : "")" onclick="location.href='@Url.Action("Index", new { statusId = 5 })'">
+            <span>@ViewBag.StatusCounts[5]</span>
+            <small>İptal Edildi</small>
+        </div>
+    </div>
+    <div class="order-cards">
+        @if (ViewBag.AllOrders != null)
+        {
+            foreach (var order in ViewBag.AllOrders)
+            {
+                var statusId = order.IsGuest ? ((SiparisGuest)order.Order).DurumId : ((Siparis)order.Order).DurumId;
+                var statusClass = statusId switch
+                {
+                    1 => "bekliyor",
+                    2 => "hazirlaniyor",
+                    3 => "kargoya-verildi",
+                    4 => "teslim-edildi",
+                    5 => "iptal-edildi",
+                    _ => "unknown"
+                };
+                var statusText = statusId switch
+                {
+                    1 => "Bekliyor",
+                    2 => "Hazırlanıyor",
+                    3 => "Kargoya Verildi",
+                    4 => "Teslim Edildi",
+                    5 => "İptal Edildi",
+                    _ => "Bilinmeyen Durum"
+                };
+                var misafir = order.IsGuest ? ((SiparisGuest)order.Order).MusteriAdiSoyadi : ((Siparis)order.Order).MusteriAdiSoyadi;
+                var giris = order.IsGuest ? ((SiparisGuest)order.Order).EklenmeTarihi : ((Siparis)order.Order).EklenmeTarihi;
+                var cikis = DateTime.Now; // Placeholder, adjust if you have a completion date
+                var adisyon = "0.00 TL"; // Placeholder, adjust if you have a total amount
+                var konaklama = "0.00 TL"; // Placeholder, adjust if you have a payment detail
+                var bakiye = "0.00 TL"; // Placeholder, adjust if you have a balance
+
+                <div class="order-card @statusClass">
+                    <h5>
+                        <span>#@((order.IsGuest ? ((SiparisGuest)order.Order).Id : ((Siparis)order.Order).Id))</span>
+                        <span>@(order.IsGuest ? "Misafir Siparişi" : "Üye Siparişi")</span>
+                    </h5>
+                    <p><strong>Durum:</strong> <span>@statusText</span></p>
+                    <p><strong>Misafir:</strong> <span>@misafir</span></p>
+                    <p><strong>Eklenme Tarihi:</strong> <span>@(giris?.ToString("dd.MM.yyyy HH:mm") ?? "-")</span></p>
+
+                    <div class="btn-group">
+                        <a class="btn-action btn-action-edit" href="@(order.IsGuest ? $"/AdminMisafirSiparis/Guncelleme/{((SiparisGuest)order.Order).Id}" : $"/AdminSiparis/Guncelleme/{((Siparis)order.Order).Id}")" title="Düzenle">
+                            <i class="icon-pencil"></i>
+                        </a>
+                        <a class="btn-action btn-action-delete" href="@(order.IsGuest ? $"/AdminMisafirSiparis/Sil/{((SiparisGuest)order.Order).Id}" : $"/AdminSiparis/Sil/{((Siparis)order.Order).Id}")" title="Sil"
+                           onclick="return confirm('Bu siparişi silmek istediğinizden emin misiniz?');">
+                            <i class="icon-trash"></i>
+                        </a>
+                        <a class="btn-action btn-action-detail" href="@(order.IsGuest ? $"/AdminMisafirSiparis/Detay/{((SiparisGuest)order.Order).SiparisKodu}" : $"/AdminSiparis/Detay/{((Siparis)order.Order).Id}")" title="Detay">
+                            <i class="icon-eye-open"></i>
+                        </a>
+                        <a class="btn-action btn-action-cargo" href="@(order.IsGuest ? $"/AdminMisafirSiparis/KargoBilgileriEkle/{((SiparisGuest)order.Order).Id}" : $"/AdminSiparis/KargoBilgileriEkle/{((Siparis)order.Order).Id}")" title="Kargo Bilgileri Ekle">
+                            <i class="icon-plus"></i>
+                        </a>
+                        @if (!order.IsGuest)
+                        {
+                            <a class="btn-action btn-action-invoice" href="/AdminEfaturaEkle/Index?SiparisId=@order.Order.Id" title="Fatura Kes">
+                                <i class="icon-file-text"></i>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="fa fa-shopping-cart"></i>
+                <h4>Henüz sipariş bulunmamaktadır</h4>
+                <p>Filtreyi kaldırarak tüm siparişleri görebilirsiniz.</p>
+            </div>
+        }
+    </div>
+    <div style="text-align: right; margin-top: 30px;">
+        <a class="btn-modern" href="/AdminAnaSayfa/GetAllData">
+            <i class="fa fa-list"></i>
+            <span>Tüm Siparişleri Göster</span>
+        </a>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            // Add click event to status cards for dynamic filtering
+            $('.status-card').on('click', function () {
+                $('.status-card').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+    </script>
+}

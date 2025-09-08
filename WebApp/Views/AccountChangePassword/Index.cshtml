@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+    <li>
+        <a href="@Url.Action("Index","AccountChangePassword")">Parola Değiştir</a>
+    </li>
+</ul>
+<h1 class="title page-title"><span>Parola Değiştir</span></h1>
+
+<div id="account-password" class="container">
+    <div class="row">
+        <div id="content" class="col-sm-9">
+            <form class="bg0 p-t-75" action="/AccountChangePassword/PasswordUpdate" method="post">
+                <fieldset>
+                    <legend>Parolanız</legend>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-password">Parola</label>
+                        <div class="col-sm-10">
+                            <input type="password"
+                                   name="Sifre"
+                                   value=""
+                                   placeholder="Parola"
+                                   id="input-password"
+                                   class="form-control" />
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="hidden"
+                                   name="UyeId"
+                                   value="@ViewBag.Uyeler.Id"
+                                   />
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-confirm">Parola (Tekrar)</label>
+                        <div class="col-sm-10">
+                            <input type="password"
+                                   name="confirm"
+                                   value=""
+                                   placeholder="Parola (Tekrar)"
+                                   id="input-confirm"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="buttons clearfix">
+                    <div class="pull-left">
+                        <a href="@Url.Action("Index","Account")"
+                           class="btn btn-default">Geri</a>
+                    </div>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary">
+                            <span>Devam</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        @Html.Partial("_AccountSidebar")
+    </div>
+</div>
+
+
+

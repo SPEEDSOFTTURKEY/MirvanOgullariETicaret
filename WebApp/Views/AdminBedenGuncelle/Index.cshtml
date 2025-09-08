@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+<section class="wrapper">
+    <!-- page start-->
+    <div class="row">
+        <form class="form-horizontal" action="@Url.Action("Kaydet","AdminBirimGuncelle")" method="post">
+            <div class="col-md-6">
+                <section class="panel">
+                    <header class="panel-heading">
+                        BİRİM GÜNCELLE
+                    </header>
+                    <div class="panel-body">
+                        <div class="form">
+                            <div class="form-group">
+                             <div class="col-md-6">
+                           
+                                <div class="col-md-12">
+                                    <label class="col-sm-6 control-label col-sm-6">Birim Adı</label>
+                                    <input type="hidden" name="Id" value="@ViewBag.Birimler.Id" />
+                                    <input type="text" name="Adi" value="@ViewBag.Birimler.Adi" class="form-control" style="color:#000" />
+                                </div>
+
+                            </div>
+                            <div class="panel-body text-right">
+                                <a style="margin-top:10px;"href="@Url.Action("Index","AdminBirim")" class="btn btn-danger"><i class="icon-cancel"></i> İptal</a>
+                                    <button style="margin-top:10px;" type="submit" class="btn btn-info "><i class="icon-save"></i> Kaydet</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+@using (Html.BeginForm("Kaydet", "AdminUrunGaleriBilgileriEkle", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-lg-10">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Resim Eke
+                    </header>
+                    <div class="panel-body">
+                        <div class="row" style="margin-bottom:5px">
+                            <div class="col-md-6">
+                                <label class="col-sm-6 control-label col-sm-6">Ürün Adı</label>
+                                <select class="form-control" name="UrunId" style="color:#000">
+                                    @foreach (var item in ViewBag.UrunListesi)
+                                    {
+                                        <option value="@item.Id">@item.Adi</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group last">
+
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                    <div class="fileupload-preview thumbnail" style="width: 400px; height: 200px;"></div>
+                                    <div>
+                                        <span class="btn btn-file">
+                                            <i class="icon-paper-clip"></i>
+                                            <span class="fileupload-new">
+                                                Resim Seç
+                                            </span>
+                                            <span class="fileupload-exists">Değiştir</span>
+                                            <input type="file" name="imagefile" class="default" multiple />
+                                        </span>
+                                        <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="icon-trash" style="padding-right:5px"></i>Sil</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <button type="submit" class="btn btn-info">Kaydet</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </section>
+}
+
+

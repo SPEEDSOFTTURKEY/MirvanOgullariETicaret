@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUI.cshtml";
+}
+
+
+<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('/../WebUITheme/images/kargofoto.jpg');">
+	<h2 class="ltext-105 cl0 txt-center p-t-40">
+		Kargo Takip
+	</h2>
+</section>
+
+<section class="bg0 txt-center">
+	<div class="container txt-center">
+
+		<div class="flex-c-m flex-w w-full p-t-45">
+
+			<form action="/Kargo/SuratKargoYonlenme" method="post" class="col-md-4" onsubmit="updateAction()">
+				<h4 class="mtext-105 cl2 txt-center p-b-10">
+					Kargo Takip Sayfası
+				</h4>
+
+				<div class="bor8 m-b-20 how-pos4-parent">
+					<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" style="padding-left:5px" type="text" name="kargoTakipNumarasi" placeholder="Kargo Takip Numarası" required="required" id="kargoTakipNumarasi">
+
+				</div>
+				
+				<div class="m-b-20 how-pos4-parent">
+					<button class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer" type="submit">
+						Getir
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+
+@section Script{
+	<script>
+		function updateAction() {
+			// Input değerini al
+			const takipNumarasi = document.getElementById('kargoTakipNumarasi').value;
+
+			// Formun action URL'sini güncelle
+			const form = document.getElementById('kargoForm');
+			form.action = `/Kargo/SuratKargoYonlenme?kargoTakipNo=${encodeURIComponent(takipNumarasi)}`;
+		}
+	</script>
+}
+

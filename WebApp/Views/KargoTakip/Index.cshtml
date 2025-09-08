@@ -1,0 +1,286 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUI.cshtml";
+}
+
+@* <div class="container">
+    <header>
+        <h1>Kargo Takip Sistemi</h1>
+        <p>Kargo takip numaranızı girerek kargonuzun güncel durumunu öğrenin.</p>
+    </header>
+
+    <form id="trackingForm">
+        <label for="trackingNumber">Kargo Takip Numarası</label>
+        <input type="text" id="trackingNumber" placeholder="Kargo Takip Numarası" required>
+        <button type="submit">Takip Et</button>
+    </form>
+
+    <div id="statusMessage" class="status-message" style="display: none;">Takip numarası bulunamadı. Lütfen tekrar deneyin.</div>
+
+    <div id="trackingDetails" class="tracking-details" style="display: none;">
+        <div class="tracking-header">
+            <div class="tracking-item"><strong>Kargo Takip No:</strong> <span id="trackingNum">1234567890</span></div>
+            <div class="tracking-item"><strong>Gönderici:</strong> <span id="senderName">Ömer Yılmaz</span></div>
+            <div class="tracking-item"><strong>Alıcı:</strong> <span id="receiverName">Ahmet Korkmaz</span></div>
+        </div>
+
+        <div class="tracking-timeline">
+            <h2>Takip Bilgileri</h2>
+            <div id="timeline"></div>
+        </div>
+    </div>
+</div> *@
+
+
+<div class="container">
+    <header>
+        <h1>Kargo Takip Sistemi</h1>
+        <p>Kargo takip numaranızı girerek kargonuzun güncel durumunu öğrenin.</p>
+    </header>
+
+    <form method="post" asp-action="Index">
+        <label for="trackingNumber">Kargo Takip Numarası</label>
+        <input type="text" id="trackingNumber" name="kargoTakipNo" placeholder="Kargo Takip Numarası" required>
+        <button type="submit">Takip Et</button>
+    </form>
+
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="status-message">@ViewBag.ErrorMessage</div>
+    }
+
+    @if (ViewBag.KargoSonuc != null)
+    {
+        <div class="tracking-details">
+            <h2>Takip Bilgileri</h2>
+            <p>@ViewBag.KargoSonuc</p>
+        </div>
+    }
+</div>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 800px;
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        font-size: 26px;
+        color: #333;
+    }
+
+    p {
+        font-size: 16px;
+        color: #666;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin-bottom: 30px;
+    }
+
+        form label {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+    input[type="text"] {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #3c7ff4;
+        color: white;
+        transition: all .3s ease-in-out;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #3167c5;
+        }
+
+    .status-message {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #f44336;
+        text-align: center;
+    }
+
+    .tracking-details {
+        margin-top: 30px;
+    }
+
+    .tracking-header {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .tracking-item {
+        margin-bottom: 10px;
+    }
+
+    .tracking-timeline {
+        margin-top: 30px;
+    }
+
+    .timeline-step {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #4CAF50;
+        margin-right: 15px;
+    }
+
+    .line {
+        width: 40px;
+        height: 2px;
+        background-color: #4CAF50;
+        margin-right: 15px;
+    }
+
+    .details {
+        font-size: 14px;
+    }
+
+    .date {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .status {
+        color: #4CAF50;
+        margin: 5px 0;
+    }
+
+    .location {
+        color: #888;
+    }
+
+</style>
+
+<script>
+    // Kargo takip numarası ve bilgilerini içeren örnek veri
+    const trackingData = {
+        "1234567890": {
+            sender: "Ömer Yılmaz",
+            receiver: "Ahmet Korkmaz",
+            steps: [
+                { date: "2024-11-01", status: "Kargo alındı, hazırlanıyor.", location: "İstanbul Depo" },
+                { date: "2024-11-02", status: "Dağıtım Merkezi'ne ulaştı.", location: "İstanbul Dağıtım Merkezi" },
+                { date: "2024-11-03", status: "Teslimat için yola çıktı.", location: "İstanbul - Yolda" },
+                { date: "2024-11-04", status: "Teslimat yapıldı.", location: "Adres - Ankara" }
+            ]
+        },
+        "9876543210": {
+            sender: "Ali Veli",
+            receiver: "Canan Demir",
+            steps: [
+                { date: "2024-11-01", status: "Kargo alındı, hazırlanıyor.", location: "Ankara Depo" },
+                { date: "2024-11-02", status: "Yola çıktı.", location: "Ankara Dağıtım Merkezi" },
+                { date: "2024-11-03", status: "Teslimat için yola çıkıldı.", location: "Eskişehir" },
+                { date: "2024-11-04", status: "Teslimat yapılamadı, adres hatalı.", location: "Eskişehir" }
+            ]
+        }
+    };
+
+    // Formu dinle
+    document.getElementById('trackingForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const trackingNumber = document.getElementById('trackingNumber').value.trim();
+        const statusMessage = document.getElementById('statusMessage');
+        const trackingDetails = document.getElementById('trackingDetails');
+        const trackingTimeline = document.getElementById('timeline');
+        const trackingNumElement = document.getElementById('trackingNum');
+        const senderNameElement = document.getElementById('senderName');
+        const receiverNameElement = document.getElementById('receiverName');
+
+        // Temizle önceki verileri
+        trackingTimeline.innerHTML = '';
+        statusMessage.style.display = 'none';
+        trackingDetails.style.display = 'none';
+
+        // Verilen takip numarasına göre kargo verisini kontrol et
+        if (trackingData[trackingNumber]) {
+            const data = trackingData[trackingNumber];
+
+            // Kargo bilgilerini güncelle
+            trackingNumElement.textContent = trackingNumber;
+            senderNameElement.textContent = data.sender;
+            receiverNameElement.textContent = data.receiver;
+
+            // Takip adımlarını ekle
+            data.steps.forEach(step => {
+                const timelineStep = document.createElement('div');
+                timelineStep.classList.add('timeline-step');
+
+                const circle = document.createElement('div');
+                circle.classList.add('circle');
+
+                const line = document.createElement('div');
+                line.classList.add('line');
+
+                const details = document.createElement('div');
+                details.classList.add('details');
+                details.innerHTML = `
+                    <div class="date">${step.date}</div>
+                    <div class="status">${step.status}</div>
+                    <div class="location">${step.location}</div>
+                `;
+
+                timelineStep.appendChild(circle);
+                timelineStep.appendChild(line);
+                timelineStep.appendChild(details);
+                trackingTimeline.appendChild(timelineStep);
+            });
+
+            trackingDetails.style.display = 'block';
+        } else {
+            statusMessage.style.display = 'block';
+        }
+    });
+
+</script> 

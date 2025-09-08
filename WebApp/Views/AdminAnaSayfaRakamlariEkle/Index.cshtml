@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+<section class="wrapper">
+    <!-- page start-->
+    <div class="row">
+        <form class="form-horizontal" action="@Url.Action("Kaydet","AdminAnaSayfaRakamlariEkle")" method="post">
+            <div class="col-md-6">
+                <section class="panel">
+                    <header class="panel-heading">
+                        RAKAM BİLGİLERİ EKLE
+                    </header>
+                    <div class="panel-body">
+                        <div class="form">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="col-sm-6 control-label col-sm-6">RAKAM BAŞLIĞI</label>
+                                    <input type="text" name="Baslik" value="" class="form-control" style="color:#000" />
+                                    <br />
+                                    <label class="col-sm-6 control-label col-sm-6">RAKAM TUTARI</label>
+                                    <input type="number" class="form-control ckeditor" name="Sayi" style="color:#000"/>
+                                </div>
+                            </div>
+                            <div class="panel-body text-right">
+                                <a href="@Url.Action("Index","AdminAnaSayfaRakamlari")" class="btn btn-danger"><i class="icon-cancel"></i> İptal</a>
+                                <button type="submit" class="btn btn-info "><i class="icon-save"></i> Kaydet</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+        </form>
+    </div>
+</section>
+

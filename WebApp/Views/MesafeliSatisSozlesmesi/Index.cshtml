@@ -1,0 +1,307 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUI.cshtml";
+}
+
+
+<!-- Title page -->
+<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('img/Hakkımızda.png');">
+	<h2 class="ltext-105 cl0 txt-center">
+		Mesafeli Satış Sözleşmesi
+	</h2>
+</section>
+
+
+<!-- Content page -->
+<section class="bg0 p-t-62 p-b-60">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-lg-9 p-b-80">
+				<div class="p-r-45 p-r-0-lg">
+					<!-- item blog -->
+					<div class="p-b-63">
+
+						<div class="p-t-32">
+							<h4 class="p-b-15">
+								<a href="blog-detail.html" class="ltext-108 cl2 hov-cl1 trans-04">
+									Mesafeli Satış Sözleşmesi
+								</a>
+							</h4>
+							<p class="stext-117 cl6">Mesafeli Satış Sözleşmesi</p>
+
+							<p>
+								İşbu Mesafeli Satış Sözleşmesi, <strong>2 Kdis 2 Mom</strong> ile müşteri arasında,
+								4077 sayılı Tüketicinin Korunması Hakkında Kanun ve ilgili mevzuat uyarınca
+								düzenlenmiştir. Bu sözleşme, internet üzerinden alışveriş yapan tüketicilerin
+								haklarını ve yükümlülüklerini belirlemektedir.
+							</p>
+
+							<br>
+
+							<h5><b>Sözleşmenin Tarafları</b></h5>
+
+							<ul>
+								<li><strong>Satıcı:</strong> @ViewBag.Iletisim.Adi</li>
+								<li><strong>Adres:</strong> @ViewBag.Iletisim.Adres</li>
+								<li><strong>Telefon:</strong> @ViewBag.Iletisim.Telefon1</li>
+								<li><strong>E-posta:</strong> @ViewBag.Iletisim.Email1</li>
+								<li>
+									<strong>Müşteri:</strong> Satın alma işlemini gerçekleştiren gerçek veya tüzel
+									kişi.
+								</li>
+							</ul>
+
+							<br>
+
+							<h5><b>Sözleşmenin Konusu</b></b></h5>
+
+							<p>
+								İşbu sözleşmenin konusu, müşterinin 2 Kdis 2 Mom web sitesinden yaptığı alışverişe
+								ilişkin olarak, taraflar arasında satışa konu olan ürünlerin teslimatına, ödeme
+								şartlarına, iade ve değişim şartlarına dair hak ve yükümlülüklerin belirlenmesidir.
+							</p>
+
+							<br>
+
+							<h5><b>Ürün Bilgileri</b></h5>
+
+							<p>
+								Web sitemizde satışı yapılan ürünlerin özellikleri, fiyatları, ödeme yöntemleri,
+								teslimat koşulları, iade şartları ve diğer bilgileri her ürün sayfasında açıkça
+								belirtilmektedir. Müşteri, alışverişi sırasında bu bilgileri dikkatlice inceleyerek
+								kabul etmiş olur.
+							</p>
+
+							<br>
+
+							<h5><b>Alışveriş ve Sözleşmenin Kurulması</b></h5>
+
+							<p>
+								Müşteri, siteden ürün veya hizmet seçip, ödeme işlemine geçtikten sonra, işbu
+								Mesafeli Satış Sözleşmesi’ni kabul etmiş sayılır. Satıcı, müşterinin siparişini alıp
+								onayladıktan sonra sözleşme resmen kurulmuş olur.
+							</p>
+
+							<br>
+
+							<h5><b>Ödeme</b></h5>
+
+							<p>
+								Ödeme, <strong>kredi kartı</strong>, <strong>banka kartı</strong>,
+								<strong>havale/EFT</strong> ve diğer ödeme yöntemleri ile yapılabilir. Müşteri,
+								ödeme işlemini tamamladıktan sonra siparişinin işleme alındığını ve satıcı
+								tarafından onaylandığını kabul eder.
+							</p>
+
+							<br>
+
+							<h5><b>Teslimat</b></h5>
+
+							<p>
+								Ürünler, müşteri tarafından verilen teslimat adresine en kısa sürede kargoya verilir.
+								Ürünlerin teslim süresi, kargo şirketine ve teslimat adresine bağlı olarak
+								değişkenlik gösterebilir. Satıcı, siparişin teslimatında yaşanabilecek herhangi bir
+								gecikme durumunda müşteri ile iletişime geçecektir.
+							</p>
+
+							<ul>
+								<li>
+									<strong>Teslimat Süresi:</strong> Genellikle sipariş onayından itibaren 1-5 iş
+									günü.
+								</li>
+								<li>
+									<strong>Ücretsiz Kargo:</strong> Belirli tutar üzerindeki siparişler için kargo
+									ücreti alınmaz. Kargo ücreti, sipariş tutarına göre değişebilir.
+								</li>
+							</ul>
+
+							<br>
+
+							<h5><b>İade ve Değişim</b></h5>
+
+							<p>
+								Müşteri, satın aldığı ürünü teslim aldıktan sonra, **14 gün** içinde iade edebilir.
+								İade işlemi için ürün kullanılmamış, ambalajı açılmamış ve orijinal haliyle
+								olmalıdır. Aşağıdaki durumlarda iade veya değişim yapılamaz:
+							</p>
+							<ul>
+								<li>Ürün kullanılmamalı ve zarar görmemelidir.</li>
+								<li>İç giyim, kozmetik ve hijyenik ürünler iade edilemez.</li>
+								<li>İndirimli veya kampanyalı ürünler için iade kabul edilmez.</li>
+							</ul>
+
+							<p>
+								İade veya değişim işlemi için <strong> @ViewBag.Iletisim.Email1</strong> e-posta adresi
+								ile iletişime geçilmesi gerekmektedir. İade talebi onaylandıktan sonra, ürünün geri
+								gönderilmesi talep edilecektir.
+							</p>
+
+							<br>
+
+
+							<h5><b>Satıcının Yükümlülükleri</b></h5>
+
+							<ul>
+								<li>
+									Satıcı, ürünlerin güvenli ve sağlam şekilde müşteriye teslim edilmesini
+									sağlamakla yükümlüdür.
+								</li>
+								<li>
+									Satıcı, tüketicinin yasal haklarına riayet etmeli ve ürünle ilgili tüm
+									bilgilendirmeleri yapmalıdır.
+								</li>
+							</ul>
+
+							<br>
+
+							<h5><b>Müşterinin Yükümlülükleri</b></h5>
+
+							<ul>
+								<li>
+									Müşteri, sipariş vermeden önce ürünün özelliklerini, fiyatını, teslimat süresini
+									ve diğer şartlarını dikkatlice incelemeli ve doğru iletişim bilgilerini
+									sağlamalıdır.
+								</li>
+								<li>
+									Müşteri, teslimat sırasında kargo firmasına herhangi bir sorun yaşandığında,
+									durumu hemen satıcıya bildirmelidir.
+								</li>
+							</ul>
+
+							<br>
+
+							<h5><b>Yasal Haklar</b></h5>
+
+							<p>
+								Müşteri, 4077 sayılı Tüketicinin Korunması Hakkında Kanun ve 6502 sayılı Tüketicinin
+								Korunması Kanunu’na dayanarak, ürün teslimatından sonra **14 gün** içinde cayma
+								hakkına sahiptir. Bu hak, ürünün teslim alınmasından itibaren geçerlidir.
+							</p>
+
+							<br>
+
+							<h5><b>Uygulanacak Hukuk ve Yetki</b></h5>
+
+							<p>
+								İşbu sözleşme, Türkiye Cumhuriyeti yasalarına tabi olup, taraflar arasındaki
+								anlaşmazlıkların çözümünde **İstanbul Mahkemeleri** ve İcra Daireleri yetkilidir.
+							</p>
+
+							<br>
+
+							<h5><b>Sözleşmenin Geçerliliği</b></h5>
+
+							<p>
+								Müşteri, web sitemizdeki "Siparişi Tamamla" butonuna tıkladığı andan itibaren işbu
+								Mesafeli Satış Sözleşmesi’ni kabul etmiş olur. Taraflar, sözleşmenin tüm maddelerini
+								okuyup, anlamış ve kabul etmiştir.
+							</p>
+
+							<p><strong>Sağlıklı, güvenli ve mutlu alışverişler dileriz!</strong></p>
+
+
+							<div class="flex-w flex-sb-m p-t-18">
+								<span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
+									<span>
+										<span class="cl4">By</span> 2 Kids 2 Mom
+										<span class="cl12 m-l-4 m-r-6">|</span>
+									</span>
+
+									<span>
+										Çocuk Giyim, Giyim
+										<span class="cl12 m-l-4 m-r-6">|</span>
+									</span>
+
+									<span>
+										8 yorum
+									</span>
+								</span>
+
+
+								<a href="#" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
+									Okumaya Devam et
+									<i class="fa fa-long-arrow-right m-l-9"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- item blog -->
+					<!-- Pagination -->
+					<div class="flex-l-m flex-w w-full p-t-10 m-lr--7">
+						<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+							1
+						</a>
+
+						<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7">
+							2
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4 col-lg-3 p-b-80">
+				<div class="side-menu">
+					<div class="bor17 of-hidden pos-relative">
+						<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search"
+							   placeholder="Arama Yapın...">
+
+						<button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+					</div>
+
+					<div class="p-t-55">
+						<h4 class="mtext-112 cl2 p-b-33">
+							Katagoriler
+						</h4>
+
+						<ul>
+							@if (ViewBag.AnaKategori != null)
+							{
+								@foreach (var item in ViewBag.AnaKategori)
+								{
+									<li class="bor18">
+										<a href="/AltKategori/Index/@item.Id" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+											@item.Adi
+										</a>
+									</li>
+								}
+							}
+						</ul>
+					</div>
+
+					<div class="p-t-50">
+						<h4 class="mtext-112 cl2 p-b-27">
+							Etiketler
+						</h4>
+
+						<div class="flex-w m-r--5">
+							<a href="#"
+							   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								Kız Çocuk Modası
+							</a>
+
+							<a href="#"
+							   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								Erkek Çocuk Modası
+							</a>
+
+							<a href="#"
+							   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								Çocuk Giyim
+							</a>
+
+							<a href="#"
+							   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+								Çocuk Stili
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+

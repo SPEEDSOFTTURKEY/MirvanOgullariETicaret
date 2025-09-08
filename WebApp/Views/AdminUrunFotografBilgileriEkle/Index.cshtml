@@ -1,0 +1,447 @@
+﻿@{
+    ViewData["Title"] = "Ürün Medya Ekle";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-form-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-top: 20px;
+    }
+
+        .modern-form-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .form-panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    .form-panel-content {
+        padding: 30px;
+    }
+
+    .form-group-modern {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .control-label-modern {
+        font-weight: 600;
+        color: #4a5568;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .btn-group-modern {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 30px;
+    }
+
+    .btn-modern-form {
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .btn-cancel {
+        background: #718096;
+        color: white;
+    }
+
+        .btn-cancel:hover {
+            background: #4a5568;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(113, 128, 150, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-save {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .form-control-modern {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        color: #000;
+    }
+
+        .form-control-modern:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+    .file-upload-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .file-upload-preview {
+        width: 100%;
+        max-width: 400px;
+        height: 200px;
+        border: 2px dashed #e2e8f0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+        .file-upload-preview img,
+        .file-upload-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .file-upload-preview.empty::before {
+            content: 'Önizleme Yok';
+            color: #718096;
+            font-size: 14px;
+        }
+
+    .btn-file {
+        background: #48bb78;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .btn-file:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+        }
+
+    .btn-file-remove {
+        background: #f56565;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .btn-file-remove:hover {
+            background: #e53e3e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+        }
+
+    .icon-left {
+        margin-right: 8px;
+    }
+
+    media (max-width: 768px) {
+        .form-panel-content
+
+    {
+        padding: 20px;
+    }
+
+    .form-group-modern {
+        padding: 15px;
+    }
+
+    .btn-group-modern {
+        flex-direction: column-reverse;
+    }
+
+    .btn-modern-form {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .file-upload-preview {
+        max-width: 100%;
+        height: 150px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="modern-form-panel">
+                <div class="form-panel-header">
+                    <i class="fa fa-plus-circle"></i>
+                    <span>Resim ve Video Ekle</span>
+                </div>
+                <div class="form-panel-content">
+                    <form class="form-horizontal" action="@Url.Action("Kaydet", "AdminUrunFotografBilgileriEkle")" method="post" enctype="multipart/form-data">
+                        <div class="form-group-modern">
+                            <label class="control-label-modern">Ürün Ana Kategori</label>
+                            <select id="AnaKategoriId" class="form-control-modern" name="UrunAnaKategoriId">
+                                <option value="">Ana Kategori Seçin</option>
+                                @if (ViewBag.AnaKategoriList != null)
+                                {
+                                    foreach (var item in ViewBag.AnaKategoriList)
+                                    {
+                                        <option value="@item.Id">@item.Adi</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern">Ürün Tipi</label>
+                            <select id="AltKategoriId" class="form-control-modern" name="UrunAltKategoriId">
+                                <option value="">Alt Kategori Seçin</option>
+                            </select>
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern">Ürün</label>
+                            <select id="urun" class="form-control-modern" name="UrunId">
+                                <option value="">Ürün Seçin</option>
+                            </select>
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern">Renk</label>
+                            <select id="renk" class="form-control-modern" name="UrunRenkId">
+                                <option value="">Renk Seçin</option>
+                            </select>
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern">Fotoğraf Ürünlerimiz Sayfasında Gösterilsin</label>
+                            <select id="VitrinMi" class="form-control-modern" name="VitrinMi">
+                                <option value="1">Evet</option>
+                                <option value="0" selected>Hayır</option>
+                            </select>
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern">Fotoğraf Yükle (Birden Fazla Seçilebilir)</label>
+                            <div class="file-upload-group">
+                                <div class="file-upload-preview empty" id="imagePreview"></div>
+                                <label class="btn-file">
+                                    <i class="fa fa-upload icon-left"></i>
+                                    <span>Fotoğraf Seç</span>
+                                    <input type="file" name="image" multiple accept="image/*" style="display: none;" onchange="previewFiles(this, 'imagePreview')" />
+                                </label>
+                                <button type="button" class="btn-file-remove" onclick="clearPreview('imagePreview')" style="display: none;" id="imageRemove">
+                                    <i class="fa fa-trash icon-left"></i>
+                                    <span>Kaldır</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern">Video Yükle</label>
+                            <div class="file-upload-group">
+                                <div class="file-upload-preview empty" id="videoPreview"></div>
+                                <label class="btn-file">
+                                    <i class="fa fa-upload icon-left"></i>
+                                    <span>Video Seç</span>
+                                    <input type="file" name="video" accept="video/*" style="display: none;" onchange="previewFiles(this, 'videoPreview')" />
+                                </label>
+                                <button type="button" class="btn-file-remove" onclick="clearPreview('videoPreview')" style="display: none;" id="videoRemove">
+                                    <i class="fa fa-trash icon-left"></i>
+                                    <span>Kaldır</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="btn-group-modern">
+                            <a href="@Url.Action("Index", "AdminUrunFotografBilgileri")" class="btn-modern-form btn-cancel">
+                                <i class="fa fa-times icon-left"></i>
+                                <span>İptal</span>
+                            </a>
+                            <button type="submit" class="btn-modern-form btn-save">
+                                <i class="fa fa-check icon-left"></i>
+                                <span>Kaydet</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            $("#AnaKategoriId").change(function () {
+                var anaKategoriId = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetirAltKategori", "AdminUrunFotografBilgileriEkle")',
+                    type: 'POST',
+                    data: { AnaKategoriId: anaKategoriId },
+                    success: function (result) {
+                        var altKategoriSelect = $("#AltKategoriId");
+                        altKategoriSelect.empty();
+                        altKategoriSelect.append($('<option/>', {
+                            value: "",
+                            text: "Alt Kategori Seçin"
+                        }));
+                        result.forEach(function (item) {
+                            altKategoriSelect.append($('<option/>', {
+                                value: item.id,
+                                text: item.adi
+                            }));
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Hata oluştu: " + error);
+                        alert("Kategoriler yüklenirken bir hata oluştu.");
+                    }
+                });
+            });
+
+            $("#AltKategoriId").change(function () {
+                var altKategori = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetirUrun", "AdminUrunFotografBilgileriEkle")',
+                    type: 'POST',
+                    data: { AltKategoriId: altKategori },
+                    success: function (result) {
+                        var urunSelect = $("#urun");
+                        urunSelect.empty();
+                        urunSelect.append($('<option/>', {
+                            value: "",
+                            text: "Ürün Seçin"
+                        }));
+                        result.forEach(function (item) {
+                            urunSelect.append($('<option/>', {
+                                value: item.id,
+                                text: item.adi
+                            }));
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Hata oluştu: " + error);
+                        alert("Ürünler yüklenirken bir hata oluştu.");
+                    }
+                });
+            });
+
+            $("#urun").change(function () {
+                var urun = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("GetirRenk", "AdminUrunFotografBilgileriEkle")',
+                    type: 'POST',
+                    data: { UrunId: urun },
+                    success: function (result) {
+                        var renkSelect = $("#renk");
+                        renkSelect.empty();
+                        renkSelect.append($('<option/>', {
+                            value: "",
+                            text: "Renk Seçin"
+                        }));
+                        result.forEach(function (item) {
+                            renkSelect.append($('<option/>', {
+                                value: item.id,
+                                text: item.adi
+                            }));
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Hata oluştu: " + error);
+                        alert("Renkler yüklenirken bir hata oluştu.");
+                    }
+                });
+            });
+        });
+
+        function previewFiles(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const removeBtn = document.getElementById(previewId === 'imagePreview' ? 'imageRemove' : 'videoRemove');
+            preview.innerHTML = '';
+            preview.classList.remove('empty');
+
+            if (input.files && input.files.length > 0) {
+                for (let i = 0; i < input.files.length; i++) {
+                    const file = input.files[i];
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        const element = file.type.startsWith('image/')
+                            ? document.createElement('img')
+                            : document.createElement('video');
+                        element.src = e.target.result;
+                        if (element.tagName === 'VIDEO') {
+                            element.controls = true;
+                        }
+                        preview.appendChild(element);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+                removeBtn.style.display = 'inline-flex';
+            } else {
+                preview.classList.add('empty');
+                removeBtn.style.display = 'none';
+            }
+        }
+
+        function clearPreview(previewId) {
+            const preview = document.getElementById(previewId);
+            const input = previewId === 'imagePreview'
+                ? document.querySelector('input[name="image"]')
+                : document.querySelector('input[name="video"]');
+            const removeBtn = document.getElementById(previewId === 'imagePreview' ? 'imageRemove' : 'videoRemove');
+
+            preview.innerHTML = '';
+            preview.classList.add('empty');
+            input.value = '';
+            removeBtn.style.display = 'none';
+        }
+    </script>
+}

@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+</ul>
+<h1 class="title page-title"><span>Hesabım</span></h1>
+
+<div id="account-account" class="container">
+    <div class="row">
+        <div id="content" class="account-page col-sm-9">
+            <div class="my-account">
+                <h2 class="title">Hesabım</h2>
+                <ul class="list-unstyled account-list">
+                    <li class="edit-info">
+                        <a href="@Url.Action("Index","EditAccount")">Hesap Bilgilerimi Düzenle</a>
+                    </li>
+                    <li class="edit-pass">
+                        <a href="@Url.Action("Index","AccountChangePassword")">Parola Değiştir</a>
+                    </li>
+                    <li class="edit-address">
+                        <a href="@Url.Action("Index","Address")">Adres Defterlerini Düzenle</a>
+                    </li>
+                    <li class="edit-wishlist">
+                        <a href="@Url.Action("Index","ShoppingList")">Alışveriş Listemi Düzenle</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="my-orders">
+                <h2 class="title">Siparişlerim</h2>
+                <ul class="list-unstyled account-list">
+                    <li class="edit-order">
+                        <a href="@Url.Action("Index","Orders")">Siparişlerim</a>
+                    </li>
+                    <li class="edit-downloads">
+                        <a href="@Url.Action("Index","Download")">Dosyalarım</a>
+                    </li>
+                    <li class="edit-rewards">
+                        <a href="@Url.Action("Index","Reward")">Puanlarım</a>
+                    </li>
+                    <li class="edit-returns">
+                        <a href="@Url.Action("Index","ReturnRequest")">İade Taleplerim</a>
+                    </li>
+                    <li class="edit-transactions">
+                        <a href="@Url.Action("Index","BalanceTransactions")">Bakiye İşlemlerim</a>
+                    </li>
+                    <li class="edit-recurring">
+                        <a href="@Url.Action("Index","AutomaticPayments")">Otomatik Ödemeler</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="my-affiliates">
+                <h2 class="title">Ortaklık Hesabım</h2>
+                <ul class="list-unstyled account-list">
+                    <li class="affiliate-add">
+                        <a href="@Url.Action("Index","AffiliateInformation")">Ortaklık hesabı için kayıt ol</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="my-newsletter">
+                <h2 class="title">Bülten Aboneliği</h2>
+                <ul class="list-unstyled account-list">
+                    <li>
+                        <a href="@Url.Action("Index","Maillist")">Bültene Abone Ol / Kaldır.</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        @Html.Partial("_AccountSidebar")
+    </div>
+</div>
+

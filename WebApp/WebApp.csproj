@@ -1,0 +1,195 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+    <PackageReference Include="EPPlus" Version="7.7.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
+    <PackageReference Include="Iyzipay" Version="2.1.67" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="9.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NSwag.ApiDescription.Client" Version="13.18.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.4" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.IO" Version="4.3.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+    <PackageReference Include="System.Net.Security" Version="4.3.2" />
+    <PackageReference Include="System.Security.Permissions" Version="9.0.4" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\sshpk-conv" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\sshpk-conv.cmd" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\sshpk-conv.ps1" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\sshpk-sign" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\sshpk-sign.cmd" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\sshpk-sign.ps1" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\sshpk-verify" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\sshpk-verify.cmd" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\sshpk-verify.ps1" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\uuid" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\uuid.cmd" />
+    <None Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\.bin\uuid.ps1" />
+    <None Include="wwwroot\WebUITheme\catalog\view\javascript\bootstrap\css\bootstrap.min.css" />
+    <None Include="wwwroot\WebUITheme\catalog\view\javascript\bootstrap\js\bootstrap.min.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\javascript\common.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\javascript\facebook_business\cookieconsent.min.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\javascript\font-awesome\css\font-awesome.min.css" />
+    <None Include="wwwroot\WebUITheme\catalog\view\javascript\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\WebUITheme\catalog\view\javascript\script.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\css\facebook_business\cookieconsent.min.css" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\icons\fonts\icomoon.woff2" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\icons\style.minimal.css" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\js\common.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\js\journal.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\anime\anime.min.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\cjs\cjs.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\countdown\jquery.countdown.min.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\hoverintent\jquery.hoverIntent.min.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\jquery\jquery-2.1.1.min.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\masterslider\masterslider.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\masterslider\skins\minimal\style.css" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\masterslider\style\grab.png" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\masterslider\style\masterslider.css" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\modernizr\modernizr-custom.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\typeahead\typeahead.jquery.min.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\lib\vanilla-lazyload\lazyload.min.js" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\account.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\blog.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\category.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\checkout.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\grid.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\header\cart.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\header\header.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\header\main-menu.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\header\search.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\main.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\mobile\mobile-wrapper.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\mobile\mobile.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\accordion.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\banners.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\blocks.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\bottom-menu.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\carousel.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\catalog.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\categories.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\filter.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\gallery.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\icons-menu.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\links-menu.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\menu.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\newsletter.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\popup.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\slider.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\modules\tabs.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\no source.html" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\notification.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\pages.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\product-card.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\product-page.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\rtl.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\style.css" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\test.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\ui.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\catalog\view\theme\journal3\scss\variables.scss" />
+    <None Include="wwwroot\WebUITheme\catalog\view\theme\journal3\stylesheet\style.css" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\0tilsimbaby\guvenli1-50x50.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\0tilsimbaby\hediye1-50x50.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\0tilsimbaby\kargo1-50x50.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\0tilsimbaby\kisiyeozel1-50x50.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\0tilsimbaby\logo1000x277.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\14 %282%29-99x44w.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\14 %283%29-99x44w.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\Adsız tasarım %2840%29-336x33h.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\Adsız tasarım %2842%29-1471x90w.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\alışverişe başla %286%29-3360x1502w.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\BABAANNE\unisex-bebek-bizi-cekemeyenlere-ne-diyorduk-babaanne-baskili-body-zibin-1150-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\BABA\unisex-bebek-babami-cok-seviyorum-baskili-body-zibin-1057-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\BANNER\alışverişe başla %282%29-3360x1502.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\BANNER\Küçük adamların tarzına tarz ka %282%29-2813x1250.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\BANNER\Küçük adamların tarzına tarz ka %283%29-2813x1250.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\BANNER\ok satanlarımız %281%29-1844x1037.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\BANNER\ok satanlarımız %282%29-1844x1037.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\BANNER\ok satanlarımız-1844x1037.png" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\BEŞİKTAŞ\bjk-1200x1800.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\erkek-bebek-9-aylik-oldum-baskili-kisiye-ozel-body-zibin-779-1200x1800.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\FENERBAHÇE\fb-1200x1800.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\GALATASARAY\gs 1-1200x1800.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\iyi ki doğdun canım babam resimli zıbın-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\KANVAS ÇANTA\it-gets-better-tasarimli-kanvas-bez-canta-1049-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\SET 1-1200x1800w.JPG" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\SET\anne-baba-1200x1800.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\TARAFTAR\cengiz ünder-fenerbahçe-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\TARAK\TARAK 7-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\TEYZE\teyzemle partiliyoruz-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\unisex-bebek-annesinin-minik-kusu-baskili-body-zibin-578-1200x1800.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\unisex-bebek-dont-touch-baskili-body-zibin-469-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\unisex-bebek-happy-birthday-mommy-baskili-body-zibin-675-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\unisex-bebek-panik-yok-babaannem-halleder-baskili-kisiye-ozel-body-zibin-733-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\unisex-bebek-unutma-onemli-olan-sadece-benim-baskili-body-zibin-565-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\unisex-bebek-vintage-homes-baskili-body-zibin-571-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\cache\catalog\YILBAŞI\ARDENİN İLK YENİ YILI-1200x1800w.jpg" />
+    <None Include="wwwroot\WebUITheme\image\catalog\FAVİCON 22.png" />
+    <None Include="wwwroot\WebUITheme\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\urungorsel\" />
+    <Folder Include="wwwroot\WebAdminTheme\AnaSayfa\Video\" />
+    <Folder Include="wwwroot\WebAdminTheme\assets\advanced-datatable\node_modules\jsdom\lib\jsdom\level2\languages\" />
+    <Folder Include="wwwroot\WebAdminTheme\Galeri\Buyuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\Galeri\Kucuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\Hizmetlerimiz\Buyuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\Hizmetlerimiz\Kucuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\Iletisim\Buyuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\Iletisim\Kucuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\img\gallery\" />
+    <Folder Include="wwwroot\WebAdminTheme\img\product-list\" />
+    <Folder Include="wwwroot\WebAdminTheme\Logo\Buyuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\Logo\Kucuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\Uploads\" />
+    <Folder Include="wwwroot\WebAdminTheme\Personel\Buyuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\Personel\Kucuk\" />
+    <Folder Include="wwwroot\WebAdminTheme\Video\" />
+  </ItemGroup>
+
+</Project>

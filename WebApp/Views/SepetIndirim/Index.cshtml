@@ -1,0 +1,246 @@
+﻿@{
+    ViewData["Title"] = "Sepete İndirim Tutarı Listesi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+    string baslik = $"Sepete İndirim Tutarı Listesi - Kayıt Sayısı: {(ViewBag.SepetIndirimListesi != null ? ViewBag.SepetIndirimListesi.Count : 0)}";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-action-edit {
+        background: #48bb78;
+        color: white;
+    }
+
+        .btn-action-edit:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .currency-text {
+        color: #4a5568;
+    }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .btn-modern {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-tag"></i>
+                    <span>@baslik</span>
+                </div>
+                <div class="panel-content">
+                    <a class="btn-modern" href="/SepetIndirimEkle/">
+                        <i class="fa fa-plus"></i>
+                        <span>Yeni İndirim Ekle</span>
+                    </a>
+                    @if (ViewBag.SepetIndirimListesi != null && ViewBag.SepetIndirimListesi.Count > 0)
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Sepet Minimum Tutar</th>
+                                        <th>İndirim Tutarı</th>
+                                        <th style="text-align: center;">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var sepet in ViewBag.SepetIndirimListesi)
+                                    {
+                                        <tr>
+                                            <td class="currency-text">@(sepet.SepetTutari != null ? sepet.SepetTutari.ToString("N2") + " ₺" : "-")</td>
+                                            <td class="currency-text">@(sepet.IndirimMiktari != null ? sepet.IndirimMiktari.ToString("N2") + " ₺" : "-")</td>
+                                            <td style="text-align: center;">
+                                                <a class="btn-action btn-action-edit" href="/SepetIndirim/Guncelleme/@sepet.Id" title="Düzenle">
+                                                    <i class="icon-pencil"></i>
+                                                </a>
+                                                <a class="btn-action btn-action-delete" href="/SepetIndirim/Sil/@sepet.Id" title="Sil"
+                                                   onclick="return confirm('Bu indirim kuralını silmek istediğinizden emin misiniz?');">
+                                                    <i class="icon-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-tag"></i>
+                            <h4>Henüz indirim kuralı eklenmemiş</h4>
+                            <p>Yukarıdaki "Yeni İndirim Ekle" butonunu kullanarak sepet indirim kuralı ekleyebilirsiniz.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+                 if ($.fn.DataTable && $('#TblVeriler').length > 0) {
+            $('#TblVeriler').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                },
+                "pageLength": 10,
+                "order": [[1, "desc"]],
+                "responsive": true,
+                "bDestroy": true
+            });
+        }
+
+            }
+        });
+    </script>
+}

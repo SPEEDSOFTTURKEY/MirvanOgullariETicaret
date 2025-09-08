@@ -1,0 +1,295 @@
+﻿@{
+    ViewData["Title"] = "Hakkımızda Fotograf Ekle";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-form-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-top: 20px;
+    }
+
+        .modern-form-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .form-panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 40px;
+    }
+
+    .form-panel-content {
+        padding: 30px;
+    }
+
+    .form-group-modern {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .btn-group-modern {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 30px;
+    }
+
+    .btn-modern-form {
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .btn-cancel {
+        background: #718096;
+        color: white;
+    }
+
+        .btn-cancel:hover {
+            background: #4a5568;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(113, 128, 150, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-save {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .fileupload-modern {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .fileupload-preview {
+        width: 400px;
+        height: 200px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+        .fileupload-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+    .fileupload-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-file-modern {
+        background: #4299e1;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-file-modern:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .btn-file-modern input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    .btn-remove-modern {
+        background: #f56565;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-remove-modern:hover {
+            background: #e53e3e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+        }
+
+    .icon-left {
+        margin-right: 8px;
+    }
+
+    media (max-width: 768px) {
+        .form-panel-content
+
+    {
+        padding: 20px;
+    }
+
+    .fileupload-preview {
+        width: 100%;
+        height: 150px;
+    }
+
+    .btn-group-modern {
+        flex-direction: column-reverse;
+    }
+
+    .btn-modern-form {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .fileupload-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <form class="form-horizontal" action="@Url.Action("Kaydet", "AdminHakkimizdaFotografEkle")" method="post" enctype="multipart/form-data">
+                <div class="modern-form-panel">
+                    <div class="form-panel-header">
+                        <i class="fa fa-image"></i>
+                        <span>Yeni Resim Ekle</span>
+                    </div>
+                    <div class="form-panel-content">
+                        <div class="form-group-modern">
+                            <div class="fileupload-modern" data-provides="fileupload">
+                                <div class="fileupload-preview thumbnail">
+                                    <img src="" alt="Önizleme" style="display: none;" />
+                                    <span style="color: #718096; display: block;">Resim Seçilmedi</span>
+                                </div>
+                                <div class="fileupload-actions">
+                                    <span class="btn-file-modern">
+                                        <i class="fa fa-paper-clip icon-left"></i>
+                                        <span class="fileupload-new">Resim Seç</span>
+                                        <span class="fileupload-exists">Değiştir</span>
+                                        <input type="file" name="imagefile" class="default" multiple accept="image/*" />
+                                    </span>
+                                    <a href="#" class="btn-remove-modern fileupload-exists" data-dismiss="fileupload">
+                                        <i class="fa fa-trash icon-left"></i>
+                                        <span>Sil</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-group-modern">
+                            <a href="@Url.Action("Index", "AdminHakkimizdaFotograf")" class="btn-modern-form btn-cancel">
+                                <i class="fa fa-times icon-left"></i>
+                                <span>İptal</span>
+                            </a>
+                            <button type="submit" class="btn-modern-form btn-save">
+                                <i class="fa fa-check icon-left"></i>
+                                <span>Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    // File upload preview and validation
+    document.querySelector('input[name="imagefile"]').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        const preview = document.querySelector('.fileupload-preview');
+        const img = preview.querySelector('img');
+        const text = preview.querySelector('span');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                img.src = e.target.result;
+                img.style.display = 'block';
+                text.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            img.src = '';
+            img.style.display = 'none';
+            text.style.display = 'block';
+        }
+    });
+
+    document.querySelector('.btn-remove-modern').addEventListener('click', function (e) {
+        e.preventDefault();
+        const input = document.querySelector('input[name="imagefile"]');
+        const preview = document.querySelector('.fileupload-preview');
+        const img = preview.querySelector('img');
+        const text = preview.querySelector('span');
+
+        input.value = '';
+        img.src = '';
+        img.style.display = 'none';
+        text.style.display = 'block';
+    });
+
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const fileInput = document.querySelector('input[name="imagefile"]');
+        if (!fileInput.files.length) {
+            alert('Lütfen bir resim seçiniz.');
+            e.preventDefault();
+        }
+    });
+</script>

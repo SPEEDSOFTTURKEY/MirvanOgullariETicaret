@@ -1,0 +1,97 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+	<li>
+		<a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+	</li>
+	<li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+	<li>
+		<a href="@Url.Action("Index","EditAccount")">Bilgilerimi Düzenle</a>
+	</li>
+</ul>
+<h1 class="title page-title"><span>Hesap Bilgilerim</span></h1>
+
+<div id="account-edit" class="container">
+	<div class="row">
+		<div id="content" class="col-sm-9">
+			<form class="bg0 p-t-75" action="/EditAccount/AccountUpdate" method="post">
+
+				<div id="account">
+					<fieldset>
+						<legend>Kişisel Bilgileriniz</legend>
+						<div class="form-group required account-firstname">
+							<label class="col-sm-2 control-label" for="input-firstname">
+								Adınız
+							</label>
+							<div class="col-sm-10">
+								<input type="text"
+									   name="Adi"
+									   value="@ViewBag.Uyeler.Adi"
+									   placeholder="Adınız"
+									   id="input-firstname"
+									   class="form-control" />
+							</div>
+						</div>
+						<div class="form-group required account-lastname">
+							<label class="col-sm-2 control-label" for="input-lastname">Soyadınız</label>
+							<div class="col-sm-10">
+								<input type="text"
+									   name="Soyadi"
+									   value="@ViewBag.Uyeler.Soyadi"
+									   placeholder="Soyadınız"
+									   id="input-lastname"
+									   class="form-control" />
+							</div>
+						</div>
+						<div class="form-group required account-email">
+							<label class="col-sm-2 control-label" for="input-email">E-Posta</label>
+							<div class="col-sm-10">
+								<input type="email"
+									   name="EMail"
+									   value="@ViewBag.Uyeler.EMail"
+									   placeholder="E-Posta"
+									   id="input-email"
+									   class="form-control" />
+							</div>
+						</div>
+						<div class="form-group required account-telephone">
+							<label class="col-sm-2 control-label" for="input-telephone">Telefon</label>
+							<div class="col-sm-10">
+								<input type="tel"
+									   name="Telefon"
+									   value="@ViewBag.Uyeler.Telefon"
+									   placeholder="Telefon"
+									   id="input-telephone"
+									   class="form-control" />
+								<input type="hidden"
+									   name="Id"
+									   value="@ViewBag.Uyeler.Id"
+									   />
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="buttons clearfix">
+					<div class="pull-left">
+						<a href="@Url.Action("Index","Account")"
+						   class="btn btn-default">Geri</a>
+					</div>
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary">
+							<span>Devam</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		@Html.Partial("_AccountSidebar")
+
+	</div>
+</div>
+
+
+

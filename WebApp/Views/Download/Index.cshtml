@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+    <li>
+        <a href="@Url.Action("Index","Download")">Dosyalarım</a>
+    </li>
+</ul>
+
+<h1 class="title page-title"><span>Dosyalarım</span></h1>
+
+<div id="account-download" class="container">
+    <div class="row">
+        <div id="content" class="col-sm-9">
+
+            <p>Daha önce dosya içeren bir ürün siparişi vermediniz!</p>
+            <div class="buttons clearfix">
+                <div class="pull-right"><a href="@Url.Action("Index","Account")" class="btn btn-primary">Devam</a></div>
+            </div>
+        </div>
+
+        @Html.Partial("_AccountSidebar")
+    </div>
+</div>
+
+
+
+
+
+
+

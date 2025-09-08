@@ -1,0 +1,301 @@
+﻿@{
+	ViewData["Title"] = "CategoryProducts";
+	Layout = "~/Views/Shared/_LayoutWebUI.cshtml";
+}
+
+
+@* <section class="bg0 p-t-23 p-b-140">
+    <div class="container">
+        <div class="p-b-10">
+            <h3 class="ltext-103 cl5">Kategoriye Ait Ürünler</h3>
+        </div>
+
+        <div class="row isotope-grid">
+            @if (ViewBag.Urunler != null)
+            {
+                @foreach (var item in ViewBag.Urunler)
+                {
+                    <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item @item.UrunAltKategoriId">
+                        <!-- Ürün Bilgileri -->
+                        <div class="block2">
+                            <div class="block2-pic hov-img0">
+                                @foreach (var foto in item.UrunFotograf)
+                                {
+                                    <img src="@foto.FotografKucuk" alt="IMG-PRODUCT" />
+                                    break;
+                                    ;
+                                }
+                            </div>
+                            <div class="block2-txt flex-w flex-t p-t-14">
+                                <div class="block2-txt-child1 flex-col-l">
+                                    <a href="@Url.Action("Index", "ProductDetail", new { id = item.Id, adi = item.Adi })" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                        @item.Adi
+                                    </a>
+
+                                    <span class="stext-105 cl3">
+                                        @if (item.IndirimYuzdesi > 0)
+                                        {
+                                            var indirimliFiyat = item.Fiyat - (item.Fiyat * (item.IndirimYuzdesi / 100.0m));
+                                            <div class="prices">
+                                                <span class="line-through old-price">@item.Fiyat TL</span>
+                                                <span class="discount-percentage">(-@item.IndirimYuzdesi%)</span>
+                                                <br />
+                                                <span class="new-price">@Math.Round(indirimliFiyat, 2) TL</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="prices">
+                                                <span>@item.Fiyat TL</span>
+                                            </div>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section> *@
+
+
+
+<!-- Product -->
+<section class="bg0 p-t-23 p-b-140">
+	<div class="container">
+		<div class="p-b-10">
+			<h3 class="ltext-103 cl5">
+			</h3>
+		</div>
+		<br />
+		<br />
+		<div class="flex-w flex-sb-m p-b-52">
+			<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+
+				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+					Tüm Ürünler
+				</button>
+
+				@if (ViewBag.AnaKategori != null)
+				{
+					@foreach (var anaKategori in ViewBag.AnaKategori)
+					{
+						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 category-button2" data-category2="@anaKategori.Id">
+							@anaKategori.Adi
+						</button>
+
+
+						<div class="sub-categories2" id="sub-categories2-@anaKategori.Id" style="display:none; margin-top:10px; padding-left:20px">
+
+							<br />
+							<br />
+
+							@foreach (var altKategori in ViewBag.AltKategori)
+							{
+								if (altKategori.UrunAnaKategoriId == anaKategori.Id)
+								{
+									<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 sub-category-button2" data-subcategory2="@altKategori.Id">
+										@altKategori.Adi
+									</button>
+								}
+							}
+						</div>
+					}
+				}
+
+			</div>
+		</div>
+
+
+		<div class="row isotope-grid">
+			@if (ViewBag.Urunler != null)
+			{
+				@foreach (var item in ViewBag.Urunler)
+				{
+					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item @item.UrunAltKategoriId">
+						<!-- Block2 -->
+						<div class="block2">
+							<div class="block2-pic hov-img0">
+								<!-- İlk fotoğrafı almak için iç içe foreach döngüsü -->
+								@foreach (var foto in item.UrunFotograf)
+								{
+
+									<img src="@foto.FotografKucuk" alt="IMG-PRODUCT">
+									@* İlk fotoğrafı aldıktan sonra döngüden çık *@
+									break;
+								}
+
+
+
+							</div>
+							<div class="block2-txt flex-w flex-t p-t-14">
+								<div class="block2-txt-child1 flex-col-l ">
+									<a href="@Url.Action("Index", "ProductDetail", new { id = item.Id, adi = item.Adi })" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+										@item.Adi
+									</a>
+
+									<span class="stext-105 cl3">
+										@if (item.IndirimYuzdesi > 0)
+										{
+											// İndirimli fiyat hesaplaması
+											var indirimliFiyat = item.Fiyat - (item.Fiyat * (item.IndirimYuzdesi / 100.0m));
+											<div class="prices">
+												<span class="line-through old-price">@item.Fiyat TL</span> <!-- Eski fiyat (üstü çizili) --> 												<span class="discount-percentage">(-@item.IndirimYuzdesi%)</span> <!-- İndirim yüzdesi -->
+												<br />
+												<span class="new-price">@Math.Round(indirimliFiyat, 2) TL</span> <!-- Yeni fiyat (büyütülmüş) -->
+											</div>
+										}
+										else
+										{
+											<div class="prices">
+												<span>@item.Fiyat TL</span> <!-- Normal fiyat -->
+											</div>
+										}
+									</span>
+								</div>
+
+								<div class="block2-txt-child2 flex-r p-t-3">
+									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+										<img class="icon-heart1 dis-block trans-04" src="/WebUITheme/images/icons/icon-heart-01.png" alt="ICON">
+										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="/WebUITheme/images/icons/icon-heart-02.png" alt="ICON">
+									</a>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				}
+			}
+		</div>
+		@* <div class="flex-c-m flex-w w-full p-t-45">
+		<button class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" type="button" id="dahaFazlaBtn">
+		Daha Fazla
+		</button>
+		</div> *@
+
+		<form method="post" action="/Home/GetAllData">
+
+			<input type="hidden" name="kategoriId" id="kategoriId" value="" />
+
+			<div class="flex-c-m flex-w w-full p-t-45">
+				<button class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" type="submit">
+					Daha Fazla
+				</button>
+			</div>
+		</form>
+
+
+
+	</div>
+</section>
+
+<style>
+	/* Fiyatları alt alta göstermek için container */
+	.prices {
+		display: block;
+		margin-top: 5px; /* Fiyatlar arasındaki boşluğu ayarlayın */
+	}
+
+	/* Eski fiyatın üstünü çizme */
+	.old-price {
+		text-decoration: line-through;
+		font-size: 0.9em; /* Eski fiyatı biraz daha küçük yap */
+		color: #999; /* Eski fiyatı gri yap */
+	}
+
+	/* Yeni fiyatı biraz büyütme */
+	.new-price {
+		font-size: 1.2em; /* Yeni fiyatı büyüt */
+		font-weight: bold; /* Yeni fiyatı kalın yap */
+		color: #e74c3c; /* Yeni fiyatı kırmızı yap */
+	}
+
+	/* İndirim yüzdesi için stil */
+	.discount-percentage {
+		font-size: 0.9em;
+		color: #27ae60; /* Yeşil renk ile indirim yüzdesini vurgula */
+		font-weight: normal;
+	}
+
+	.isotope-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px; /* Aralarındaki boşluğu ayarlayın */
+	}
+
+	.isotope-item {
+		flex: 0 0 calc(25% - 20px); /* 4 sütun düzeni için */
+		box-sizing: border-box;
+	}
+</style>
+
+
+@section Script {
+	<script>
+		$(document).ready(function () {
+			// Ana kategoriye tıklanınca alt kategorileri aç veya kapat
+			$(".category-button2").click(function () {
+				var categoryId = $(this).data("category2");
+				var subCategories = $("#sub-categories2-" + categoryId);
+
+				// Önceki tıklanmış kategorinin alt kategorilerini gizle
+				$(".sub-categories2").not(subCategories).slideUp();
+
+				// Mevcut tıklanan ana kategoriye ait alt kategorileri göster
+				subCategories.slideToggle();
+
+				// Tıklanan ana kategorinin aktif olup olmadığını kontrol et
+				$(".category-button2").removeClass("active"); // Tüm butonlardan aktif sınıfını kaldır
+				$(this).addClass("active"); // Aktif olan butona sınıf ekle
+			});
+
+			// Alt kategoriye tıklanınca ürünleri filtrele
+			$(".sub-category-button2").click(function () {
+				var subCategoryId = $(this).data("subcategory2");
+				$(".isotope-item").hide();
+				$(".isotope-item." + subCategoryId).show();
+			});
+
+
+			// "Tüm Ürünler" butonuna tıklayınca tüm ürünleri tekrar göster
+			$(".how-active1").click(function () {
+				// Tüm ürünleri göster
+				$(".isotope-item2").show();
+
+				// Alt kategori butonlarını sıfırlamak için tıklanan alt kategoriyi gizle
+				$(".sub-categories2").slideUp();
+
+				// Tüm kategori butonlarının aktif sınıfını kaldır
+				$(".category-button2").removeClass("active");
+			});
+
+			$(".category-button2").click(function () {
+				// Seçilen kategori ID'sini al
+				var kategoriId = $(this).data("category2");
+
+				// Hidden input alanına kategori ID'sini set et
+				$("#kategoriId").val(kategoriId);
+
+				// Formu submit et
+				$("form").submit();
+			});
+
+			window.addEventListener('scroll', function () {
+				sessionStorage.setItem('scrollPosition', window.scrollY);
+			});
+
+			// Sayfa yüklendiğinde scroll pozisyonunu geri yükle
+			window.addEventListener('load', function () {
+				const savedPosition = sessionStorage.getItem('scrollPosition');
+				if (savedPosition) {
+					window.scrollTo(0, savedPosition);
+				}
+			});
+		});
+
+	</script>
+}

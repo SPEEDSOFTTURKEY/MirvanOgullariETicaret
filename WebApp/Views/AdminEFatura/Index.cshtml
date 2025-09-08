@@ -1,0 +1,448 @@
+﻿@{
+    ViewData["Title"] = "E-Fatura Listesi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+    string baslik = string.Empty;
+    if (ViewBag.EFatura != null)
+    {
+        baslik = "E-Fatura Listesi - Kayıt Sayısı: " + ViewBag.EFatura.Count.ToString();
+    }
+    else
+    {
+        baslik = "E-Fatura Listesi - Kayıt Sayısı: 0";
+    }
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .btn-modern-default {
+        background: #e2e8f0;
+        color: #4a5568;
+    }
+
+        .btn-modern-default:hover {
+            background: #cbd5e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(113, 128, 150, 0.3);
+            color: #4a5568;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-action-view {
+        background: #4299e1;
+        color: white;
+    }
+
+        .btn-action-view:hover {
+            background: #3182ce;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+        }
+
+    .btn-action-print {
+        background: #48bb78;
+        color: white;
+    }
+
+        .btn-action-print:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .currency-text {
+        color: #4a5568;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border: none;
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .modal-body {
+        padding: 25px;
+        background: #f8f9fa;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .modal-footer {
+        padding: 15px 25px;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-modal-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+        .btn-modal-close:hover {
+            color: #e2e8f0;
+        }
+
+    .btn-modal-print {
+        background: #48bb78;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+    }
+
+        .btn-modal-print:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+        }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .modal-dialog {
+        margin: 10px;
+    }
+
+    .modal-body {
+        max-height: 60vh;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-modern, .btn-modern-default {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-file-text"></i>
+                    <span>@baslik</span>
+                </div>
+                <div class="panel-content">
+                    <input type="hidden" id="selectedInvoiceNumber" value="@ViewBag.SelectInvoiceNumber" />
+                    @*   <div class="action-buttons" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <a class="btn-modern-default" href="/AdminEFatura/">
+                            <i class="fa fa-list"></i> [Tümü]
+                        </a>
+                    </div> *@
+                    @if (ViewBag.EFaturaListesi != null && ViewBag.EFaturaListesi.Count > 0)
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Firma Adı</th>
+                                        <th>Fatura Numarası</th>
+                                        <th>Fatura Tarihi</th>
+                                        <th>Tutar</th>
+                                        <th style="text-align: center;">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.EFaturaListesi)
+                                    {
+                                        <tr>
+                                            <td>@item.Unvan</td>
+                                            <td>@item.FaturaNumarasi</td>
+                                            <td>@item.FaturaTarih</td>
+                                            <td class="currency-text">@(item.OdenecekTutar != null ? item.OdenecekTutar.ToString("N2") + " ₺" : "-")</td>
+                                            <td style="text-align: center;">
+                                                <a class="btn-action btn-action-view open-invoice" data-invoice-number="@item.FaturaNumarasi" title="Görüntüle">
+                                                    <i class="icon-eye-open"></i>
+                                                </a>
+                                                <a class="btn-action btn-action-print print-invoice" data-invoice-number="@item.FaturaNumarasi" title="Yazdır">
+                                                    <i class="icon-print"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-file-text"></i>
+                            <h4>Henüz fatura bilgisi bulunmamaktadır</h4>
+                            <p>Fatura eklemek için ilgili sipariş sayfasını kullanabilirsiniz.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal HTML -->
+    <div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: fit-content;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="invoiceModalLabel">Fatura Detayları</h4>
+                    <button type="button" class="btn-modal-close" data-dismiss="modal" aria-label="Close">×</button>
+                </div>
+                <div class="modal-body" id="invoiceModalBody">
+                    <!-- Invoice content will be injected here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal-print print-invoice-panel" id="printInvoicePanel">
+                        <i class="icon-print"></i> Yazdır
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        window.onload = function () {
+            const selectedInvoice = document.getElementById('selectedInvoiceNumber')?.value.trim();
+
+            if (selectedInvoice && selectedInvoice !== '') {
+                fetch(`/AdminEFatura/GetInvoiceHtml?invoiceNumber=${selectedInvoice}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.htmlContent) {
+                            const modal = document.getElementById('invoiceModal');
+                            modal.querySelector('.modal-body').innerHTML = data.htmlContent;
+
+                            const printButton = modal.querySelector('.print-invoice-panel');
+                            const newPrintButton = printButton.cloneNode(true);
+                            printButton.parentNode.replaceChild(newPrintButton, printButton);
+
+                            newPrintButton.addEventListener('click', function () {
+                                printInvoiceHandler(selectedInvoice);
+                            });
+
+                            $('#invoiceModal').modal('show');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fatura yüklenemedi:', error);
+                        alert('Fatura yüklenemedi: ' + error.message);
+                    });
+            }
+        };
+
+        document.querySelectorAll('.open-invoice').forEach(button => {
+            button.addEventListener('click', function () {
+                const invoiceNumber = this.getAttribute('data-invoice-number');
+
+                fetch(`/AdminEFatura/GetInvoiceHtml?invoiceNumber=${invoiceNumber}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.htmlContent) {
+                            const modal = document.getElementById('invoiceModal');
+                            modal.querySelector('.modal-body').innerHTML = data.htmlContent;
+
+                            const printButton = modal.querySelector('.print-invoice-panel');
+                            const newPrintButton = printButton.cloneNode(true);
+                            printButton.parentNode.replaceChild(newPrintButton, printButton);
+
+                            newPrintButton.addEventListener('click', function () {
+                                printInvoiceHandler(invoiceNumber);
+                            });
+
+                            $('#invoiceModal').modal('show');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Hata:', error);
+                        alert('Fatura yüklenemedi: ' + error.message);
+                    });
+            });
+        });
+
+        document.querySelectorAll('.print-invoice').forEach(button => {
+            button.addEventListener('click', function () {
+                const invoiceNumber = this.getAttribute('data-invoice-number');
+                printInvoiceHandler(invoiceNumber);
+            });
+        });
+
+        function printInvoiceHandler(invoiceNumber) {
+            const printWindow = window.open('', '', 'width=1280,height=720');
+            if (!printWindow) {
+                alert('Pop-up engellendi. Lütfen tarayıcı ayarlarını kontrol edin.');
+                return;
+            }
+
+            fetch(`/AdminEFatura/GetInvoiceHtml?invoiceNumber=${invoiceNumber}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.htmlContent) {
+                        printWindow.document.write(data.htmlContent);
+                        printWindow.document.close();
+
+                        printWindow.onload = function () {
+                            printWindow.focus();
+                            printWindow.print();
+                        };
+                    }
+                })
+                .catch(error => {
+                    printWindow.document.write('<p>Fatura yüklenemedi.</p>');
+                    printWindow.document.close();
+                    alert('Fatura yüklenemedi: ' + error.message);
+                });
+        }
+    </script>
+}

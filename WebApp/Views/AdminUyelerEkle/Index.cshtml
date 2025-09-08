@@ -1,0 +1,263 @@
+﻿@{
+    ViewData["Title"] = "Üye Ekle";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-form-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-top: 20px;
+    }
+
+        .modern-form-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .form-panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .form-panel-content {
+        padding: 30px;
+    }
+
+    .form-group-modern {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .control-label-modern {
+        font-weight: 600;
+        color: #4a5568;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .btn-group-modern {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 30px;
+    }
+
+    .btn-modern-form {
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .btn-cancel {
+        background: #718096;
+        color: white;
+    }
+
+        .btn-cancel:hover {
+            background: #4a5568;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(113, 128, 150, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-save {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .form-control-modern {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 15px;
+        color: #000;
+    }
+
+        .form-control-modern:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .form-col {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .icon-left {
+        margin-right: 8px;
+    }
+
+    media (max-width: 768px) {
+        .form-panel-content
+
+    {
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-col {
+        min-width: 100%;
+    }
+
+    .btn-group-modern {
+        flex-direction: column-reverse;
+    }
+
+    .btn-modern-form {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-horizontal" action="@Url.Action("Kaydet", "AdminUyelerEkle")" method="post">
+                <div class="modern-form-panel">
+                    <div class="form-panel-header">
+                        <i class="fa fa-user-plus"></i>
+                        <span>Yeni Üye Ekle</span>
+                    </div>
+                    <div class="form-panel-content">
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">Adı</label>
+                                    <input type="text" class="form-control-modern" name="Adi" placeholder="Adı" />
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">Soyadı</label>
+                                    <input type="text" class="form-control-modern" name="Soyadi" placeholder="Soyadı" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">E-Mail</label>
+                                    <input type="email" class="form-control-modern" name="Email" placeholder="E-Mail" />
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">TC Kimlik No</label>
+                                    <input type="text" class="form-control-modern" name="TCKimlikNo" placeholder="TC Kimlik No" maxlength="11" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">Telefon</label>
+                                    <input type="text" class="form-control-modern" name="Telefon" placeholder="Telefon" data-mask="0(999) 999-9999" />
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group-modern">
+                                    <label class="control-label-modern">Şifre</label>
+                                    <input type="password" class="form-control-modern" name="Sifre" placeholder="Şifre" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-group-modern">
+                            <a href="@Url.Action("Index", "AdminUyeler")" class="btn-modern-form btn-cancel">
+                                <i class="fa fa-times icon-left"></i>
+                                <span>İptal</span>
+                            </a>
+                            <button type="submit" class="btn-modern-form btn-save">
+                                <i class="fa fa-check icon-left"></i>
+                                <span>Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const adi = document.querySelector('input[name="Adi"]').value;
+            const soyadi = document.querySelector('input[name="Soyadi"]').value;
+            const email = document.querySelector('input[name="Email"]').value;
+            const tcKimlikNo = document.querySelector('input[name="TCKimlikNo"]').value;
+            const telefon = document.querySelector('input[name="Telefon"]').value;
+            const sifre = document.querySelector('input[name="Sifre"]').value;
+
+            if (!adi.trim() || !soyadi.trim() || !email.trim() || !tcKimlikNo.trim() || !telefon.trim() || !sifre.trim()) {
+                alert('Lütfen tüm zorunlu alanları doldurunuz.');
+                e.preventDefault();
+                return;
+            }
+
+            const emailRegex =/^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Lütfen geçerli bir e-posta adresi giriniz.');
+                e.preventDefault();
+                return;
+            }
+
+            if (tcKimlikNo.length !== 11 || isNaN(tcKimlikNo)) {
+                alert('TC Kimlik No 11 haneli bir sayı olmalıdır.');
+                e.preventDefault();
+            }
+        });
+    </script>
+}

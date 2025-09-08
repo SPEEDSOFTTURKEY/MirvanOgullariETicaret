@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+<br />
+<br />
+<br />
+
+<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('/WebUITheme/images/bg-03.jpg');">
+	<h2 class="ltext-105 cl0 txt-center">
+		@ViewBag.Mesaj.Baslik
+	</h2>
+</section>
+
+
+<!-- Content page -->
+<section class="bg0 p-t-62 p-b-60">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 p-b-80">
+				<div class="p-r-45 p-r-0-lg">
+					<!-- item blog -->
+					<div class="p-b-63">
+						<a href="/Product" class="hov-img0 how-pos5-parent">
+							@ViewBag.Mesaj.Metin
+							<br />
+							<img src="@ViewBag.Mesaj.ResimDosya" alt="IMG-BLOG">
+
+						</a>
+
+					</div>
+
+
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+</section>
+

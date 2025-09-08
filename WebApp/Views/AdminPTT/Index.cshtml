@@ -1,0 +1,757 @@
+﻿@using System.Globalization
+@using Newtonsoft.Json
+@using WebApp.Models
+
+@{
+    ViewData["Title"] = "PTT Ürün Yönetimi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+    var products = ViewBag.Products as List<object>;
+    var pazarYeriId = ViewBag.PazarYeriId;
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        margin: 30px 0;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 20px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+    .modern-table {
+        margin-top: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 12px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .modern-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+    .btn-action {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        margin-right: 5px;
+    }
+
+    .btn-action-update {
+        background: #38a169;
+        color: white;
+    }
+
+        .btn-action-update:hover {
+            background: #2f855a;
+            transform: translateY(-1px);
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #cbd5e0;
+        }
+
+    .content-text {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #4a5568;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+        padding: 12px 20px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+        width: 100%;
+    }
+
+    .form-control-short {
+        max-width: 200px;
+    }
+
+    .form-control-medium {
+        max-width: 300px;
+    }
+
+    .variant-group {
+        border: 1px solid #e0e0e0;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+    }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .content-text {
+        max-width: 150px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>PTT Ürünleri</span>
+                    <a href="/AdminPTTUrunEkle" class="btn-modern ms-auto">Yeni Ürün Ekle</a>
+                </div>
+                <div class="panel-content">
+                    @if (products != null && products.Any())
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün Adı</th>
+                                        <th>Barkod</th>
+                                        <th>Varyantlar</th>
+                                        <th>VaryantId</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in products.Cast<PTTUrun>())
+                                    {
+                                        <tr data-product='@JsonConvert.SerializeObject(product)'>
+                                            <td class="content-text">@product.Name</td>
+                                            <td class="content-text">@product.Barcode</td>
+                                            <td class="content-text">
+                                                @if (product.Variants != null && product.Variants.Any())
+                                                {
+                                                    <ul>
+                                                        @foreach (var variant in product.Variants)
+                                                        {
+                                                            <li>@variant.Name</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                                else
+                                                {
+                                                    <span>Varyant Yok</span>
+                                                }
+                                            </td>
+                                            <td class="content-text">
+                                                @if (product.Variants != null && product.Variants.Any())
+                                                {
+                                                    <ul>
+                                                        @foreach (var variant in product.Variants)
+                                                        {
+                                                            <li>@variant.Barcode</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                                else
+                                                {
+                                                    <span>VaryantId Yok</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <button class="btn-action btn-action-update" onclick="openUpdateModal(@JsonConvert.SerializeObject(product))">Güncelle</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-shopping-cart"></i>
+                            <h4>Henüz ürün bulunamadı</h4>
+                            <p>Ürünler yüklenemedi veya mevcut değil.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Ürün Ekleme Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="width:50%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Yeni Ürün Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm">
+                    <input type="hidden" id="pazarYeriId" value="@pazarYeriId" />
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="addName">Ürün Adı</label>
+                            <input type="text" class="form-control form-control-medium" id="addName" maxlength="200" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addBarcode">Barkod</label>
+                            <input type="text" class="form-control form-control-short" id="addBarcode" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addCategoryId">Kategori</label>
+                            <select class="form-control form-control-short" id="addCategoryId">
+                                <option value="">Kategori Seçin</option>
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addPriceWithoutVat">KDV Hariç Fiyat</label>
+                            <input type="number" step="0.01" class="form-control form-control-short" id="addPriceWithoutVat" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addPriceWithVat">KDV Dahil Fiyat</label>
+                            <input type="number" step="0.01" class="form-control form-control-short" id="addPriceWithVat" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addVatRate">KDV Oranı</label>
+                            <select class="form-control form-control-short" id="addVatRate">
+                                <option value="">Seçin</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addQuantity">Stok Miktarı</label>
+                            <input type="number" class="form-control form-control-short" id="addQuantity" min="0" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addDesi">Desi</label>
+                            <input type="number" step="0.01" class="form-control form-control-short" id="addDesi" min="0" max="300" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addImageUrl">Görsel URL</label>
+                            <input type="url" class="form-control" id="addImageUrl" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addLongDescription">Uzun Açıklama</label>
+                            <textarea class="form-control" id="addLongDescription" rows="4"></textarea>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addShortDescription">Kısa Açıklama</label>
+                            <textarea class="form-control" id="addShortDescription" rows="4"></textarea>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="addNoShippingProduct">Kargosuz Ürün</label>
+                            <input type="checkbox" id="addNoShippingProduct" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="variants">Varyantlar</label>
+                        <div id="addVariantsContainer">
+                            <div class="variant-group row">
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control mb-2" placeholder="Varyant Barkod" />
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="number" step="0.01" class="form-control mb-2" placeholder="Varyant Fiyat Farkı" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" class="form-control mb-2" placeholder="Varyant Stok" min="0" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control mb-2" placeholder="Nitelik Tanımı" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control mb-2" placeholder="Nitelik Değeri" />
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="button" class="btn-action btn-action-delete mb-2" onclick="removeVariant(this)">Varyantı Kaldır</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-modern mt-2" onclick="addVariant('add')">Varyant Ekle</button>
+                    </div>
+                    <button type="submit" class="btn-modern">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ürün Güncelleme Modal -->
+<div class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="updateProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="width:50%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateProductModalLabel">Ürün Güncelle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateProductForm">
+                    <input type="hidden" id="updatePazarYeriId" value="@pazarYeriId" />
+                    <input type="hidden" id="updateId" />
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="updateName">Ürün Adı</label>
+                            <input type="text" class="form-control form-control-medium" id="updateName" maxlength="200" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updateBarcode">Barkod</label>
+                            <input type="text" class="form-control form-control-short" id="updateBarcode" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updateCategoryId">Kategori</label>
+                            <select class="form-control form-control-short" id="updateCategoryId">
+                                <option value="">Kategori Seçin</option>
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updatePriceWithoutVat">KDV Hariç Fiyat</label>
+                            <input type="number" step="0.01" class="form-control form-control-short" id="updatePriceWithoutVat" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updatePriceWithVat">KDV Dahil Fiyat</label>
+                            <input type="number" step="0.01" class="form-control form-control-short" id="updatePriceWithVat" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updateVatRate">KDV Oranı</label>
+                            <select class="form-control form-control-short" id="updateVatRate">
+                                <option value="">Seçin</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updateQuantity">Stok Miktarı</label>
+                            <input type="number" class="form-control form-control-short" id="updateQuantity" min="0" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updateDesi">Desi</label>
+                            <input type="number" step="0.01" class="form-control form-control-short" id="updateDesi" min="0" max="300" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updateImageUrl">Görsel URL</label>
+                            <input type="url" class="form-control" id="updateImageUrl" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updateLongDescription">Uzun Açıklama</label>
+                            <textarea class="form-control" id="updateLongDescription" rows="4"></textarea>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updateShortDescription">Kısa Açıklama</label>
+                            <textarea class="form-control" id="updateShortDescription" rows="4"></textarea>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="updateNoShippingProduct">Kargosuz Ürün</label>
+                            <input type="checkbox" id="updateNoShippingProduct" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="variants">Varyantlar</label>
+                        <div id="updateVariantsContainer">
+                            <!-- Varyantlar buraya dinamik olarak eklenecek -->
+                        </div>
+                        <button type="button" class="btn-modern mt-2" onclick="addVariant('update')">Varyant Ekle</button>
+                    </div>
+                    <button type="submit" class="btn-modern">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script {
+    <script>
+        // Bootstrap Modal kontrolü
+        function initializeModals() {
+            if (typeof bootstrap !== 'undefined') {
+                // Bootstrap 5
+                window.addModal = new bootstrap.Modal(document.getElementById('addProductModal'));
+                window.updateModal = new bootstrap.Modal(document.getElementById('updateProductModal'));
+            } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                // Bootstrap 4/jQuery
+                console.log('Bootstrap 4 kullanılıyor');
+            } else {
+                console.error('Bootstrap modal kütüphanesi bulunamadı!');
+            }
+        }
+
+        function showAddModal() {
+            try {
+                if (typeof bootstrap !== 'undefined') {
+                    // Bootstrap 5
+                    if (!window.addModal) {
+                        window.addModal = new bootstrap.Modal(document.getElementById('addProductModal'));
+                    }
+                    window.addModal.show();
+                } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                    // Bootstrap 4/jQuery
+                    $('#addProductModal').modal('show');
+                } else {
+                    console.error('Modal açılamadı: Bootstrap bulunamadı');
+                }
+            } catch (error) {
+                console.error('Modal açılırken hata:', error);
+            }
+        }
+
+        function resetAddForm() {
+            document.getElementById('addProductForm').reset();
+            document.getElementById('addVariantsContainer').innerHTML = '';
+            addVariant('add');
+        }
+
+        function addVariant(formType) {
+            const containerId = formType === 'add' ? 'addVariantsContainer' : 'updateVariantsContainer';
+            const variantHtml = `
+                <div class="variant-group row">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control mb-2" placeholder="Varyant Barkod" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" step="0.01" class="form-control mb-2" placeholder="Varyant Fiyat Farkı" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control mb-2" placeholder="Varyant Stok" min="0" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control mb-2" placeholder="Nitelik Tanımı" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control mb-2" placeholder="Nitelik Değeri" />
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn-action btn-action-delete mb-2" onclick="removeVariant(this)">Varyantı Kaldır</button>
+                    </div>
+                </div>`;
+            document.getElementById(containerId).insertAdjacentHTML('beforeend', variantHtml);
+        }
+
+        function removeVariant(btn) {
+            const variantGroup = btn.closest('.variant-group');
+            if (variantGroup) {
+                variantGroup.remove();
+            }
+        }
+
+              function openUpdateModal(product) {
+            document.getElementById('updateId').value = product.Id || '';
+            document.getElementById('updateName').value = product.Name || '';
+            document.getElementById('updateBarcode').value = product.Barcode || '';
+            document.getElementById('updateCategoryId').value = product.CategoryId || ''; // Kategori ID'sini seç
+            document.getElementById('updatePriceWithoutVat').value = product.Price || '';
+            document.getElementById('updatePriceWithVat').value = product.PriceWithVat || '';
+            document.getElementById('updateVatRate').value = product.VATRate || '';
+            document.getElementById('updateQuantity').value = product.Quantity || '';
+            document.getElementById('updateDesi').value = product.Desi || '';
+            document.getElementById('updateImageUrl').value = product.ImageUrl || '';
+            document.getElementById('updateLongDescription').value = product.LongDescription || '';
+            document.getElementById('updateShortDescription').value = product.ShortDescription || '';
+            document.getElementById('updateNoShippingProduct').checked = product.NoShippingProduct || false;
+
+            const updateContainer = document.getElementById('updateVariantsContainer');
+            updateContainer.innerHTML = '';
+
+            if (product.Variants && product.Variants.length > 0) {
+                product.Variants.forEach(variant => {
+                    const variantHtml = `
+                        <div class="variant-group row">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control mb-2" placeholder="Varyant Barkod" value="${variant.Barcode || ''}" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" step="0.01" class="form-control mb-2" placeholder="Varyant Fiyat Farkı" value="${variant.Price || ''}" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control mb-2" placeholder="Varyant Stok" value="${variant.Quantity || ''}" min="0" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control mb-2" placeholder="Nitelik Tanımı" value="${variant.Attributes && variant.Attributes[0] ? variant.Attributes[0].Definition : ''}" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control mb-2" placeholder="Nitelik Değeri" value="${variant.Attributes && variant.Attributes[0] ? variant.Attributes[0].Value : ''}" />
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn-action btn-action-delete mb-2" onclick="removeVariant(this)">Varyantı Kaldır</button>
+                            </div>
+                        </div>`;
+                    updateContainer.insertAdjacentHTML('beforeend', variantHtml);
+                });
+            } else {
+                addVariant('update');
+            }
+
+            try {
+                if (typeof bootstrap !== 'undefined') {
+                    if (!window.updateModal) {
+                        window.updateModal = new bootstrap.Modal(document.getElementById('updateProductModal'));
+                    }
+                    window.updateModal.show();
+                } else if (typeof $ !== 'undefined' && $.fn.modal) {
+                    $('#updateProductModal').modal('show');
+                }
+            } catch (error) {
+                console.error('Update modal açılırken hata:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal'ları başlat
+            initializeModals();
+
+            // Yeni ürün ekle butonu
+            const addProductBtn = document.getElementById('addProductBtn');
+            if (addProductBtn) {
+                addProductBtn.addEventListener('click', function() {
+                    resetAddForm();
+                    showAddModal();
+                });
+            }
+
+            // DataTable initialization
+            if (typeof $ !== 'undefined' && $.fn.DataTable && document.getElementById('TblVeriler')) {
+                $('#TblVeriler').DataTable({
+                    "language": { "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json" },
+                    "pageLength": 10,
+                    "order": [[0, "desc"]],
+                    "responsive": true,
+                    "bDestroy": true
+                });
+            }
+
+            // Add product form submission
+            document.getElementById('addProductForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const product = {
+                    PazarYeriId: document.getElementById('pazarYeriId').value,
+                    Name: document.getElementById('addName').value,
+                    Barcode: document.getElementById('addBarcode').value,
+                    CategoryId: parseInt(document.getElementById('addCategoryId').value),
+                    Price: parseFloat(document.getElementById('addPriceWithoutVat').value),
+                    PriceWithVat: parseFloat(document.getElementById('addPriceWithVat').value) || null,
+                    VATRate: parseInt(document.getElementById('addVatRate').value),
+                    Quantity: parseInt(document.getElementById('addQuantity').value),
+                    Desi: parseFloat(document.getElementById('addDesi').value) || null,
+                    ImageUrl: document.getElementById('addImageUrl').value,
+                    LongDescription: document.getElementById('addLongDescription').value || null,
+                    ShortDescription: document.getElementById('addShortDescription').value || null,
+                    NoShippingProduct: document.getElementById('addNoShippingProduct').checked,
+                    Variants: []
+                };
+
+                const variantGroups = document.querySelectorAll('#addVariantsContainer .variant-group');
+                variantGroups.forEach(group => {
+                    const variant = {
+                        Barcode: group.querySelector('input[placeholder="Varyant Barkod"]').value,
+                        Price: parseFloat(group.querySelector('input[placeholder="Varyant Fiyat Farkı"]').value) || 0,
+                        Quantity: parseInt(group.querySelector('input[placeholder="Varyant Stok"]').value) || 0,
+                        Attributes: [
+                            {
+                                Definition: group.querySelector('input[placeholder="Nitelik Tanımı"]').value,
+                                Value: group.querySelector('input[placeholder="Nitelik Değeri"]').value
+                            }
+                        ]
+                    };
+                    if (variant.Barcode) product.Variants.push(variant);
+                });
+
+                fetch('/AdminPTT/AddOrUpdateProduct', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(product)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Ürün başarıyla eklendi!');
+                        window.addModal.hide();
+                        location.reload(); // Refresh the page to show the new product
+                    } else {
+                        alert('Ürün eklenirken hata oluştu: ' + (data.message || 'Bilinmeyen hata'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Ürün eklenirken hata:', error);
+                    alert('Ürün eklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+                });
+            });
+
+            // Update product form submission
+            document.getElementById('updateProductForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const product = {
+                    Id: document.getElementById('updateId').value,
+                    PazarYeriId: document.getElementById('updatePazarYeriId').value,
+                    Name: document.getElementById('updateName').value,
+                    Barcode: document.getElementById('updateBarcode').value,
+                    CategoryId: parseInt(document.getElementById('updateCategoryId').value),
+                    Price: parseFloat(document.getElementById('updatePriceWithoutVat').value),
+                    PriceWithVat: parseFloat(document.getElementById('updatePriceWithVat').value) || null,
+                    VATRate: parseInt(document.getElementById('updateVatRate').value),
+                    Quantity: parseInt(document.getElementById('updateQuantity').value),
+                    Desi: parseFloat(document.getElementById('updateDesi').value) || null,
+                    ImageUrl: document.getElementById('updateImageUrl').value,
+                    LongDescription: document.getElementById('updateLongDescription').value || null,
+                    ShortDescription: document.getElementById('updateShortDescription').value || null,
+                    NoShippingProduct: document.getElementById('updateNoShippingProduct').checked,
+                    Variants: []
+                };
+
+                const variantGroups = document.querySelectorAll('#updateVariantsContainer .variant-group');
+                variantGroups.forEach(group => {
+                    const variant = {
+                        Barcode: group.querySelector('input[placeholder="Varyant Barkod"]').value,
+                        Price: parseFloat(group.querySelector('input[placeholder="Varyant Fiyat Farkı"]').value) || 0,
+                        Quantity: parseInt(group.querySelector('input[placeholder="Varyant Stok"]').value) || 0,
+                        Attributes: [
+                            {
+                                Definition: group.querySelector('input[placeholder="Nitelik Tanımı"]').value,
+                                Value: group.querySelector('input[placeholder="Nitelik Değeri"]').value
+                            }
+                        ]
+                    };
+                    if (variant.Barcode) product.Variants.push(variant);
+                });
+
+                fetch('/AdminPTT/AddOrUpdateProduct', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(product)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Ürün başarıyla güncellendi!');
+                        window.updateModal.hide();
+                        location.reload(); // Refresh the page to show the updated product
+                    } else {
+                        alert('Ürün güncellenirken hata oluştu: ' + (data.message || 'Bilinmeyen hata'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Ürün güncellenirken hata:', error);
+                    alert('Ürün güncellenirken bir hata oluştu. Lütfen tekrar deneyin.');
+                });
+            });
+        });
+    </script>
+}

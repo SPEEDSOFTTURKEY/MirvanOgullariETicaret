@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+    string baslik = string.Empty;
+}
+<section class="wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    @if (ViewBag.FotografList != null)
+                    {
+                        baslik = " Ana Sayfa  Resim Listesi" + "-" + " " + " " + "Kayıt Sayısı:" + ViewBag.FotografList.Count.ToString();
+                    }
+                    else
+                    {
+                        baslik = " Ana Sayfa Banner Resim Listesi" + "-" + "Kayıt Sayısı:0";
+                    }
+                    @baslik
+
+                </header>
+                <div class="panel-body">
+                    <section id="unseen">
+                        <div class="adv-table">
+
+                            <a class="btn btn-primary" id="btnEkle" href="/AdminAnaSayfaResimEkle/"><i class="fa fa-plus" style="padding-right:5px"></i>Ekle</a>
+                            <table class="table table-bordered table-striped table-condensed" id="TblVeriler" style="font-size:13px;margin-top:5px">
+                                <thead>
+                                    <tr>
+                                        <th>Resim</th>
+                                        <th>Link</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.FotografList != null)
+                                    {
+                                        @foreach (var item in ViewBag.FotografList)
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    <img src="@Url.Content(item.FotografKucuk)" alt="ilan" width="75" height="75" />
+                                                </td>
+                                                <td>@item.Link</td>
+                                                <td>
+                                                  
+                                                    <a class="btn btn-danger btn-xs" href="/AdminAnaSayfaResim/Sil/@item.Id"><i class="icon-trash "></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+

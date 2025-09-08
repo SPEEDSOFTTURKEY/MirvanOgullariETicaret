@@ -1,0 +1,280 @@
+﻿@model WebApp.Models.CariHesap
+@{
+    ViewData["Title"] = "Cari Hesap Güncelle";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+        background: #f5f5f5;
+        min-height: 100vh;
+    }
+
+    .modern-panel {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 15px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 40px;
+    }
+
+    .panel-body {
+        padding: 20px;
+    }
+
+    .form-group-modern {
+        margin-bottom: 20px;
+    }
+
+    .control-label-modern {
+        font-weight: 600;
+        color: #333;
+        font-size: 13px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control-modern {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #d0d0d0;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #000;
+        transition: border-color 0.2s;
+    }
+
+        .form-control-modern:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .form-control-modern[readonly] {
+            background: #f9f9f9;
+            cursor: not-allowed;
+        }
+
+    .btn-modern {
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        margin-right: 10px;
+        transition: background 0.2s;
+    }
+
+    .btn-save {
+        background: #3498db;
+        color: #fff;
+    }
+
+        .btn-save:hover {
+            background: #2980b9;
+        }
+
+    .btn-cancel {
+        background: #e74c3c;
+        color: #fff;
+    }
+
+        .btn-cancel:hover {
+            background: #c0392b;
+        }
+
+    media (max-width: 992px) {
+        .modern-wrapper
+
+    {
+        padding: 15px;
+    }
+
+    .panel-body {
+        padding: 15px;
+    }
+
+    .form-group-modern {
+        margin-bottom: 15px;
+    }
+
+    }
+
+    media (max-width: 576px) {
+        .modern-wrapper
+
+    {
+        padding: 10px;
+    }
+
+    .btn-modern {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    }
+</style>
+
+@using (Html.BeginForm("Kaydet", "AdminCariHesapGuncelle", FormMethod.Post))
+{
+    <section class="modern-wrapper">
+        <div class="row">
+            <div class="col-lg-6">
+                <section class="modern-panel">
+                    <header class="panel-header">
+                        <i class="fa fa-shopping-cart"></i> Cari Hesap Güncelle
+                    </header>
+                    <div class="panel-body">
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <div class="form-group-modern">
+                            <label class="control-label-modern" for="UrunAnaKategoriId">Ana Kategori</label>
+                            <select name="UrunAnaKategoriId" id="UrunAnaKategoriId" class="form-control-modern" style="color:#000">
+                                <option value="@ViewBag.Cari.UrunAnaKategoriId">@ViewBag.Cari.UrunAnaKategori.Adi</option>
+                                @foreach (var item in ViewBag.UrunAnaKategoriListesi)
+                                {
+                                    <option value="@item.Id" selected="@(item.Id == Model.UrunAnaKategoriId)">@item.Adi</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern" for="UrunAltKategoriId">Alt Kategori</label>
+                            <select name="UrunAltKategoriId" id="UrunAltKategoriId" class="form-control-modern" style="color:#000">
+                                <option value="@ViewBag.Cari.UrunAltKategoriId">@ViewBag.Cari.UrunAltKategori.Adi</option>
+                                @foreach (var item in ViewBag.UrunAltKategoriListesi)
+                                {
+                                    <option value="@item.Id" selected="@(item.Id == Model.UrunAltKategoriId)">@item.Adi</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern" for="UrunId">Ürün</label>
+                            <select name="UrunId" id="UrunId" class="form-control-modern" style="color:#000">
+                                <option value="@ViewBag.Cari.UrunId">@ViewBag.Cari.Urun.Adi</option>
+                                @foreach (var item in ViewBag.UrunListesi)
+                                {
+                                    <option value="@item.Id" data-fiyat="@(item.Fiyat ?? 0)" selected="@(item.Id == Model.UrunId)">@item.Adi</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern" for="Adet">Adet</label>
+                            <input type="number" name="Adet" id="Adet" class="form-control-modern" min="1" style="color:#000" value="@Model.Adet" />
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern" for="Fiyat">Fiyat</label>
+                            <input type="text" name="Fiyat" id="Fiyat" class="form-control-modern" readonly style="color:#000" value="@(Model.Fiyat?.ToString("F2") ?? "0.00")" />
+                        </div>
+                        <div class="form-group-modern">
+                            <label class="control-label-modern" for="ToplamFiyat">Toplam Fiyat</label>
+                            <input type="text" name="ToplamFiyat" id="ToplamFiyat" class="form-control-modern" readonly style="color:#000" value="@(Model.ToplamFiyat?.ToString("F2") ?? "0.00")" />
+                        </div>
+                        <div class="form-group-modern">
+                            <button type="submit" class="btn-modern btn-save"><i class="fa fa-save"></i> Kaydet</button>
+                            <a href="@Url.Action("Index", "AdminCariHesap")" class="btn-modern btn-cancel"><i class="fa fa-times"></i> İptal</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+}
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            // Initialize selectedFiyat with the current product's price
+            let selectedFiyat = parseFloat($("#UrunId option:selected").data("fiyat")) || 0;
+            $("#Fiyat").val(selectedFiyat.toFixed(2));
+            calculateTotal();
+
+            // Handle Ana Kategori change
+            $("#UrunAnaKategoriId").change(function () {
+                var urunAnaKategoriId = $(this).val();
+                $("#UrunAltKategoriId").empty().append('<option value="0">Seçiniz</option>');
+                $("#UrunId").empty().append('<option value="0">Önce Alt Kategori Seçiniz</option>');
+                $("#Fiyat").val("0.00");
+                $("#ToplamFiyat").val("0.00");
+                selectedFiyat = 0;
+                calculateTotal();
+
+                if (urunAnaKategoriId && urunAnaKategoriId != "0") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/AdminCariHesap/GetSubCategories",
+                        data: { urunAnaKategoriId: urunAnaKategoriId },
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+                                $("#UrunAltKategoriId").append('<option value="' + item.id + '">' + item.adi + '</option>');
+                            });
+                        },
+                        error: function (err) {
+                            console.error("GetSubCategories Error:", err);
+                        }
+                    });
+                }
+            });
+
+            // Handle Alt Kategori change
+            $("#UrunAltKategoriId").change(function () {
+                var urunAltKategoriId = $(this).val();
+                $("#UrunId").empty().append('<option value="0">Seçiniz</option>');
+                $("#Fiyat").val("0.00");
+                $("#ToplamFiyat").val("0.00");
+                selectedFiyat = 0;
+                calculateTotal();
+
+                if (urunAltKategoriId && urunAltKategoriId != "0") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/AdminCariHesap/GetProducts",
+                        data: { urunAltKategoriId: urunAltKategoriId },
+                        success: function (data) {
+                            $.each(data, function (i, item) {
+                                $("#UrunId").append('<option value="' + item.id + '" data-fiyat="' + (item.fiyat || 0) + '">' + item.adi + '</option>');
+                            });
+                        },
+                        error: function (err) {
+                            console.error("GetProducts Error:", err);
+                        }
+                    });
+                }
+            });
+
+            // Handle Urun change
+            $("#UrunId").change(function () {
+                var selectedOption = $(this).find("option:selected");
+                selectedFiyat = parseFloat(selectedOption.data("fiyat")) || 0;
+                $("#Fiyat").val(selectedFiyat.toFixed(2));
+                calculateTotal();
+            });
+
+            // Handle Adet change
+            $("#Adet").on("input", function () {
+                calculateTotal();
+            });
+
+            // Calculate ToplamFiyat
+            function calculateTotal() {
+                var adet = parseInt($("#Adet").val()) || 0;
+                var toplamFiyat = selectedFiyat * adet;
+                $("#ToplamFiyat").val(toplamFiyat.toFixed(2));
+            }
+        });
+    </script>
+}

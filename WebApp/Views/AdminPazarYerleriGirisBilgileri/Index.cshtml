@@ -1,0 +1,397 @@
+﻿@{
+    ViewData["Title"] = "Pazar Yeri Giriş Bilgileri Yönetimi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        position: relative;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 25px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .modern-table {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table thead {
+            background: #f8f9fa;
+        }
+
+        .modern-table th {
+            padding: 15px;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+    .btn-action {
+        padding: 7px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-action-edit {
+        background: #48bb78;
+        color: white;
+    }
+
+        .btn-action-edit:hover {
+            background: #38a169;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #cbd5e0;
+        }
+
+    .content-text {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #4a5568;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+        padding: 15px 20px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+        width: 100%;
+    }
+
+    media (max-width: 768px) {
+        .modern-table
+
+    {
+        font-size: 14px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .content-text {
+        max-width: 150px;
+    }
+
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Pazar Yeri Giriş Bilgileri</span>
+                </div>
+                <div class="panel-content">
+                    <div class="content-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select id="pazarYeriSelect" class="form-control" onchange="location.href='/AdminPazarYerleriGirisBilgileri/Index?pazarYeriId='+this.value">
+                                    <option value="">Pazar Yeri Seçiniz</option>
+                                    @foreach (var pazarYeri in ViewBag.Pazaryerleri)
+                                    {
+                                        <option value="@pazarYeri.Id" @(ViewBag.SelectedPazarYeriId == pazarYeri.Id ? "selected" : "")>@pazarYeri.Adi</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                @if (ViewBag.SelectedPazarYeriId != null)
+                                {
+                                    <button class="btn-modern" data-toggle="modal" data-target="#ekleModal">
+                                        <i class="fa fa-plus"></i>
+                                        <span>Yeni Giriş Bilgisi Ekle</span>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (ViewBag.GirisBilgileri != null && ViewBag.GirisBilgileri.Count > 0)
+                    {
+                        <div class="table-container">
+                            <table class="table modern-table" id="TblVeriler">
+                                <thead>
+                                    <tr>
+                                        <th>Kullanıcı Adı</th>
+                                        <th>Şifre</th>
+                                        <th>API Key</th>
+                                        <th>Secret Key</th>
+                                        <th style="text-align: center;">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var giris in ViewBag.GirisBilgileri)
+                                    {
+                                        <tr>
+                                            <td class="content-text">@giris.KullaniciAdi</td>
+                                            <td class="content-text">********</td>
+                                            <td class="content-text">@giris.ApiKey</td>
+                                            <td class="content-text">@giris.SecretKey</td>
+                                            <td style="text-align: center;">
+                                                <button class="btn-action btn-action-edit" data-toggle="modal" data-target="#guncelleModal"
+                                                        data-id="@giris.Id" data-kullaniciadi="@giris.KullaniciAdi" data-apikey="@giris.ApiKey"
+                                                        data-secretkey="@giris.SecretKey" data-sifre="@giris.Sifre">
+                                                    <i class="fa fa-pencil"></i>
+                                                    <span>Düzenle</span>
+                                                </button>
+                                                <a class="btn-action btn-action-delete" href="/AdminPazarYerleriGirisBilgileri/Sil/@giris.Id?pazarYeriId=@ViewBag.SelectedPazarYeriId"
+                                                   onclick="return confirm('Bu giriş bilgisini silmek istediğinizden emin misiniz?');">
+                                                    <i class="fa fa-trash"></i>
+                                                    <span>Sil</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <i class="fa fa-shopping-cart"></i>
+                            <h4>Henüz giriş bilgisi eklenmemiş</h4>
+                            <p>Pazar yeri seçip "Yeni Giriş Bilgisi Ekle" butonunu kullanarak giriş bilgisi ekleyebilirsiniz.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ekle Modal -->
+    <div class="modal fade" id="ekleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Yeni Giriş Bilgisi Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/AdminPazarYerleriGirisBilgileri/Ekle" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="PazarYerleriId" value="@ViewBag.SelectedPazarYeriId" />
+                        <div class="form-group">
+                            <label>Kullanıcı Adı</label>
+                            <input type="text" name="KullaniciAdi" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Şifre</label>
+                            <input type="password" name="Sifre" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>API Key</label>
+                            <input type="text" name="ApiKey" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Secret Key</label>
+                            <input type="text" name="SecretKey" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                        <button type="submit" class="btn btn-modern">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Güncelle Modal -->
+    <div class="modal fade" id="guncelleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Giriş Bilgisini Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/AdminPazarYerleriGirisBilgileri/Guncelle" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="Id" id="guncelleId" />
+                        <input type="hidden" name="PazarYerleriId" value="@ViewBag.SelectedPazarYeriId" />
+                        <div class="form-group">
+                            <label>Kullanıcı Adı</label>
+                            <input type="text" name="KullaniciAdi" id="guncelleKullaniciAdi" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Şifre</label>
+                            <input type="password" name="Sifre" id="guncelleSifre" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>API Key</label>
+                            <input type="text" name="ApiKey" id="guncelleApiKey" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Secret Key</label>
+                            <input type="text" name="SecretKey" id="guncelleSecretKey" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                        <button type="submit" class="btn btn-modern">Güncelle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            if ($.fn.DataTable && $('#TblVeriler').length > 0) {
+                $('#TblVeriler').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                    },
+                    "pageLength": 10,
+                    "order": [[0, "desc"]],
+                    "responsive": true,
+                    "bDestroy": true
+                });
+            }
+
+            $('#guncelleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                var kullaniciAdi = button.data('kullaniciadi');
+                var apiKey = button.data('apikey');
+                var secretKey = button.data('secretkey');
+                var sifre = button.data('sifre');
+
+                var modal = $(this);
+                modal.find('#guncelleId').val(id);
+                modal.find('#guncelleKullaniciAdi').val(kullaniciAdi);
+                modal.find('#guncelleApiKey').val(apiKey);
+                modal.find('#guncelleSecretKey').val(secretKey);
+                modal.find('#guncelleSifre').val(sifre);
+            });
+        });
+    </script>
+}

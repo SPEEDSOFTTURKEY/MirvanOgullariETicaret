@@ -1,0 +1,881 @@
+﻿@using System.Globalization
+@using WebApp.Models
+@model SepetViewModel
+@{
+    ViewData["Title"] = "Kasaya Git";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<style>
+    .cart-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 30px;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .breadcrumb {
+        background: none;
+        padding: 10px 0;
+        margin-bottom: 20px;
+    }
+
+        .breadcrumb li {
+            display: inline;
+            font-size: 14px;
+        }
+
+            .breadcrumb li + li:before {
+                content: ">";
+                padding: 0 5px;
+                color: #666;
+            }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .cart-table {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+        .table thead {
+            background: #f8f9fa;
+        }
+
+        .table th,
+        .table td {
+            padding: 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            font-weight: 600;
+            color: #555;
+            text-align: center;
+        }
+
+    .td-image img {
+        max-width: 100px;
+        border-radius: 4px;
+    }
+
+    .td-name a {
+        color: #333;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+        .td-name a:hover {
+            color: #007bff;
+        }
+
+    .td-name p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .cart-summary {
+        margin-top: 30px;
+        background: #fff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 350px;
+        margin-left: auto;
+    }
+
+        .cart-summary h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .cart-summary table {
+            width: 100%;
+            font-size: 15px;
+        }
+
+            .cart-summary table td {
+                padding: 10px 0;
+            }
+
+        .cart-summary .text-right {
+            font-weight: 500;
+            text-align: right;
+        }
+
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        gap: 15px;
+    }
+
+    .btn-checkout {
+        padding: 12px 25px;
+        font-size: 15px;
+        border-radius: 4px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+        .btn-checkout:hover {
+            background: #0056b3;
+        }
+
+    .coupon-section {
+        margin-top: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+        .coupon-section input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+            font-size: 14px;
+        }
+
+        .coupon-section button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .coupon-section button:hover {
+                background: #218838;
+            }
+
+    .alert {
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .alert .close {
+        margin-left: auto;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .form-section {
+        background: #fff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+        .form-section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+    .form-control {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .radio-group {
+        margin-bottom: 15px;
+    }
+
+        .radio-group label {
+            font-size: 14px;
+            color: #333;
+            margin-right: 15px;
+        }
+
+    .select-control {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+</style>
+
+<div class="cart-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+        </li>
+        <li><a href="@Url.Action("Index","ShoppingCart")">Alışveriş Sepetim</a></li>
+        <li><a href="@Url.Action("Index","Checkout")">Kasaya Git</a></li>
+    </ul>
+    <h1 class="page-title">Kasaya Git</h1>
+
+    <div id="messages">
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+                <span class="close" onclick="this.parentElement.style.display='none';">×</span>
+            </div>
+        }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+                <span class="close" onclick="this.parentElement.style.display='none';">×</span>
+            </div>
+        }
+    </div>
+
+    <div style="display: flex; gap: 30px;">
+        <div style="flex: 1;">
+            @if (ViewBag.Uyeler == null)
+            {
+                <form id="guest-checkout-form" method="post" action="@Url.Action("ProcessCheckout", "Checkout")" novalidate>
+                    @Html.AntiForgeryToken()
+                    <div class="form-section">
+                        <h2>Hesap & Fatura Bilgileri</h2>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="input-payment-fullname">Adınız Soyadınız *</label>
+                                <input type="text" name="MusteriAdiSoyadi" class="form-control" id="input-payment-fullname" required />
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="input-payment-email">E-Posta *</label>
+                                <input type="email" name="Email" class="form-control" id="input-payment-email" required />
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="input-payment-telephone">Telefon *</label>
+                                <input type="text" name="MusteriTelefon" class="form-control" id="input-payment-telephone" required />
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="input-payment-address">Adres *</label>
+                                <input type="text" name="MusteriAdres" class="form-control" id="input-payment-address" required />
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="input-payment-zone">Şehir *</label>
+                                <select name="MusteriVergiDairesi" class="select-control" id="input-payment-zone" required>
+                                    <option value="Adana">Adana</option>
+                                    <option value="Adıyaman">Adıyaman</option>
+                                    <option value="Afyonkarahisar">Afyonkarahisar</option>
+                                    <option value="Ağrı">Ağrı</option>
+                                    <option value="Amasya">Amasya</option>
+                                    <option value="Ankara">Ankara</option>
+                                    <option value="Antalya">Antalya</option>
+                                    <option value="Artvin">Artvin</option>
+                                    <option value="Aydın">Aydın</option>
+                                    <option value="Balıkesir">Balıkesir</option>
+                                    <option value="Bilecik">Bilecik</option>
+                                    <option value="Bingöl">Bingöl</option>
+                                    <option value="Bitlis">Bitlis</option>
+                                    <option value="Bolu">Bolu</option>
+                                    <option value="Burdur">Burdur</option>
+                                    <option value="Bursa">Bursa</option>
+                                    <option value="Çanakkale">Çanakkale</option>
+                                    <option value="Çankırı">Çankırı</option>
+                                    <option value="Çorum">Çorum</option>
+                                    <option value="Denizli">Denizli</option>
+                                    <option value="Diyarbakır">Diyarbakır</option>
+                                    <option value="Edirne">Edirne</option>
+                                    <option value="Elazığ">Elazığ</option>
+                                    <option value="Erzincan">Erzincan</option>
+                                    <option value="Erzurum">Erzurum</option>
+                                    <option value="Eskişehir">Eskişehir</option>
+                                    <option value="Gaziantep">Gaziantep</option>
+                                    <option value="Giresun">Giresun</option>
+                                    <option value="Gümüşhane">Gümüşhane</option>
+                                    <option value="Hakkari">Hakkari</option>
+                                    <option value="Hatay">Hatay</option>
+                                    <option value="Isparta">Isparta</option>
+                                    <option value="Mersin">Mersin</option>
+                                    <option value="İstanbul">İstanbul</option>
+                                    <option value="İzmir">İzmir</option>
+                                    <option value="Kars">Kars</option>
+                                    <option value="Kastamonu">Kastamonu</option>
+                                    <option value="Kayseri">Kayseri</option>
+                                    <option value="Kırklareli">Kırklareli</option>
+                                    <option value="Kırşehir">Kırşehir</option>
+                                    <option value="Kocaeli">Kocaeli</option>
+                                    <option value="Konya">Konya</option>
+                                    <option value="Kütahya">Kütahya</option>
+                                    <option value="Malatya">Malatya</option>
+                                    <option value="Manisa">Manisa</option>
+                                    <option value="Kahramanmaraş">Kahramanmaraş</option>
+                                    <option value="Mardin">Mardin</option>
+                                    <option value="Muğla">Muğla</option>
+                                    <option value="Muş">Muş</option>
+                                    <option value="Nevşehir">Nevşehir</option>
+                                    <option value="Niğde">Niğde</option>
+                                    <option value="Ordu">Ordu</option>
+                                    <option value="Rize">Rize</option>
+                                    <option value="Sakarya">Sakarya</option>
+                                    <option value="Samsun">Samsun</option>
+                                    <option value="Siirt">Siirt</option>
+                                    <option value="Sinop">Sinop</option>
+                                    <option value="Sivas">Sivas</option>
+                                    <option value="Tekirdağ">Tekirdağ</option>
+                                    <option value="Tokat">Tokat</option>
+                                    <option value="Trabzon">Trabzon</option>
+                                    <option value="Tunceli">Tunceli</option>
+                                    <option value="Şanlıurfa">Şanlıurfa</option>
+                                    <option value="Uşak">Uşak</option>
+                                    <option value="Van">Van</option>
+                                    <option value="Yozgat">Yozgat</option>
+                                    <option value="Zonguldak">Zonguldak</option>
+                                    <option value="Aksaray">Aksaray</option>
+                                    <option value="Bayburt">Bayburt</option>
+                                    <option value="Karaman">Karaman</option>
+                                    <option value="Kırıkkale">Kırıkkale</option>
+                                    <option value="Batman">Batman</option>
+                                    <option value="Şırnak">Şırnak</option>
+                                    <option value="Bartın">Bartın</option>
+                                    <option value="Ardahan">Ardahan</option>
+                                    <option value="Iğdır">Iğdır</option>
+                                    <option value="Yalova">Yalova</option>
+                                    <option value="Karabük">Karabük</option>
+                                    <option value="Kilis">Kilis</option>
+                                    <option value="Osmaniye">Osmaniye</option>
+                                    <option value="Düzce">Düzce</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h2>Ödeme ve Kargo Seçenekleri</h2>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="PaymentMethod" value="CreditCard" checked="checked" />
+                                Kredi Kartı
+                            </label>
+                            <label>
+                                <input type="radio" name="PaymentMethod" value="KapidaOdeme" />
+                                Kapıda Ödeme
+                            </label>
+                        </div>
+                        <label for="input-order-note">Sipariş Notu</label>
+                        <textarea name="Notlar" rows="4" class="form-control" id="input-order-note" placeholder="Siparişinizle ilgili notlarınızı buraya yazabilirsiniz"></textarea>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <form id="checkout-form" method="post" action="@Url.Action("ProcessCheckout", "Checkout")" novalidate>
+                    @Html.AntiForgeryToken()
+                    <div class="form-section">
+                        <h2>Kargo Adresi Seçin</h2>
+                        @if (ViewBag.UyeAdres != null && ViewBag.UyeAdres.Count > 0)
+                        {
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="address_type" value="existing" checked="checked" onchange="toggleAddress('existing')" />
+                                    Varolan adresi kullan
+                                </label>
+                                <div id="existing-address">
+                                    <select name="UyeKargoAdresId" class="select-control" required>
+                                        @foreach (var item in ViewBag.UyeAdres)
+                                        {
+                                            <option value="@item.Id">@item.Adi @item.Soyadi - @item.Adres, @item.il</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="address_type" value="new" onchange="toggleAddress('new')" />
+                                    Yeni adres ekle
+                                </label>
+                            </div>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="address_type" value="new" />
+                        }
+                        <div id="new-address" style="display: @(ViewBag.UyeAdres != null && ViewBag.UyeAdres.Count > 0 ? "none" : "block");">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="input-shipping-firstname">Adınız *</label>
+                                    <input type="text" name="Adi" class="form-control" id="input-shipping-firstname" required value="@(ViewBag.Uyeler?.Adi ?? "")" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="input-shipping-lastname">Soyadınız *</label>
+                                    <input type="text" name="Soyadi" class="form-control" id="input-shipping-lastname" required value="@(ViewBag.Uyeler?.Soyadi ?? "")" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="input-shipping-email">E-Posta *</label>
+                                    <input type="email" name="Email" class="form-control" id="input-shipping-email" required />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="input-shipping-password">Parola *</label>
+                                    <input type="password" name="Sifre" class="form-control" id="input-shipping-password" required />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="input-shipping-address">Adres *</label>
+                                    <input type="text" name="Adres" class="form-control" id="input-shipping-address" required />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="input-shipping-zone">Şehir *</label>
+                                    <select name="Il" class="select-control" id="input-shipping-zone" required>
+                                        <option value="Adana">Adana</option>
+                                        <option value="Adıyaman">Adıyaman</option>
+                                        <option value="Afyonkarahisar">Afyonkarahisar</option>
+                                        <option value="Ağrı">Ağrı</option>
+                                        <option value="Amasya">Amasya</option>
+                                        <option value="Ankara">Ankara</option>
+                                        <option value="Antalya">Antalya</option>
+                                        <option value="Artvin">Artvin</option>
+                                        <option value="Aydın">Aydın</option>
+                                        <option value="Balıkesir">Balıkesir</option>
+                                        <option value="Bilecik">Bilecik</option>
+                                        <option value="Bingöl">Bingöl</option>
+                                        <option value="Bitlis">Bitlis</option>
+                                        <option value="Bolu">Bolu</option>
+                                        <option value="Burdur">Burdur</option>
+                                        <option value="Bursa">Bursa</option>
+                                        <option value="Çanakkale">Çanakkale</option>
+                                        <option value="Çankırı">Çankırı</option>
+                                        <option value="Çorum">Çorum</option>
+                                        <option value="Denizli">Denizli</option>
+                                        <option value="Diyarbakır">Diyarbakır</option>
+                                        <option value="Edirne">Edirne</option>
+                                        <option value="Elazığ">Elazığ</option>
+                                        <option value="Erzincan">Erzincan</option>
+                                        <option value="Erzurum">Erzurum</option>
+                                        <option value="Eskişehir">Eskişehir</option>
+                                        <option value="Gaziantep">Gaziantep</option>
+                                        <option value="Giresun">Giresun</option>
+                                        <option value="Gümüşhane">Gümüşhane</option>
+                                        <option value="Hakkari">Hakkari</option>
+                                        <option value="Hatay">Hatay</option>
+                                        <option value="Isparta">Isparta</option>
+                                        <option value="Mersin">Mersin</option>
+                                        <option value="İstanbul">İstanbul</option>
+                                        <option value="İzmir">İzmir</option>
+                                        <option value="Kars">Kars</option>
+                                        <option value="Kastamonu">Kastamonu</option>
+                                        <option value="Kayseri">Kayseri</option>
+                                        <option value="Kırklareli">Kırklareli</option>
+                                        <option value="Kırşehir">Kırşehir</option>
+                                        <option value="Kocaeli">Kocaeli</option>
+                                        <option value="Konya">Konya</option>
+                                        <option value="Kütahya">Kütahya</option>
+                                        <option value="Malatya">Malatya</option>
+                                        <option value="Manisa">Manisa</option>
+                                        <option value="Kahramanmaraş">Kahramanmaraş</option>
+                                        <option value="Mardin">Mardin</option>
+                                        <option value="Muğla">Muğla</option>
+                                        <option value="Muş">Muş</option>
+                                        <option value="Nevşehir">Nevşehir</option>
+                                        <option value="Niğde">Niğde</option>
+                                        <option value="Ordu">Ordu</option>
+                                        <option value="Rize">Rize</option>
+                                        <option value="Sakarya">Sakarya</option>
+                                        <option value="Samsun">Samsun</option>
+                                        <option value="Siirt">Siirt</option>
+                                        <option value="Sinop">Sinop</option>
+                                        <option value="Sivas">Sivas</option>
+                                        <option value="Tekirdağ">Tekirdağ</option>
+                                        <option value="Tokat">Tokat</option>
+                                        <option value="Trabzon">Trabzon</option>
+                                        <option value="Tunceli">Tunceli</option>
+                                        <option value="Şanlıurfa">Şanlıurfa</option>
+                                        <option value="Uşak">Uşak</option>
+                                        <option value="Van">Van</option>
+                                        <option value="Yozgat">Yozgat</option>
+                                        <option value="Zonguldak">Zonguldak</option>
+                                        <option value="Aksaray">Aksaray</option>
+                                        <option value="Bayburt">Bayburt</option>
+                                        <option value="Karaman">Karaman</option>
+                                        <option value="Kırıkkale">Kırıkkale</option>
+                                        <option value="Batman">Batman</option>
+                                        <option value="Şırnak">Şırnak</option>
+                                        <option value="Bartın">Bartın</option>
+                                        <option value="Ardahan">Ardahan</option>
+                                        <option value="Iğdır">Iğdır</option>
+                                        <option value="Yalova">Yalova</option>
+                                        <option value="Karabük">Karabük</option>
+                                        <option value="Kilis">Kilis</option>
+                                        <option value="Osmaniye">Osmaniye</option>
+                                        <option value="Düzce">Düzce</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h2>Ödeme ve Kargo Seçenekleri</h2>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="PaymentMethod" value="CreditCard" checked="checked" />
+                                Kredi Kartı
+                            </label>
+                            <label>
+                                <input type="radio" name="PaymentMethod" value="KapidaOdeme" />
+                                Kapıda Ödeme
+                            </label>
+                        </div>
+                        <label for="input-order-note">Sipariş Notu</label>
+                        <textarea name="SiparisNotu" rows="4" class="form-control" id="input-order-note" placeholder="Siparişinizle ilgili notlarınızı buraya yazabilirsiniz"></textarea>
+                    </div>
+                </form>
+            }
+
+            <div class="coupon-section">
+                <input type="text" id="coupon-code" placeholder="Kupon Kodu Girin" />
+                <button type="button" id="apply-coupon">Uygula</button>
+            </div>
+
+            <div class="cart-table">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Resim</th>
+                                <th class="text-left">Ürün Adı</th>
+                                <th class="text-center">Adet</th>
+                                <th class="text-center">Birim Fiyatı</th>
+                                <th class="text-center">Tutarı</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-items" style="display:contents;">
+                            @if (Model.SepetListesi != null && Model.SepetListesi.Any())
+                            {
+                                foreach (var item in Model.SepetListesi)
+                                {
+                                    <tr class="cart-item" data-id="@item.UrunId" data-beden-id="@item.BirimlerId">
+                                        <td class="text-center td-image">
+                                            <a href="@Url.Action("Index", "ProductDetail", new { id = item.UrunId })">
+                                                @if (!string.IsNullOrEmpty(item.UrunResmi))
+                                                {
+                                                    <img src="@item.UrunResmi" alt="@item.UrunAdi" title="@item.UrunAdi" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="/images/placeholder.jpg" alt="Placeholder" title="@item.UrunAdi" />
+                                                }
+                                            </a>
+                                        </td>
+                                        <td class="text-left td-name">
+                                            <a href="@Url.Action("Index", "ProductDetail", new { id = item.UrunId })">
+                                                @item.UrunAdi
+                                            </a>
+                                            <p>Beden: @(item.Birimler?.Adi ?? "Belirtilmemiş")</p>
+                                            <p>Kol Boyu: @(item.KolBoyu ?? "Belirtilmemiş")</p>
+                                            <p>Ek Tasarım: @(item.EkTasarim ?? "Yok")</p>
+                                            <p>Ek Tasarım Metni: @(item.EkTasarimMetni ?? "Yok")</p>
+                                        </td>
+                                        <td class="text-center">@item.Miktar</td>
+                                        <td class="text-center" data-unit-price="@item.Fiyat">@item.Fiyat?.ToString("C", new CultureInfo("tr-TR"))</td>
+                                        <td class="text-center" data-total="@(item.Fiyat * item.Miktar)">@((item.Fiyat * item.Miktar)?.ToString("C", new CultureInfo("tr-TR")))</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="empty-cart">
+                                        <p>Sepetinizde ürün bulunmamaktadır.</p>
+                                        <a href="@Url.Action("Index", "Home")">Alışverişe Başla</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            @if (Model.SepetListesi != null && Model.SepetListesi.Any())
+            {
+                var tasarimListesi = Model.SepetListesi?
+                .Where(item => !string.IsNullOrEmpty(item.EkTasarim) && !string.IsNullOrEmpty(item.ImagePath))
+                .ToList();
+                if (tasarimListesi != null && tasarimListesi.Any())
+                {
+                    foreach (var item in tasarimListesi)
+                    {
+                        <div class="form-section">
+                            <h2>Ek Tasarım Fotoğrafı: @item.UrunAdi</h2>
+                            <img src="@item.ImagePath" alt="Ek Tasarım Fotoğrafı" style="max-width: 300px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" />
+                        </div>
+                    }
+                }
+            }
+        </div>
+
+        @if (Model.SepetListesi != null && Model.SepetListesi.Any())
+        {
+            <div class="cart-summary" style="margin-top:0px;width:410px;">
+                <h2>Sepet Özeti</h2>
+                <table>
+                    <tr>
+                        <td class="text-right"><strong>Ara Toplam:</strong></td>
+                        <td class="text-right" id="subtotal">@Model.GenelToplam.ToString("N2", new CultureInfo("tr-TR")) TL</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>İndirim:</strong></td>
+                        <td class="text-right" id="discount">@Model.IndirimMiktari.ToString("N2", new CultureInfo("tr-TR")) TL</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Kargo:</strong></td>
+                        <td class="text-right" id="shipping">@Model.KargoUcreti.ToString("N2", new CultureInfo("tr-TR")) TL</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Kapıda Ödeme Ücreti:</strong></td>
+                        <td class="text-right" id="cod-fee">0,00 TL</td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong>Toplam:</strong></td>
+                        <td class="text-right" id="total">@Model.OdenecekToplam.ToString("N2", new CultureInfo("tr-TR")) TL</td>
+                    </tr>
+                </table>
+                <div class="action-buttons">
+                    <button type="submit" form="@(ViewBag.Uyeler == null ? "guest-checkout-form" : "checkout-form")" class="btn btn-checkout">Siparişi Tamamla</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Script {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+    <script>
+        (function ($) {
+            if (!$) {
+                console.error("jQuery is not loaded. Checkout functionality will not work.");
+                return;
+            }
+
+            if (typeof $.blockUI !== 'function') {
+                console.error("jQuery BlockUI is not loaded. Falling back to basic loading indicator.");
+                $.blockUI = function (options) {
+                    $('#messages').html('<div class="alert alert-info">' + (options.message || 'Processing...') + '</div>');
+                };
+                $.unblockUI = function () {
+                    $('#messages').find('.alert-info').remove();
+                };
+            }
+
+            $(document).ready(function () {
+                function toggleAddress(type) {
+                    var $existing = $('#existing-address');
+                    var $new = $('#new-address');
+                    if ($existing.length && $new.length) {
+                        if (type === 'existing') {
+                            $existing.show();
+                            $new.hide();
+                            $new.find('input, select').each(function() {
+                                $(this).prop('required', false);
+                                $(this).removeAttr('required');
+                            });
+                            $existing.find('select').prop('required', true);
+                            $existing.find('select').attr('required', 'required');
+                        } else {
+                            $existing.hide();
+                            $new.show();
+                            $existing.find('select').prop('required', false);
+                            $existing.find('select').removeAttr('required');
+                            $new.find('input, select').each(function() {
+                                $(this).prop('required', true);
+                                $(this).attr('required', 'required');
+                            });
+                        }
+                        console.log('toggleAddress: type=' + type + ', new-address required=' + $new.find('input[name="Email"]').attr('required'));
+                    }
+                }
+
+                function updateCartSummary(paymentMethod) {
+                    var genelToplam = parseFloat('@Model.GenelToplam.ToString("F2", CultureInfo.InvariantCulture)') || 0;
+                    var indirimMiktari = parseFloat('@Model.IndirimMiktari.ToString("F2", CultureInfo.InvariantCulture)') || 0;
+                    var kargoUcreti = parseFloat('@Model.KargoUcreti.ToString("F2", CultureInfo.InvariantCulture)') || 0;
+                    var codFee = paymentMethod === 'KapidaOdeme' ? 70.00 : 0.00;
+
+                    var indirimliToplam = genelToplam - indirimMiktari;
+                    var odenecekToplam = indirimliToplam + kargoUcreti + codFee;
+
+                    $('#subtotal').text(genelToplam.toFixed(2).replace('.', ',') + ' TL');
+                    $('#discount').text(indirimMiktari.toFixed(2).replace('.', ',') + ' TL');
+                    $('#shipping').text(kargoUcreti.toFixed(2).replace('.', ',') + ' TL');
+                    $('#cod-fee').text(codFee.toFixed(2).replace('.', ',') + ' TL');
+                    $('#total').text(odenecekToplam.toFixed(2).replace('.', ',') + ' TL');
+                }
+
+                $('#apply-coupon').on('click', function () {
+                    var code = $('#coupon-code').val().trim();
+                    if (!code) {
+                        $('#messages').html('<div class="alert alert-danger">Lütfen bir kupon kodu girin.<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>');
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("ApplyCoupon", "Checkout")',
+                        type: 'POST',
+                        data: { code: code },
+                        beforeSend: function () {
+                            $.blockUI({ message: 'Kupon kodu uygulanıyor...' });
+                        },
+                        success: function (response) {
+                            $.unblockUI();
+                            if (response.success) {
+                                $('#discount').text(parseFloat(response.indirimMiktari).toFixed(2).replace('.', ',') + ' TL');
+                                $('#subtotal').text(parseFloat(response.genelToplam).toFixed(2).replace('.', ',') + ' TL');
+                                $('#shipping').text(parseFloat(response.kargoUcreti).toFixed(2).replace('.', ',') + ' TL');
+                                $('#cod-fee').text($('input[name="PaymentMethod"]:checked').val() === 'KapidaOdeme' ? '70,00 TL' : '0,00 TL');
+                                $('#total').text(parseFloat(response.odenecekToplam + ($('input[name="PaymentMethod"]:checked').val() === 'KapidaOdeme' ? 70.00 : 0)).toFixed(2).replace('.', ',') + ' TL');
+                                $('#messages').html('<div class="alert alert-success">' + response.message + '<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>');
+                            } else {
+                                $('#messages').html('<div class="alert alert-danger">' + response.message + '<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>');
+                            }
+                        },
+                        error: function () {
+                            $.unblockUI();
+                            $('#messages').html('<div class="alert alert-danger">Bir hata oluştu. Lütfen tekrar deneyin.<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>');
+                        }
+                    });
+                });
+
+                $('input[name="PaymentMethod"]').on('change', function () {
+                    var paymentMethod = $(this).val();
+                    updateCartSummary(paymentMethod);
+                });
+
+                updateCartSummary($('input[name="PaymentMethod"]:checked').val());
+
+                $('#checkout-form, #guest-checkout-form').on('submit', function (e) {
+                    e.preventDefault();
+                    var form = $(this);
+                    var paymentMethod = $('input[name="PaymentMethod"]:checked').val();
+                    var addressType = $('input[name="address_type"]:checked').val() || 'new';
+
+                    // Manual validation for new address fields
+                    if (form.attr('id') === 'checkout-form' && addressType === 'new') {
+                        var requiredFields = $('#new-address').find('input, select').filter('[required]');
+                        var isValid = true;
+                        requiredFields.each(function() {
+                            if (!$(this).val()) {
+                                isValid = false;
+                                $(this).addClass('is-invalid');
+                            } else {
+                                $(this).removeClass('is-invalid');
+                            }
+                        });
+                        if (!isValid) {
+                            $('#messages').html('<div class="alert alert-danger">Lütfen tüm zorunlu alanları doldurun.<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>');
+                            return;
+                        }
+                    } else if (form.attr('id') === 'guest-checkout-form') {
+                        var requiredFields = form.find('input, select').filter('[required]');
+                        var isValid = true;
+                        requiredFields.each(function() {
+                            if (!$(this).val()) {
+                                isValid = false;
+                                $(this).addClass('is-invalid');
+                            } else {
+                                $(this).removeClass('is-invalid');
+                            }
+                        });
+                        if (!isValid) {
+                            $('#messages').html('<div class="alert alert-danger">Lütfen tüm zorunlu alanları doldurun.<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>');
+                            return;
+                        }
+                    }
+
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: 'POST',
+                        data: form.serialize(),
+                        beforeSend: function () {
+                            $.blockUI({ message: 'Bilgiler işleniyor...' });
+                        },
+                        success: function (response) {
+                            $.unblockUI();
+                            if (response.success) {
+                                $('#messages').html('<div class="alert alert-success">' + response.message + '<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>');
+                                if (response.redirectUrl) {
+                                    window.location.href = response.redirectUrl;
+                                }
+                            } else {
+                                $('#messages').html('<div class="alert alert-danger">' + response.message + '<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>');
+                            }
+                        },
+                        error: function () {
+                            $.unblockUI();
+                            $('#messages').html('<div class="alert alert-danger">Bir hata oluştu. Lütfen tekrar deneyin.<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>');
+                        }
+                    });
+                });
+
+                $('input[name="address_type"]').on('change', function () {
+                    toggleAddress($(this).val());
+                });
+
+                $(document).on('click', '.alert .close', function () {
+                    $(this).parent().hide();
+                });
+
+                toggleAddress($('input[name="address_type"]:checked').val() || 'new');
+            });
+        })(jQuery);
+    </script>
+}

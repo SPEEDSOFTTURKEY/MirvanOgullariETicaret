@@ -1,0 +1,33 @@
+﻿@media screen and (max-width: 768px) {
+    /*.wrap-slick1 {
+        margin-bottom: 10px;*/ /* Boşluğu azalt */
+    /*}
+
+    .container {
+        padding-top: 10px;*/ /* Üst boşluğu azalt */
+        /*padding-bottom: 10px;*/ /* Alt boşluğu azalt */
+    /*}
+
+    .slick1 img {
+        margin: 0;*/ /* Görsellerin çevresindeki boşluğu kaldır */
+    /*}*/
+
+    .slick1.slick-initialized.slick-slider {
+        height: 300px;
+        position: relative; /* Section kendi konumunda kalır */
+        z-index: 1;
+    }
+    .slick-list.draggable {
+        height: 300px;
+    }
+    .slick-track {
+        height: 300px;
+    }
+
+    .container {
+        position: relative; /* Alt öğe de konumunda kalır */
+        z-index: 0;
+        display: flex;
+        flex-direction: column;
+    }
+}

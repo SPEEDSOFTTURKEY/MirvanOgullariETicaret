@@ -1,0 +1,494 @@
+﻿@using System.Globalization
+@using WebApp.Models
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Farma Borsa Ürün Yönetimi";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 20px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+    .modern-table {
+        margin-top: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+        .modern-table th, .modern-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            text-align: left;
+        }
+
+        .modern-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .modern-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+    .btn-action {
+        padding: 6px 12px;
+        border-radius: 5px;
+        border: none;
+        font-size: 12px;
+        margin-right: 5px;
+    }
+
+    .btn-action-update {
+        background: #38a169;
+        color: white;
+    }
+
+        .btn-action-update:hover {
+            background: #2f855a;
+        }
+
+    .btn-action-delete {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-action-delete:hover {
+            background: #e53e3e;
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #718096;
+    }
+
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #cbd5e0;
+        }
+
+    .modal-content {
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px 10px 0 0;
+        padding: 12px;
+    }
+
+    .modal-body {
+        padding: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+        width: 100%;
+    }
+
+    media (max-width: 768px) {
+        .modern-table th, .modern-table td
+
+    {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .btn-action {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    }
+
+    .form-row {
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+</style>
+
+<section class="modern-wrapper">
+    <div class="modern-panel">
+        <div class="panel-header">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Farma Borsa Ürünleri</span>
+            <button class="btn-modern" data-toggle="modal" data-target="#addProductModal">
+                <i class="fa fa-plus"></i> Ürün Ekle
+            </button>
+        </div>
+        <div class="panel-content">
+            @if (ViewBag.Products != null && ViewBag.Products.Count > 0)
+            {
+                <table class="table modern-table" id="TblVeriler">
+                    <thead>
+                        <tr>
+                            <th>Ürün Adı</th>
+                            <th>Barkod</th>
+                            <th>Fiyat</th>
+                            <th>Stok</th>
+                            <th>Durum</th>
+                            <th style="text-align: center;">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in ViewBag.Products)
+                        {
+                            var fbProduct = product as Ilan;
+                            <tr data-product='@JsonConvert.SerializeObject(fbProduct)'>
+                                <td>@fbProduct.urunAd</td>
+                                <td>@fbProduct.barkod</td>
+                                <td>@fbProduct.tutar.ToString("C", CultureInfo.GetCultureInfo("tr-TR"))</td>
+                                <td>@fbProduct.adet</td>
+                                <td>@(fbProduct.borsadaGoster ? "Aktif" : "Pasif")</td>
+                                <td style="text-align: center;">
+                                    <button class="btn-action btn-action-update" onclick="openUpdateModal(@fbProduct.kod, this)">
+                                        <i class="fa fa-edit"></i> Güncelle
+                                    </button>
+                                    <a class="btn-action btn-action-delete" href="/AdminFarmaBorsa/DeleteFarmaBorsaProduct/@fbProduct.kod?pazarYeriId=@ViewBag.PazarYeriId"
+                                       onclick="return confirm('Bu ürünü silmek istediğinizden emin misiniz?');">
+                                        <i class="fa fa-trash"></i> Sil
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i class="fa fa-shopping-cart"></i>
+                    <h4>Henüz ürün bulunamadı</h4>
+                    <p>Farma Borsa ürünlerinizi eklemek için "Ürün Ekle" butonunu kullanabilirsiniz.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Yeni Ürün Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm">
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_urunAd">Ürün Adı</label>
+                                <input type="text" class="form-control" id="fb_urunAd" name="fb_urunAd" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_barkod">Barkod</label>
+                                <input type="text" class="form-control" id="fb_barkod" name="fb_barkod">
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_adet">Stok Miktarı</label>
+                                <input type="number" class="form-control" id="fb_adet" name="fb_adet" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_maxAdet">Maksimum Satın Alım Adedi</label>
+                                <input type="number" class="form-control" id="fb_maxAdet" name="fb_maxAdet" required>
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_op">Operasyonel Kod</label>
+                                <input type="number" class="form-control" id="fb_op" name="fb_op" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_tutar">Fiyat (TL)</label>
+                                <input type="text" class="form-control" id="fb_tutar" name="fb_tutar" required>
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_miad">Son Kullanım Tarihi (YYYY-MM-DD)</label>
+                                <input type="text" class="form-control" id="fb_miad" name="fb_miad" placeholder="YYYY-MM-DD" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_miadTip">Son Kullanım Tipi</label>
+                                <select class="form-control" id="fb_miadTip" name="fb_miadTip" required>
+                                    <option value="0">Normal</option>
+                                    <option value="1">Kısa</option>
+                                    <option value="2">Yakın</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_borsadaGoster">Borsada Göster</label>
+                                <select class="form-control" id="fb_borsadaGoster" name="fb_borsadaGoster" required>
+                                    <option value="true">Evet</option>
+                                    <option value="false">Hayır</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_resimUrl">Görsel URL</label>
+                                <input type="text" class="form-control" id="fb_resimUrl" name="fb_resimUrl">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-modern">Ekle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Product Modal -->
+    <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="updateProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateProductModalLabel">Ürün Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateProductForm">
+                        <input type="hidden" id="fb_updateKod">
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateUrunAd">Ürün Adı</label>
+                                <input type="text" class="form-control" id="fb_updateUrunAd" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateBarkod">Barkod</label>
+                                <input type="text" class="form-control" id="fb_updateBarkod">
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateAdet">Stok Miktarı</label>
+                                <input type="number" class="form-control" id="fb_updateAdet" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateMaxAdet">Maksimum Satın Alım Adedi</label>
+                                <input type="number" class="form-control" id="fb_updateMaxAdet" required>
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateOp">Operasyonel Kod</label>
+                                <input type="number" class="form-control" id="fb_updateOp" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateTutar">Fiyat (TL)</label>
+                                <input type="text" class="form-control" id="fb_updateTutar" required>
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateMiad">Son Kullanım Tarihi (YYYY-MM-DD)</label>
+                                <input type="text" class="form-control" id="fb_updateMiad" placeholder="YYYY-MM-DD" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateMiadTip">Son Kullanım Tipi</label>
+                                <select class="form-control" id="fb_updateMiadTip" required>
+                                    <option value="0">Normal</option>
+                                    <option value="1">Kısa</option>
+                                    <option value="2">Yakın</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateBorsadaGoster">Borsada Göster</label>
+                                <select class="form-control" id="fb_updateBorsadaGoster" required>
+                                    <option value="true">Evet</option>
+                                    <option value="false">Hayır</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fb_updateResimUrl">Görsel URL</label>
+                                <input type="text" class="form-control" id="fb_updateResimUrl">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-modern">Güncelle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            if ($.fn.DataTable && $('#TblVeriler').length > 0) {
+                $('#TblVeriler').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+                    },
+                    "pageLength": 10,
+                    "order": [[0, "desc"]],
+                    "responsive": true,
+                    "bDestroy": true
+                });
+            }
+
+            $('#addProductForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = @ViewBag.PazarYeriId;
+                var productData = {
+                    urunAd: $('#fb_urunAd').val(),
+                    adet: parseInt($('#fb_adet').val()),
+                    maxAdet: parseInt($('#fb_maxAdet').val()),
+                    op: parseInt($('#fb_op').val()),
+                    tutar: parseFloat($('#fb_tutar').val().replace(',', '.')),
+                    borsadaGoster: $('#fb_borsadaGoster').val() === 'true',
+                    miad: $('#fb_miad').val(),
+                    miadTip: parseInt($('#fb_miadTip').val()),
+                    barkod: $('#fb_barkod').val() || null,
+                    resimUrl: $('#fb_resimUrl').val() || null
+                };
+
+                $.ajax({
+                    url: '/AdminFarmaBorsa/AddFarmaBorsaProduct?pazarYeriId=' + pazarYeriId,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Ürün başarıyla eklendi: ' + response.message);
+                            $('#addProductModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('Hata: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Hata: ' + error);
+                    }
+                });
+            });
+
+            $('#updateProductForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = @ViewBag.PazarYeriId;
+                var productData = {
+                    kod: parseInt($('#fb_updateKod').val()),
+                    urunAd: $('#fb_updateUrunAd').val(),
+                    adet: parseInt($('#fb_updateAdet').val()),
+                    maxAdet: parseInt($('#fb_updateMaxAdet').val()),
+                    op: parseInt($('#fb_updateOp').val()),
+                    tutar: parseFloat($('#fb_updateTutar').val().replace(',', '.')),
+                    borsadaGoster: $('#fb_updateBorsadaGoster').val() === 'true',
+                    miad: $('#fb_updateMiad').val(),
+                    miadTip: parseInt($('#fb_updateMiadTip').val()),
+                    barkod: $('#fb_updateBarkod').val() || null,
+                    resimUrl: $('#fb_updateResimUrl').val() || null
+                };
+
+                $.ajax({
+                    url: '/AdminFarmaBorsa/UpdateFarmaBorsaProduct?pazarYeriId=' + pazarYeriId,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(productData),
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Ürün başarıyla güncellendi: ' + response.message);
+                            $('#updateProductModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('Hata: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Hata: ' + error);
+                    }
+                });
+            });
+
+            window.openUpdateModal = function (productId, button) {
+                var productData = $(button).closest('tr').data('product');
+                $('#fb_updateKod').val(productData.kod);
+                $('#fb_updateUrunAd').val(productData.urunAd);
+                $('#fb_updateAdet').val(productData.adet);
+                $('#fb_updateMaxAdet').val(productData.maxAdet);
+                $('#fb_updateOp').val(productData.op);
+                $('#fb_updateTutar').val(productData.tutar);
+                $('#fb_updateBorsadaGoster').val(productData.borsadaGoster.toString());
+                $('#fb_updateMiad').val(productData.miad);
+                $('#fb_updateMiadTip').val(productData.miadTip);
+                $('#fb_updateBarkod').val(productData.barkod);
+                $('#fb_updateResimUrl').val(productData.resimUrl);
+                $('#updateProductModal').modal('show');
+            };
+        });
+    </script>
+}

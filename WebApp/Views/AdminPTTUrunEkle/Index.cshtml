@@ -1,0 +1,500 @@
+﻿@using System.Globalization
+@using Newtonsoft.Json
+@using WebApp.Models
+
+@{
+    ViewData["Title"] = "PTT Ürün Ekle";
+    Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
+}
+
+<style>
+    .modern-wrapper {
+        padding: 20px;
+    }
+
+    .modern-panel {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        margin: 30px 0;
+        transition: box-shadow 0.3s ease;
+    }
+
+        .modern-panel:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .panel-content {
+        padding: 20px;
+    }
+
+    .btn-modern {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+        padding: 8px;
+        width: 100%;
+    }
+
+    .category-select-btn {
+        width: 100%;
+        text-align: left;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+        padding: 12px 20px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    #categoryTree {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .category-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #eee;
+        border-radius: 8px;
+    }
+
+    .category-leaf-item {
+        padding: 8px 12px;
+        background-color: #d1e7dd;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .category-leaf-item:hover {
+            background-color: #a3cfbb;
+        }
+
+        .category-leaf-item.selected {
+            background-color: #2d8b4e;
+            color: white;
+        }
+
+    .category-separator {
+        color: #6c757d;
+        margin: 0 5px;
+    }
+
+    .variant-group {
+        border: 1px solid #e0e0e0;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+    }
+
+    media (max-width: 768px) {
+        .form-group
+
+    {
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        padding: 6px;
+    }
+
+    }
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-treeview/1.2.0/jquery.treeview.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-treeview/1.2.0/jquery.treeview.min.js"></script>
+
+<section class="modern-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="modern-panel">
+                <div class="panel-header">
+                    <i class="fa fa-plus"></i>
+                    <span>PTT Ürün Ekle</span>
+                </div>
+                <div class="panel-content">
+                    <form id="addProductForm" class="form-row" enctype="multipart/form-data">
+                        <input type="hidden" id="pazarYeriId" value="@ViewBag.SelectedPazarYeriId">
+                        <div class="form-group col-md-6">
+                            <label for="ptt_name">Ürün Adı</label>
+                            <input type="text" class="form-control" id="ptt_name" name="ptt_name" maxlength="200" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_barcode">Barkod</label>
+                            <input type="text" class="form-control" id="ptt_barcode" name="ptt_barcode" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_categoryId">Kategori</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="ptt_categoryId" name="ptt_categoryId" readonly required>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-modern category-select-btn" data-toggle="modal" data-target="#categoryModal">
+                                        Kategori Seç
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_priceWithoutVat">KDV Hariç Fiyat</label>
+                            <input type="number" step="0.01" class="form-control" id="ptt_priceWithoutVat" name="ptt_priceWithoutVat" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_priceWithVat">KDV Dahil Fiyat</label>
+                            <input type="number" step="0.01" class="form-control" id="ptt_priceWithVat" name="ptt_priceWithVat" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_vatRate">KDV Oranı</label>
+                            <select class="form-control" id="ptt_vatRate" name="ptt_vatRate" required>
+                                <option value="0">0%</option>
+                                <option value="1">1%</option>
+                                <option value="10">10%</option>
+                                <option value="20">20%</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_quantity">Stok Miktarı</label>
+                            <input type="number" class="form-control" id="ptt_quantity" name="ptt_quantity" min="0" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_desi">Desi</label>
+                            <input type="number" step="0.01" class="form-control" id="ptt_desi" name="ptt_desi" min="0" max="300" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_imageUrl">Görsel URL</label>
+                            <input type="url" class="form-control" id="ptt_imageUrl" name="ptt_imageUrl" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_longDescription">Uzun Açıklama</label>
+                            <textarea class="form-control" id="ptt_longDescription" name="ptt_longDescription" rows="4"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_shortDescription">Kısa Açıklama</label>
+                            <textarea class="form-control" id="ptt_shortDescription" name="ptt_shortDescription" rows="4"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_noShippingProduct">Kargosuz Ürün</label>
+                            <input type="checkbox" id="ptt_noShippingProduct" name="ptt_noShippingProduct">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ptt_active">Aktif</label>
+                            <input type="checkbox" id="ptt_active" name="ptt_active" checked>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label>Varyantlar</label>
+                            <div id="variantsContainer">
+                                <div class="variant-group">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Varyant Barkod</label>
+                                            <input type="text" class="form-control" name="variantBarcode[]">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Fiyat Farkı</label>
+                                            <input type="number" step="0.01" class="form-control" name="variantPrice[]">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Stok</label>
+                                            <input type="number" class="form-control" name="variantQuantity[]" min="0">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Nitelik Tanımı</label>
+                                            <input type="text" class="form-control" name="variantDefinition[]">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Nitelik Değeri</label>
+                                            <input type="text" class="form-control" name="variantValue[]">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-modern mt-2" id="addVariantBtn">Varyant Ekle</button>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <button type="submit" class="btn btn-modern">Ekle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Selection Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalLabel">Kategori Seç</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="categorySearch" placeholder="Kategori ara...">
+                    </div>
+                    <div id="categoryTree" class="category-container"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-modern" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            var pazarYeriId = $('#pazarYeriId').val();
+            var allCategories = [];
+            var leafCategories = [];
+
+            // Load categories when modal is opened
+            $('#categoryModal').on('shown.bs.modal', function () {
+                if (allCategories.length === 0 && pazarYeriId) {
+                    loadPTTCategories(pazarYeriId);
+                }
+            });
+
+            function loadPTTCategories(pazarYeriId) {
+                $.ajax({
+                    url: '/AdminPTTUrunEkle/GetPTTCategories?pazarYeriId=' + pazarYeriId,
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            allCategories = response.categories;
+                            leafCategories = extractLeafCategories(allCategories);
+                            renderCategoryTree(allCategories); // Display full hierarchy
+                        } else {
+                            alert('Kategoriler yüklenemedi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Kategoriler yüklenemedi: ' + error);
+                    }
+                });
+            }
+
+            function extractLeafCategories(categories, parentPath = []) {
+                var leaves = [];
+                categories.forEach(function (category) {
+                    var currentPath = [...parentPath, category];
+                    if (category.isLeaf) {
+                        leaves.push({
+                            id: category.id,
+                            fullPath: currentPath
+                        });
+                    }
+                    if (category.subCategories && category.subCategories.length > 0) {
+                        leaves = leaves.concat(extractLeafCategories(category.subCategories, currentPath));
+                    }
+                });
+                return leaves;
+            }
+
+            function renderCategoryTree(categories, level = 0) {
+                var $container = $('#categoryTree');
+                $container.empty();
+
+                if (!categories || categories.length === 0) {
+                    $container.append('<div class="text-muted">Kategori bulunamadı</div>');
+                    return;
+                }
+
+                categories.forEach(function (category) {
+                    var $item = $('<div>').addClass('category-leaf-item').css('padding-left', (level * 20) + 'px');
+                    var pathText = category.fullPath;
+
+                    $item.append($('<span>').text(pathText));
+
+                    if (category.isLeaf) {
+                        $item.on('click', function () {
+                            $('.category-leaf-item').removeClass('selected');
+                            $(this).addClass('selected');
+                            $('#ptt_categoryId').val(category.id);
+                            $('#ptt_categoryId').attr('data-path', pathText);
+                        });
+                        $item.on('dblclick', function () {
+                            $('#categoryModal').modal('hide');
+                        });
+                    } else {
+                        $item.css('font-weight', 'bold'); // Non-leaf nodes are bold
+                    }
+
+                    $container.append($item);
+
+                    if (category.subCategories && category.subCategories.length > 0) {
+                        renderCategoryTree(category.subCategories, level + 1);
+                    }
+                });
+            }
+
+            $('#categorySearch').on('input', function () {
+                var searchTerm = $(this).val().toLowerCase();
+                if (searchTerm && allCategories.length === 0 && pazarYeriId) {
+                    loadPTTCategories(pazarYeriId);
+                } else if (allCategories.length > 0) {
+                    if (searchTerm === '') {
+                        renderCategoryTree(allCategories);
+                        return;
+                    }
+
+                    var filtered = allCategories.filter(function (category) {
+                        var fullPath = category.fullPath.toLowerCase();
+                        return fullPath.includes(searchTerm);
+                    });
+
+                    renderCategoryTree(filtered);
+                }
+            });
+
+            // Add variant
+            $('#addVariantBtn').click(function () {
+                var $variantGroup = $('<div class="variant-group">');
+                $variantGroup.html(`
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Varyant Barkod</label>
+                            <input type="text" class="form-control" name="variantBarcode[]">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Fiyat Farkı</label>
+                            <input type="number" step="0.01" class="form-control" name="variantPrice[]">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Stok</label>
+                            <input type="number" class="form-control" name="variantQuantity[]" min="0">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Nitelik Tanımı</label>
+                            <input type="text" class="form-control" name="variantDefinition[]">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Nitelik Değeri</label>
+                            <input type="text" class="form-control" name="variantValue[]">
+                        </div>
+                        <div class="col-md-12 text-right mt-2">
+                            <button type="button" class="btn btn-danger btn-sm remove-variant">Varyantı Sil</button>
+                        </div>
+                    </div>
+                `);
+                $('#variantsContainer').append($variantGroup);
+            });
+
+            // Remove variant
+            $(document).on('click', '.remove-variant', function () {
+                $(this).closest('.variant-group').remove();
+            });
+
+            // Form submission
+            $('#addProductForm').submit(function (e) {
+                e.preventDefault();
+                var pazarYeriId = $('#pazarYeriId').val();
+                if (!pazarYeriId) {
+                    alert('Lütfen bir pazar yeri seçin.');
+                    return;
+                }
+
+                var formData = new FormData();
+                formData.append('Name', $('#ptt_name').val());
+                formData.append('Barcode', $('#ptt_barcode').val());
+                formData.append('CategoryId', $('#ptt_categoryId').val());
+                formData.append('Price', $('#ptt_priceWithoutVat').val());
+                formData.append('PriceWithVat', $('#ptt_priceWithVat').val());
+                formData.append('VATRate', $('#ptt_vatRate').val());
+                formData.append('Quantity', $('#ptt_quantity').val());
+                formData.append('Desi', $('#ptt_desi').val());
+                formData.append('ImageUrl', $('#ptt_imageUrl').val());
+                formData.append('LongDescription', $('#ptt_longDescription').val());
+                formData.append('ShortDescription', $('#ptt_shortDescription').val());
+                formData.append('NoShippingProduct', $('#ptt_noShippingProduct').is(':checked'));
+                formData.append('Active', $('#ptt_active').is(':checked'));
+
+                var variants = [];
+                $('.variant-group').each(function () {
+                    var variant = {
+                        Barcode: $(this).find('input[name="variantBarcode[]"]').val(),
+                        Price: parseFloat($(this).find('input[name="variantPrice[]"]').val()) || 0,
+                        Quantity: parseInt($(this).find('input[name="variantQuantity[]"]').val()) || 0,
+                        Attributes: [{
+                            Definition: $(this).find('input[name="variantDefinition[]"]').val(),
+                            Value: $(this).find('input[name="variantValue[]"]').val()
+                        }]
+                    };
+                    if (variant.Barcode) {
+                        variants.push(variant);
+                    }
+                });
+
+                formData.append('Variants', JSON.stringify(variants));
+
+                $.ajax({
+                    url: '/AdminPTTUrunEkle/AddPTTProduct?pazarYeriId=' + pazarYeriId,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Ürün başarıyla eklendi: ' + response.message);
+                            $('#addProductForm')[0].reset();
+                            $('#ptt_categoryId').val('');
+                        } else {
+                            alert('Hata: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Hata oluştu: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+}

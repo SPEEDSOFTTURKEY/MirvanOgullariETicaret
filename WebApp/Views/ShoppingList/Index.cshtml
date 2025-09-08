@@ -1,0 +1,154 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+    </li>
+    <li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+    <li>
+        <a href="@Url.Action("Index","ShoppingList")">Alışveriş Listem</a>
+    </li>
+</ul>
+
+<h1 class="title page-title"><span>Alışveriş Listem</span></h1>
+
+<div id="account-wishlist" class="container">
+    <div class="row">
+        <div id="content" class="col-sm-12">
+            @if (ViewBag.Favoriler == null)
+            {
+                <p>Alışveriş listeniz boş.</p>
+
+            }
+            @if (ViewBag.Favoriler != null)
+            {
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+
+                            <tr>
+                                <td class="text-center td-image">Resim</td>
+                                <td class="text-left td-name">Ürün Adı</td>
+                                <td class="text-center td-model">Kodu</td>
+                                <td class="text-center td-stock">Stok</td>
+                                <td class="text-center td-price">Fiyatı</td>
+                                <td class="text-center td-action">Eylem</td>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Favoriler)
+                            {
+                                <tr class="">
+                                    <td class="text-center td-image">
+                                        <a href="@Url.Action("Index", "ProductDetails", new { id = item.Urun.Id, adi = item.Urun.Adi })">
+                                            @foreach (var foto in item.Urun.UrunFotograf)
+                                            {
+                                                <img style="width:30%" src="@foto.FotografBuyuk" alt="@item.Urun.Adi" title="@item.Urun.Adi" />
+                                                break;
+                                            }
+                                        </a>
+                                    </td>
+                                    <td class="text-left td-name">
+                                        <a href="@Url.Action("Index", "ProductDetails", new { id = item.Urun.Id, adi = item.Urun.Adi })">@item.Urun.Adi</a>
+                                    </td>
+                                    <td class="text-center td-model">@item.Urun.Kodu</td>
+                                    @if (item.Urun.UrunStok != null && item.Urun.UrunStok.Stok > 0)
+                                    {
+                                        <td class="text-center td-stock in-stock">Stokta Var</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center td-stock out-of-stock">Stokta Yok</td>
+                                    }
+                                    <td class="text-center td-price">
+                                        <div class="price">@item.Urun.Fiyat</div>
+                                    </td>
+                                    @if (item.Urun.UrunStok != null && item.Urun.UrunStok.Stok > 0)
+                                    {
+                                        <td class="text-center td-action">
+                                            <a href="@Url.Action("Index", "ProductDetails", new { id = item.Urun.Id, adi = item.Urun.Adi })"
+                                               data-toggle="tooltip"
+                                               title="Sepete Ekle"
+                                               class="btn btn-primary">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </a>
+                                            <a href="javascript:void(0);"
+                                               onclick="silFavori('@item.Id')"
+                                               class="btn btn-danger btn-remove"
+                                               data-toggle="tooltip"
+                                               title="Kaldır">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center td-stock in-stock">Sepete Eklenemedi</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            <div class="buttons clearfix">
+                <div class="pull-right">
+                    <a href="@Url.Action("Index","Home")"
+                       class="btn btn-primary">Devam</a>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_AccountSidebar")
+    </div>
+</div>
+
+@section Script {
+    <script>
+        function silFavori(id) {
+            if (confirm("Bu ürünü favori listenizden kaldırmak istediğinize emin misiniz?")) {
+                $.ajax({
+                    url: '@Url.Action("SilFavori", "ProductDetails")',
+                    type: 'POST',
+                    data: { id: id },
+                    beforeSend: function() {
+                        // Eğer blockUI plugin varsa kullan, yoksa sadece devam et
+                        if (typeof $.blockUI === 'function') {
+                            $.blockUI();
+                        }
+                    },
+                    success: function(result) {
+                        window.location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Bir hata oluştu: " + error);
+                    },
+                    complete: function() {
+                        // Eğer blockUI plugin varsa kullan, yoksa sadece devam et
+                        if (typeof $.unblockUI === 'function') {
+                            $.unblockUI();
+                        }
+                    }
+                });
+            }
+        }
+
+        // Sayfa yüklendiğinde jquery.blockUI eklentisini kontrol et
+        $(document).ready(function() {
+            if (typeof $.blockUI !== 'function') {
+                console.warn('jQuery BlockUI plugin bulunamadı. Yükleniyor animasyonu gösterilmeyecek.');
+
+                // Eğer CDN üzerinden dinamik olarak eklemek isterseniz:
+                /*
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js", function() {
+                    console.log("jQuery BlockUI plugin başarıyla yüklendi.");
+                });
+                */
+            }
+        });
+    </script>
+}

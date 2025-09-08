@@ -1,0 +1,167 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<ul class="breadcrumb">
+	<li>
+		<a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+	</li>
+	<li><a href="@Url.Action("Index","Account")">Hesabım</a></li>
+	<li>
+		<a href="@Url.Action("Index","CreateAccount")">Kayıt Ol</a>
+	</li>
+</ul>
+
+<h1 class="title page-title"><span>Hesap Oluştur</span></h1>
+
+<div id="account-register" class="container">
+	<div class="row">
+		<div id="content" class="col-sm-12 register-page">
+			<p>
+				Eğer daha önce kayıt olduysanız, lütfen
+				<a href="@Url.Action("Index","LoginMember")">oturum açma</a>
+				sayfasına gidiniz.
+			</p>
+			<form class="bg0 p-t-75" action="/CreateAccount/Register" method="post">
+				<div id="account">
+					<fieldset>
+						<legend>Üyelik Bilgileri</legend>
+						<div class="form-group required account-customer-group"
+							 style="display: block">
+							<label class="col-sm-2 control-label">Müşteri Grubu</label>
+							<div class="col-sm-10">
+								<div class="radio">
+									<label>
+										<input type="radio"
+											   name="Turu"
+											   value="1"
+											   checked="checked" />
+										Bireysel
+									</label>
+								</div>
+								<div class="radio">
+									<label>
+										<input type="radio"
+											   name="Turu"
+											   value="2" />
+										Kurumsal
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group required account-firstname">
+							<label class="col-sm-2 control-label" for="input-firstname">Adınız</label>
+							<div class="col-sm-10">
+								<input type="text"
+									   name="Adi"
+									   value=""
+									   placeholder="Adınız"
+									   id="input-firstname"
+									   class="form-control" />
+							</div>
+						</div>
+						<div class="form-group required account-lastname">
+							<label class="col-sm-2 control-label" for="input-lastname">Soyadınız</label>
+							<div class="col-sm-10">
+								<input type="text"
+									   name="Soyadi"
+									   value=""
+									   placeholder="Soyadınız"
+									   id="input-lastname"
+									   class="form-control" />
+							</div>
+						</div>
+						<div class="form-group required account-email">
+							<label class="col-sm-2 control-label" for="input-email">E-Posta</label>
+							<div class="col-sm-10">
+								<input type="email"
+									   name="EMail"
+									   value=""
+									   placeholder="E-Posta"
+									   id="input-email"
+									   class="form-control" />
+							</div>
+						</div>
+						<div class="form-group required account-telephone">
+							<label class="col-sm-2 control-label" for="input-telephone">Telefon</label>
+							<div class="col-sm-10">
+								<input type="tel"
+									   name="Telefon"
+									   value=""
+									   placeholder="Telefon"
+									   id="input-telephone"
+									   class="form-control" />
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<fieldset>
+					<legend>Parolanız</legend>
+					<div class="form-group required">
+						<label class="col-sm-2 control-label account-pass"
+							   for="input-password">Parola</label>
+						<div class="col-sm-10">
+							<input type="password"
+								   name="Sifre"
+								   value=""
+								   placeholder="Parola"
+								   id="input-password"
+								   class="form-control" />
+						</div>
+					</div>
+					<div class="form-group required account-pass2">
+						<label class="col-sm-2 control-label" for="input-confirm">Parola(Tekrar)</label>
+						<div class="col-sm-10">
+							<input type="password"
+								   name="Sifre2"
+								   value=""
+								   placeholder="Parola(Tekrar)"
+								   id="input-confirm"
+								   class="form-control" />
+						</div>
+					</div>
+				</fieldset>
+
+				<fieldset>
+					<legend>Bülten Aboneliği</legend>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Bülten Aboneliği</label>
+						<div class="col-sm-10">
+							<label class="radio-inline">
+								<input type="radio" name="newsletter" value="1" />
+								Evet
+							</label>
+							<label class="radio-inline">
+								<input type="radio"
+									   name="Ebulten"
+									   value="0"
+									   checked="checked" />
+								Hayır
+							</label>
+						</div>
+					</div>
+				</fieldset>
+
+				<div class="buttons">
+					<div class="pull-right">
+						<a href="@Url.Action("Index","SecurityPolicy")"
+						   target="_blank"><b>Gizlilik Politikası</b></a>'ni okudum ve kabul ediyorum.
+						<input type="checkbox" name="agree" value="1" />
+						<button type="submit"
+								class="btn btn-primary"
+								data-loading-text="<span>Devam</span>">
+							<span>Devam</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+

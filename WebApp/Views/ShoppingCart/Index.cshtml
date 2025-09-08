@@ -1,0 +1,673 @@
+﻿@using System.Globalization
+@using WebApp.Models
+@model SepetViewModel
+@{
+    ViewData["Title"] = "Sepet";
+    Layout = "~/Views/Shared/_LayoutWebUITheme.cshtml";
+}
+
+<style>
+    .cart-container {
+        max-width: 1400px; /* Increased width for better spacing */
+        margin: 0 auto;
+        padding: 30px;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .breadcrumb {
+        background: none;
+        padding: 10px 0;
+        margin-bottom: 20px;
+    }
+
+        .breadcrumb li {
+            display: inline;
+            font-size: 14px;
+        }
+
+            .breadcrumb li + li:before {
+                content: ">";
+                padding: 0 5px;
+                color: #666;
+            }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .cart-table {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+        .table thead {
+            background: #f8f9fa;
+        }
+
+        .table th,
+        .table td {
+            padding: 20px; /* Increased padding for better spacing */
+            vertical-align: middle;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            font-weight: 600;
+            color: #555;
+            text-align: center;
+        }
+
+    .td-image img {
+        max-width: 100px; /* Slightly larger images */
+        border-radius: 4px;
+    }
+
+    .td-name a {
+        color: #333;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+        .td-name a:hover {
+            color: #007bff;
+        }
+
+    .td-name p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .quantity-input {
+        width: 60px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .quantity-control i {
+        cursor: pointer;
+        color: #666;
+        font-size: 18px;
+        padding: 5px;
+    }
+
+        .quantity-control i:hover {
+            color: #007bff;
+        }
+
+    .btn-update,
+    .btn-remove {
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        transition: background 0.3s;
+    }
+
+    .btn-update {
+        background: #053E44;
+        color: #fff;
+        border: none;
+    }
+
+        .btn-update:hover {
+            background: #1A1A1A;
+        }
+
+    .btn-remove {
+        background: #053E44;
+        color: #fff;
+        border: none;
+    }
+
+        .btn-remove:hover {
+            background: #1A1A1A;
+        }
+
+    .cart-summary {
+        margin-top: 30px;
+        background: #fff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 350px; /* Fixed width for summary */
+        margin-left: auto; /* Align to the right */
+    }
+
+        .cart-summary h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .cart-summary table {
+            width: 100%;
+            font-size: 15px;
+        }
+
+            .cart-summary table td {
+                padding: 10px 0;
+            }
+
+        .cart-summary .text-right {
+            font-weight: 500;
+            text-align: right;
+        }
+
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        gap: 15px;
+    }
+
+        .action-buttons a,
+        .action-buttons button {
+            padding: 12px 25px;
+            font-size: 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+    .btn-continue {
+        background: #6c757d;
+        color: #fff;
+    }
+
+        .btn-continue:hover {
+            background: #5a6268;
+        }
+
+    .btn-checkout {
+        background: #007bff;
+        color: #fff;
+        border: none;
+    }
+
+        .btn-checkout:hover {
+            background: #0056b3;
+        }
+
+    .empty-cart {
+        text-align: center;
+        padding: 50px 0;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+        .empty-cart p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .empty-cart a {
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+            .empty-cart a:hover {
+                background: #0056b3;
+            }
+
+    .alert {
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .alert .close {
+        margin-left: auto;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .coupon-section {
+        margin-top: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+        .coupon-section input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+            font-size: 14px;
+        }
+
+        .coupon-section button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .coupon-section button:hover {
+                background: #218838;
+            }
+</style>
+
+<div class="cart-container">
+    <ul class="breadcrumb">
+        <li>
+            <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i></a>
+        </li>
+        <li><a href="@Url.Action("Index","ShoppingCart")">Alışveriş Sepetim</a></li>
+    </ul>
+    <h1 class="page-title">
+        <span>Alışveriş Sepetim</span>
+    </h1>
+
+    <div id="messages">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+                <span class="close" onclick="this.parentElement.style.display='none';">×</span>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+                <span class="close" onclick="this.parentElement.style.display='none';">×</span>
+            </div>
+        }
+    </div>
+
+    <div id="checkout-cart">
+        <div id="content">
+            <div class="cart-page" style="display: flex;">
+                <div style="flex: 1;">
+                    <form action="@Url.Action("Index", "ShoppingCart")" method="post" enctype="multipart/form-data" class="cart-table">
+                        @Html.AntiForgeryToken()
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Resim</th>
+                                        <th class="text-left">Ürün Adı</th>
+                                        <th class="text-center">Adet</th>
+                                        <th class="text-center">Birim Fiyatı</th>
+                                        <th class="text-center">Tutarı</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-items" style="display:contents;">
+                                    @if (Model.SepetListesi != null && Model.SepetListesi.Any())
+                                    {
+                                        foreach (var item in Model.SepetListesi)
+                                        {
+                                            <tr class="cart-item" data-id="@item.UrunId" data-birim-id="@item.BirimlerId">
+                                                <td class="text-center td-image">
+                                                    <a href="@Url.Action("Index", "ProductDetail", new { id = item.UrunId })">
+                                                        @if (!string.IsNullOrEmpty(item.UrunResmi))
+                                                        {
+                                                            <img src="@item.UrunResmi" alt="@item.UrunAdi" title="@item.UrunAdi" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="/images/placeholder.jpg" alt="Placeholder" title="@item.UrunAdi" />
+                                                        }
+                                                    </a>
+                                                </td>
+                                                <td class="text-left td-name">
+                                                    <a href="@Url.Action("Index", "ProductDetail", new { id = item.UrunId })">
+                                                        @item.UrunAdi
+                                                    </a>
+                                                    <p>Birim: @(item.Birimler?.Adi ?? "Belirtilmemiş")</p>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="quantity-control">
+                                                        <i class="fa fa-minus qty-down"></i>
+                                                        <input type="number" name="quantity[@item.UrunId]" value="@item.Miktar" class="quantity-input" min="1" data-price="@item.Fiyat" />
+                                                        <i class="fa fa-plus qty-up"></i>
+                                                        <button type="button" class="btn btn-update">
+                                                            <i style="color:white;" class="fa fa-refresh"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-remove">
+                                                            <i style="color:white;" class="fa fa-times-circle"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center" data-unit-price="@item.Fiyat">@item.Fiyat?.ToString("C", new CultureInfo("tr-TR"))</td>
+                                                <td class="text-center" data-total="@(item.Fiyat * item.Miktar)">@((item.Fiyat * item.Miktar)?.ToString("C", new CultureInfo("tr-TR")))</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" class="empty-cart">
+                                                <p>Sepetinizde ürün bulunmamaktadır.</p>
+                                                <a href="@Url.Action("Index", "Home")">Alışverişe Başla</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+
+                    <!-- Coupon Code Section -->
+                    @if (Model.SepetListesi != null && Model.SepetListesi.Any())
+                    {
+                        <div class="coupon-section">
+                            <input type="text" id="coupon-code" placeholder="Kupon Kodu Girin" />
+                            <button type="button" id="apply-coupon">Uygula</button>
+                        </div>
+                    }
+                </div>
+
+                @if (Model.SepetListesi != null && Model.SepetListesi.Any())
+                {
+                    <div class="cart-summary" style="margin-top:0px;width:410px;">
+                        <h2>Sepet Özeti</h2>
+                        <table>
+                            <tr>
+                                <td class="text-right"><strong>Ara Toplam:</strong></td>
+                                <td class="text-right" id="subtotal">@Model.GenelToplam.ToString("N2", new CultureInfo("tr-TR")) TL</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong>İndirim:</strong></td>
+                                <td class="text-right" id="discount">@Model.IndirimMiktari.ToString("N2", new CultureInfo("tr-TR")) TL</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong>Kargo:</strong></td>
+                                <td class="text-right" id="shipping">@Model.KargoUcreti.ToString("N2", new CultureInfo("tr-TR")) TL</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong>Toplam:</strong></td>
+                                <td class="text-right" id="total">@Model.OdenecekToplam.ToString("N2", new CultureInfo("tr-TR")) TL</td>
+                            </tr>
+                        </table>
+                        <div class="action-buttons">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-continue">Alışverişe Devam Et</a>
+                            <a href="@Url.Action("Index", "Checkout")" class="btn btn-checkout">Alışverişi Tamamla</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script {
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" integrity="sha256-h0cGsrExGgcZtSZ/fRz4AwV+Nn6Urh/3v3jFRQ0w9dQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+        (function($) {
+            if (!$) {
+                console.error("jQuery is not loaded. Cart functionality will not work.");
+                return;
+            }
+
+            $(document).ready(function() {
+                if (!$.fn.tooltip) {
+                    $.fn.tooltip = function(options) {
+                        if (options === 'destroy') return this;
+                        console.warn("Bootstrap tooltip unavailable. Using title attribute.");
+                        return this.each(function() {
+                            var $el = $(this);
+                            if ($el.attr('title')) {
+                                $el.attr('data-original-title', $el.attr('title')).removeAttr('title');
+                            }
+                        });
+                    };
+                }
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+                function formatCurrency(value) {
+                    if (value == null || isNaN(value)) return "0,00 TL";
+                    return parseFloat(value).toLocaleString('tr-TR', {
+                        style: 'decimal',
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }) + ' TL';
+                }
+
+                function updateCartUI(data) {
+                    if (!data) return;
+
+                    $('#subtotal').text(formatCurrency(data.genelToplam));
+                    $('#discount').text(formatCurrency(data.indirimMiktari));
+                    $('#shipping').text(formatCurrency(data.kargoUcreti));
+                    $('#total').text(formatCurrency(data.odenecekToplam));
+
+                    if (data.itemsHtml) {
+                        $('#cart-items').html(data.itemsHtml);
+                    }
+
+                    $('#messages').empty();
+                    if (data.message) {
+                        var alertClass = data.success ? 'alert-success' : 'alert-danger';
+                        $('#messages').append(
+                            '<div class="alert ' + alertClass + '">' +
+                            data.message +
+                            '<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span>' +
+                            '</div>'
+                        );
+                    }
+
+                    if (data.cartCount === 0) {
+                        $('#cart-items').html(
+                            '<tr><td colspan="6" class="empty-cart">' +
+                            '<p>Sepetinizde ürün bulunmamaktadır.</p>' +
+                            '<a href="@Url.Action("Index", "Home")">Alışverişe Başla</a>' +
+                            '</td></tr>'
+                        );
+                        $('.cart-summary').remove();
+                        $('.coupon-section').remove();
+                    }
+                }
+
+                function updateQuantity(id, birimId, quantity) {
+                    $.ajax({
+                        url: '@Url.Action("UpdateQuantity", "ShoppingCart")',
+                        type: 'POST',
+                        data: {
+                            id: id,
+                            birimId: birimId,
+                            newQuantity: quantity,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.success) {
+                                var $row = $('.cart-item[data-id="' + id + '"][data-birim-id="' + birimId + '"]');
+                                var $input = $row.find('.quantity-input');
+                                $input.val(quantity);
+                                var total = response.itemTotal || (parseFloat($input.data('price')) * quantity);
+                                $row.find('[data-total]').text(formatCurrency(total));
+                                updateCartUI(response);
+                                location.reload(); // Refresh the page after successful update
+                            } else {
+                                updateCartUI(response);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('UpdateQuantity error:', xhr.responseText);
+                            $('#messages').html(
+                                '<div class="alert alert-danger">Miktar güncellenirken hata oluştu.' +
+                                '<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>'
+                            );
+                        }
+                    });
+                }
+
+                function removeItem(id) {
+                    $.ajax({
+                        url: '@Url.Action("Remove", "ShoppingCart")',
+                        type: 'POST',
+                        data: {
+                            id: id,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.success) {
+                                $('.cart-item[data-id="' + id + '"]').remove();
+                                updateCartUI(response);
+                                location.reload(); // Refresh the page after successful removal
+                            } else {
+                                updateCartUI(response);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Remove error:', xhr.responseText);
+                            $('#messages').html(
+                                '<div class="alert alert-danger">Ürün kaldırılırken hata oluştu.' +
+                                '<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>'
+                            );
+                        }
+                    });
+                }
+
+                // Apply Coupon Code via AJAX
+                $('#apply-coupon').on('click', function() {
+                    var code = $('#coupon-code').val().trim();
+                    if (!code) {
+                        $('#messages').html(
+                            '<div class="alert alert-danger">Lütfen bir kupon kodu girin.' +
+                            '<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>'
+                        );
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("ApplyDiscountCode", "ShoppingCart")',
+                        type: 'POST',
+                        data: {
+                            code: code,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            updateCartUI(response);
+                            if (response.success) {
+                                $('#coupon-code').val(''); // Clear input on success
+                                location.reload(); // Refresh the page after successful coupon application
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('ApplyDiscountCode error:', xhr.responseText);
+                            $('#messages').html(
+                                '<div class="alert alert-danger">Kupon kodu uygulanırken hata oluştu.' +
+                                '<span class="close" onclick="this.parentElement.style.display=\'none\';">×</span></div>'
+                            );
+                        }
+                    });
+                });
+
+                $(document).on('click', '.qty-up', function() {
+                    var $row = $(this).closest('.cart-item');
+                    var $input = $row.find('.quantity-input');
+                    var newValue = (parseInt($input.val()) || 1) + 1;
+                    $input.val(newValue);
+                    updateQuantity($row.data('id'), $row.data('birim-id'), newValue);
+                });
+
+                $(document).on('click', '.qty-down', function() {
+                    var $row = $(this).closest('.cart-item');
+                    var $input = $row.find('.quantity-input');
+                    var currentValue = parseInt($input.val()) || 1;
+                    if (currentValue <= 1) return;
+                    var newValue = currentValue - 1;
+                    $input.val(newValue);
+                    updateQuantity($row.data('id'), $row.data('birim-id'), newValue);
+                });
+
+                $(document).on('change', '.quantity-input', function() {
+                    var $row = $(this).closest('.cart-item');
+                    var newValue = parseInt($(this).val()) || 1;
+                    if (newValue < 1) {
+                        newValue = 1;
+                        $(this).val(newValue);
+                    }
+                    updateQuantity($row.data('id'), $row.data('birim-id'), newValue);
+                });
+
+                $(document).on('click', '.btn-update', function() {
+                    var $row = $(this).closest('.cart-item');
+                    var $input = $row.find('.quantity-input');
+                    var newValue = parseInt($input.val()) || 1;
+                    if (newValue < 1) {
+                        newValue = 1;
+                        $input.val(newValue);
+                    }
+                    updateQuantity($row.data('id'), $row.data('birim-id'), newValue);
+                });
+
+                $(document).on('click', '.btn-remove', function() {
+                    var $row = $(this).closest('.cart-item');
+                    removeItem($row.data('id'));
+                });
+            });
+        })(jQuery);
+    </script>
+}
