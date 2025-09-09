@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Bayilik Güncelle";
+    ViewData["Title"] = "Mesafeli Satış Sözleşmesi Güncelle";
     Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
 }
 
@@ -165,7 +165,7 @@
                 <div class="modern-form-panel">
                     <div class="form-panel-header">
                         <i class="fa fa-edit"></i>
-                        <span>Bayilik Yazısını Güncelle</span>
+                        <span>Mesafeli Satış Sözleşmesi Yazısını Güncelle</span>
                     </div>
                     <div class="form-panel-content">
                   
@@ -178,7 +178,7 @@
                             <input type="text" class="form-control-modern" value="@ViewBag.Hakkimizda.AltBaslik" name="AltBaslik" />
                         </div>
                         <div class="form-group-modern">
-                            <label class="control-label-modern">Bayilik Yazısı</label>
+                            <label class="control-label-modern">Mesafeli Satış Sözleşmesi Yazısı</label>
                             <input type="hidden" name="Id" value="@ViewBag.Hakkimizda.Id" />
                             <div class="ckeditor-container">
                                 <textarea class="form-control ckeditor" name="Metin" rows="24">@ViewBag.Hakkimizda.Metin</textarea>
@@ -206,7 +206,7 @@
         const baslik = document.querySelector('input[name="Baslik"]').value;
         const metin = CKEDITOR.instances['Metin'].getData();
         if (!baslik.trim() || !metin.trim()) {
-            alert('Lütfen başlık ve bayilik yazısını doldurunuz.');
+            alert('Lütfen başlık ve Mesafeli Satış Sözleşmesi yazısını doldurunuz.');
             e.preventDefault();
         }
     });

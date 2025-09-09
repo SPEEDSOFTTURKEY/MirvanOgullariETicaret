@@ -41,6 +41,7 @@ namespace WebApp.Controllers
             if (sepets != null)
             {
                 ViewBag.SepetSayi = sepets.Count;
+                ViewBag.Sepet = sepets;
             }
             else
             {

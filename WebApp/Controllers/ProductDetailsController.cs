@@ -133,7 +133,9 @@ namespace WebApp.Controllers
                     ViewBag.Birim = null;
                 }
             }
-
+            List<Sepet> sepets = new List<Sepet>();
+            sepets = HttpContext.Session.GetObjectFromJsonCollection<Sepet>("Sepet");
+            ViewBag.Sepet = sepets;
             return View();
         }
 
@@ -141,7 +143,9 @@ namespace WebApp.Controllers
         public async Task<IActionResult> Index(int UrunId, int BirimId, string UrunAdi)
         {
             await LoadCommonData();
-
+            List<Sepet> sepets = new List<Sepet>();
+            sepets = HttpContext.Session.GetObjectFromJsonCollection<Sepet>("Sepet");
+            ViewBag.Sepet = sepets;
             // Ürün bilgilerini getir
             UrunRepository urunRepository = new UrunRepository();
             Urun urun = new Urun();
@@ -178,6 +182,9 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Favori(int UrunId, int UyeId)
         {
+            List<Sepet> sepets = new List<Sepet>();
+            sepets = HttpContext.Session.GetObjectFromJsonCollection<Sepet>("Sepet");
+            ViewBag.Sepet = sepets;
             await LoadCommonData();
             Favoriler favoriler = new Favoriler();
             FavorilerRepository favorilerRepository = new FavorilerRepository();
@@ -193,6 +200,9 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SilFavori(int id)
         {
+            List<Sepet> sepets = new List<Sepet>();
+            sepets = HttpContext.Session.GetObjectFromJsonCollection<Sepet>("Sepet");
+            ViewBag.Sepet = sepets;
             await LoadCommonData();
             Favoriler favoriler = new Favoriler();
             FavorilerRepository favorilerRepository = new FavorilerRepository();

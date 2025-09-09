@@ -263,6 +263,8 @@ namespace WebApp.Controllers
             // Sepet ve kullanıcı bilgileri
             List<Sepet> sepets = HttpContext.Session.GetObjectFromJsonCollection<Sepet>("Sepet") ?? new List<Sepet>();
             ViewBag.SepetSayi = sepets.Count;
+            sepets = HttpContext.Session.GetObjectFromJsonCollection<Sepet>("Sepet");
+            ViewBag.Sepet = sepets;
             ViewBag.Uyeler = HttpContext.Session.GetObjectFromJson<Uyeler>("Uyeler");
 
             return View();

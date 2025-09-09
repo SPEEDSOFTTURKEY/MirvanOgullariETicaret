@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Bayilik Management";
+    ViewData["Title"] = "Mesafeli Satış Sözleşmesi";
     Layout = "~/Views/Shared/_LayoutWebAdmin.cshtml";
 }
 
@@ -179,13 +179,13 @@
             <div class="modern-panel">
                 <div class="panel-header">
                     <i class="fa fa-handshake-o"></i>
-                    <span>Bayilik Yazısı</span>
+                    <span>Mesafeli Satış Sözleşmesi Yazısı</span>
                 </div>
                 <div class="panel-content">
                     <div class="content-header">
                         <a class="btn-modern" href="/AdminBayilikEkle/">
                             <i class="fa fa-plus"></i>
-                            <span>Yeni Bayilik Yazısı Ekle</span>
+                            <span>Yeni Mesafeli Satış Sözleşmesi Yazısı Ekle</span>
                         </a>
                     </div>
 
@@ -195,9 +195,9 @@
                             <table class="table modern-table" id="TblVeriler">
                                 <thead>
                                     <tr>
-                                        <th>Bayilik Başlık</th>
-                                        <th>Bayilik Alt Başlık</th>
-                                        <th>Bayilik Yazısı</th>
+                                        <th>Mesafeli Satış Sözleşmesi Başlık</th>
+                                        <th>Mesafeli Satış Sözleşmesi Alt Başlık</th>
+                                        <th>Mesafeli Satış Sözleşmesi Yazısı</th>
                                         <th style="text-align: center;">İşlemler</th>
                                     </tr>
                                 </thead>
@@ -216,7 +216,7 @@
                                                     <span>Düzenle</span>
                                                 </a>
                                             <a class="btn-action btn-action-delete" href="/AdminBayilik/Sil/@ViewBag.HakkimizdaBilgileriList.Id"
-                                                   onclick="return confirm('Bu bayilik yazısını silmek istediğinizden emin misiniz?');">
+                                               onclick="return confirm('Bu Mesafeli Satış Sözleşmesi yazısını silmek istediğinizden emin misiniz?');">
                                                     <i class="fa fa-trash"></i>
                                                     <span>Sil</span>
                                                 </a>

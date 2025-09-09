@@ -621,10 +621,8 @@
                                             <a href="@Url.Action("Index", "ProductDetail", new { id = item.UrunId })">
                                                 @item.UrunAdi
                                             </a>
-                                            <p>Beden: @(item.Birimler?.Adi ?? "Belirtilmemiş")</p>
-                                            <p>Kol Boyu: @(item.KolBoyu ?? "Belirtilmemiş")</p>
-                                            <p>Ek Tasarım: @(item.EkTasarim ?? "Yok")</p>
-                                            <p>Ek Tasarım Metni: @(item.EkTasarimMetni ?? "Yok")</p>
+                                            <p>Kapasite: @(item.Birimler?.Adi ?? "Belirtilmemiş")</p>
+                                         
                                         </td>
                                         <td class="text-center">@item.Miktar</td>
                                         <td class="text-center" data-unit-price="@item.Fiyat">@item.Fiyat?.ToString("C", new CultureInfo("tr-TR"))</td>

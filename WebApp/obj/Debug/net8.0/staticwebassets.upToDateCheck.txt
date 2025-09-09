@@ -348,7 +348,7 @@ wwwroot\WebAdminTheme\assets\advanced-datatable\extras\AutoFill\media\docs\media
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\AutoFill\media\images\filler.png
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\AutoFill\media\js\AutoFill.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\AutoFill\media\js\AutoFill.min.js
-C:\Users\gzmas\Desktop\MirvanOğulları\MirvanogullariInsaatEticaret\MirvanogullariInsaatEticaret\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\AutoFill\media\js\AutoFill.min.js
+D:\GİTHUBPROJELER\MirvanOgullariETicaret\WebApp\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\AutoFill\media\js\AutoFill.min.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\AutoFill\scrolling.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\alt_insert.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\col_filter.html
@@ -377,7 +377,7 @@ wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\media\docs\med
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\media\images\insert.png
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\media\js\ColReorder.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\media\js\ColReorder.min.js
-C:\Users\gzmas\Desktop\MirvanOğulları\MirvanogullariInsaatEticaret\MirvanogullariInsaatEticaret\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\media\js\ColReorder.min.js
+D:\GİTHUBPROJELER\MirvanOgullariETicaret\WebApp\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\media\js\ColReorder.min.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\predefined.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\reset.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColReorder\scrolling.html
@@ -407,7 +407,7 @@ wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColVis\media\docs\media\l
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColVis\media\images\button.png
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColVis\media\js\ColVis.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColVis\media\js\ColVis.min.js
-C:\Users\gzmas\Desktop\MirvanOğulları\MirvanogullariInsaatEticaret\MirvanogullariInsaatEticaret\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColVis\media\js\ColVis.min.js
+D:\GİTHUBPROJELER\MirvanOgullariETicaret\WebApp\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColVis\media\js\ColVis.min.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColVis\mouseover.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColVis\style.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\ColVis\text.html
@@ -445,7 +445,7 @@ wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedColumns\index_column
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedColumns\left_right_columns.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedColumns\media\js\FixedColumns.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedColumns\media\js\FixedColumns.min.js
-C:\Users\gzmas\Desktop\MirvanOğulları\MirvanogullariInsaatEticaret\MirvanogullariInsaatEticaret\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedColumns\media\js\FixedColumns.min.js
+D:\GİTHUBPROJELER\MirvanOgullariETicaret\WebApp\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedColumns\media\js\FixedColumns.min.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedColumns\right_column.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedColumns\row_grouping.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedColumns\row_grouping_height.html
@@ -460,7 +460,7 @@ wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedHeader\html_table.ht
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedHeader\index.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedHeader\js\FixedHeader.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedHeader\js\FixedHeader.min.js
-C:\Users\gzmas\Desktop\MirvanOğulları\MirvanogullariInsaatEticaret\MirvanogullariInsaatEticaret\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedHeader\js\FixedHeader.min.js
+D:\GİTHUBPROJELER\MirvanOgullariETicaret\WebApp\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedHeader\js\FixedHeader.min.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedHeader\top_bottom_left_right.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedHeader\top_left.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\FixedHeader\two_tables.html
@@ -472,7 +472,7 @@ wwwroot\WebAdminTheme\assets\advanced-datatable\extras\KeyTable\form.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\KeyTable\index.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\KeyTable\js\KeyTable.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\KeyTable\js\KeyTable.min.js
-C:\Users\gzmas\Desktop\MirvanOğulları\MirvanogullariInsaatEticaret\MirvanogullariInsaatEticaret\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\KeyTable\js\KeyTable.min.js
+D:\GİTHUBPROJELER\MirvanOgullariETicaret\WebApp\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\KeyTable\js\KeyTable.min.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\api_scrolling.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\index.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\large_js_source.html
@@ -498,7 +498,7 @@ wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\media\docs\Scrol
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\media\images\loading-background.png
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\media\js\dataTables.scroller.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\media\js\dataTables.scroller.min.js
-C:\Users\gzmas\Desktop\MirvanOğulları\MirvanogullariInsaatEticaret\MirvanogullariInsaatEticaret\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\media\js\dataTables.scroller.min.js
+D:\GİTHUBPROJELER\MirvanOgullariETicaret\WebApp\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\media\js\dataTables.scroller.min.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\server-side_processing.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\Scroller\state_saving.html
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\alt_init.html
@@ -532,7 +532,7 @@ wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\media\images\x
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\media\images\xls_hover.png
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\media\js\TableTools.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\media\js\TableTools.min.js
-C:\Users\gzmas\Desktop\MirvanOğulları\MirvanogullariInsaatEticaret\MirvanogullariInsaatEticaret\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\media\js\TableTools.min.js
+D:\GİTHUBPROJELER\MirvanOgullariETicaret\WebApp\wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\media\js\TableTools.min.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\media\js\ZeroClipboard.js
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\media\swf\copy_csv_xls.swf
 wwwroot\WebAdminTheme\assets\advanced-datatable\extras\TableTools\media\swf\copy_csv_xls_pdf.swf

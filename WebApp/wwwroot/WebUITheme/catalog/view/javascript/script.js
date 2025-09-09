@@ -404,7 +404,7 @@ function facebook_loadScript(url, callback) {
     if (enableCookieBar == '1') {
         facebook_loadScript("catalog/view/javascript/facebook_business/cookieconsent.min.js");
 
-        // loading the css file
+        // CSS dosyasını yükleme
         var css = document.createElement("link");
         css.setAttribute("rel", "stylesheet");
         css.setAttribute("type", "text/css");
@@ -436,10 +436,10 @@ function facebook_loadScript(url, callback) {
                 type: 'opt-out',
                 showLink: false,
                 content: {
-                    allow: 'Agree',
-                    deny: 'Opt Out',
-                    header: 'Our Site Uses Cookies',
-                    message: 'By clicking Agree, you agree to our <a class="cc-link" href="https://www.facebook.com/legal/terms/update" target="_blank">terms of service</a>, <a class="cc-link" href="https://www.facebook.com/policies/" target="_blank">privacy policy</a> and <a class="cc-link" href="https://www.facebook.com/policies/cookies/" target="_blank">cookies policy</a>.'
+                    allow: 'Kabul Et',
+                    deny: 'Reddet',
+                    header: 'Sitemiz Çerez Kullanıyor',
+                    message: '"Kabul Et" butonuna tıklayarak <a class="cc-link" href="/SecurityPolicy/Index" , target="_blank">gizlilik politikamıza</a> ve <a class="cc-link" href="/SecurityPolicy/Index" target="_blank">çerez politikamıza</a> onay vermiş olursunuz.'
                 },
                 layout: 'basic-header',
                 location: true,
@@ -448,7 +448,7 @@ function facebook_loadScript(url, callback) {
                 onStatusChange: setConsent,
                 onRevokeChoice: setConsent
             }, function (popup) {
-                // If this isn't open, we know that we can use cookies.
+                // Eğer çerez onayı açık değilse, çerezleri kullanabileceğimizi biliyoruz.
                 if (!popup.getStatus() && !popup.options.enabled) {
                     popup.setStatus(cookieconsent.status.dismiss);
                 }

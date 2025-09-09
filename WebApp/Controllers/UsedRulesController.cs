@@ -8,6 +8,11 @@ namespace WebApp.Controllers
 	{
 		public async Task<IActionResult> Index()
         {
+			KullanimKosullari kullanimKosullari = new KullanimKosullari();
+			KullanimKosullariRepository kullanimKosullariRepository = new KullanimKosullariRepository();
+
+			kullanimKosullari = kullanimKosullariRepository.Getir(x => x.Durumu == 1);
+			ViewBag.KullanimKosullari = kullanimKosullari;
             await LoadCommonData();
             return View();
 		}

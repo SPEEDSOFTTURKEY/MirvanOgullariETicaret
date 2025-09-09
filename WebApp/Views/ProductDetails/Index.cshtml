@@ -8,75 +8,75 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery.min.css" />
 <style>
     .tags.d-none {
-        display: none !important;
+    display: none !important;
     }
 
     .strikethrough {
-        position: relative;
-        background: #b7b7b7;
+    position: relative;
+    background: #b7b7b7;
     }
 
-        .strikethrough:before {
-            position: absolute;
-            content: "";
-            left: 0;
-            bottom: 50%;
-            right: 0;
-            border-top: 3px solid #5f5f5f;
-            transform: rotate(-45deg);
-        }
+    .strikethrough:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 50%;
+    right: 0;
+    border-top: 3px solid #5f5f5f;
+    transform: rotate(-45deg);
+    }
 
     .product-image .main-image img {
-        max-width: 100%;
-        height: auto;
-        object-fit: contain;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
     }
 
     .product-image .additional-images img {
-        max-width: 150px;
-        height: 150px;
-        object-fit: cover;
+    max-width: 150px;
+    height: 150px;
+    object-fit: cover;
     }
 
     .thumbnail-image {
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
     }
 
     .featured-text {
-        background: #333;
-        color: #fff;
-        padding: 10px 0;
-        width: 100%;
-        text-align: center;
-        border-radius: 7px;
+    background: #333;
+    color: #fff;
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+    border-radius: 7px;
     }
 
-        .featured-text .emo {
-            display: inline;
-            font-size: 1.25rem;
-            margin: 10px 10px 0 0;
-        }
+    .featured-text .emo {
+    display: inline;
+    font-size: 1.25rem;
+    margin: 10px 10px 0 0;
+    }
 
-        .featured-text .rotate-text {
-            width: 100%;
-        }
+    .featured-text .rotate-text {
+    width: 100%;
+    }
 
-            .featured-text .rotate-text span {
-                display: none;
-            }
+    .featured-text .rotate-text span {
+    display: none;
+    }
 
-                .featured-text .rotate-text span:first-child {
-                    display: inline;
-                }
+    .featured-text .rotate-text span:first-child {
+    display: inline;
+    }
 
     .text-secondary {
-        color: #f7ce68 !important;
+    color: #f7ce68 !important;
     }
 
     .d-inline-block {
-        display: inline !important;
+    display: inline !important;
     }
 </style>
 <!-- Breadcrumb -->
@@ -121,7 +121,7 @@
                     <div class="product-image direction-horizontal position-bottom">
                         <!-- Main Image Slider -->
                         <div class="swiper main-image"
-                             data-options='{"speed":400,"autoplay":false,"pauseOnHover":true,"loop":false}'>
+                        data-options='{"speed":400,"autoplay":false,"pauseOnHover":true,"loop":false}'>
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                     @if (ViewBag.Urun != null)
@@ -131,11 +131,11 @@
                                         {
                                             <div class="swiper-slide" data-gallery=".lightgallery-product-images" data-index="@index">
                                                 <img src="@item.FotografBuyuk"
-                                                     alt="@ViewBag.Urun.Adi"
-                                                     title="@ViewBag.Urun.Adi"
-                                                     width="900"
-                                                     height="1200"
-                                                     class="img-responsive" />
+                                                alt="@ViewBag.Urun.Adi"
+                                                title="@ViewBag.Urun.Adi"
+                                                width="900"
+                                                height="1200"
+                                                class="img-responsive" />
                                             </div>
                                             index++;
                                         }
@@ -152,7 +152,7 @@
                         </div>
                         <!-- Thumbnail Slider -->
                         <div class="swiper additional-images"
-                             data-options='{"slidesPerView":"auto","spaceBetween":0,"direction":"horizontal"}'>
+                        data-options='{"slidesPerView":"auto","spaceBetween":0,"direction":"horizontal"}'>
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                     @if (ViewBag.Urun != null)
@@ -162,11 +162,11 @@
                                         {
                                             <div class="swiper-slide" data-gallery=".lightgallery-product-images" data-index="@index">
                                                 <img src="@item.FotografKucuk"
-                                                     alt="@ViewBag.Urun.Adi"
-                                                     title="@ViewBag.Urun.Adi"
-                                                     width="50"
-                                                     height="50"
-                                                     class="thumbnail-image" />
+                                                alt="@ViewBag.Urun.Adi"
+                                                title="@ViewBag.Urun.Adi"
+                                                width="50"
+                                                height="50"
+                                                class="thumbnail-image" />
                                             </div>
                                             index++;
                                         }
@@ -189,7 +189,7 @@
                             @ViewBag.Urun.Adi
                         </div>
 
-             
+
 
                         <!-- Price and Stats -->
                         <div class="product-price-group">
@@ -204,10 +204,7 @@
                             </div>
                             <div class="product-stats">
                                 <ul class="list-unstyled">
-                                    <li class="product-stock in-stock">
-                                        <b>Stok:</b>
-                                        <span>Mevcut</span>
-                                    </li>
+                                  
                                     <li class="product-manufacturer">
                                         <b>Marka:</b>
                                         <a href="@Url.Action("Index","Home")"></a>
@@ -234,43 +231,47 @@
                                 <input type="hidden" name="BirimId" value="@ViewBag.Birims.BirimlerId" />
                                 <style>
                                     .beden-options {
-                                        display: flex;
-                                        gap: 10px;
-                                        margin-top: 5px;
+                                    display: flex;
+                                    gap: 10px;
+                                    margin-top: 5px;
                                     }
 
                                     .beden-kutu {
-                                        position: relative;
-                                        cursor: pointer;
+                                    position: relative;
+                                    cursor: pointer;
                                     }
 
-                                        .beden-kutu input {
-                                            display: none;
-                                        }
+                                    .beden-kutu input {
+                                    display: none;
+                                    }
 
-                                        .beden-kutu span {
-                                            display: inline-block;
-                                            padding: 10px 15px;
-                                            border: 2px solid #ccc;
-                                            border-radius: 5px;
-                                            transition: 0.2s;
-                                        }
+                                    .beden-kutu span {
+                                    display: inline-block;
+                                    padding: 10px 15px;
+                                    border: 2px solid #ccc;
+                                    border-radius: 5px;
+                                    transition: 0.2s;
+                                    }
 
-                                        .beden-kutu input:checked + span {
-                                            border-color: #000;
-                                            background: #f2f2f2;
-                                            font-weight: bold;
-                                        }
+                                    .beden-kutu input:checked + span {
+                                    border-color: #000;
+                                    background: #f2f2f2;
+                                    font-weight: bold;
+                                    }
                                 </style>
                                 <div class="form-group">
                                     <div class="beden-options">
-                                        @foreach (var item in ViewBag.Birim)
+                                        @if(ViewBag.Birim != null)
                                         {
-                                            <label class="beden-kutu">
-                                                <input type="radio" name="BirimId" value="@item.Id" checked>
-                                                <span>@item.Adi</span>
-                                            </label>
+                                            @foreach (var item in ViewBag.Birim)
+                                            {
+                                                <label class="beden-kutu">
+                                                    <input type="radio" name="BirimId" value="@item.Id" checked>
+                                                    <span>@item.Adi</span>
+                                                </label>
+                                            }
                                         }
+
                                     </div>
                                 </div>
 
@@ -281,22 +282,30 @@
                                             <div class="stepper">
                                                 <label class="control-label" for="product-quantity">Adet</label>
                                                 <input id="product-quantity"
-                                                       type="text"
-                                                       name="Miktar"
-                                                       value="1"
-                                                       data-minimum="1"
-                                                       class="form-control" />
+                                                type="text"
+                                                name="Miktar"
+                                                value="1"
+                                                data-minimum="1"
+                                                class="form-control" />
                                                 <span>
                                                     <i class="fa fa-angle-up"></i>
                                                     <i class="fa fa-angle-down"></i>
                                                 </span>
                                             </div>
-                                            <button style="width:560px; height:45px;" id="button-cart"
-                                                    type="button"
-                                                    data-loading-text="<span class='btn-text'>Yükleniyor...</span>"
-                                                    class="btn btn-cart">
-                                                <span class="btn-text">Sepete Ekle</span>
-                                            </button>
+                                            @if (ViewBag.Birim != null)
+                                            {
+                                                <button style="width:560px; height:45px;" id="button-cart"
+                                                type="button"
+                                                data-loading-text="<span class='btn-text'>Yükleniyor...</span>"
+                                                class="btn btn-cart">
+                                                    <span class="btn-text">Sepete Ekle</span>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                
+                                            <h2>Ürün Stokta Yok</h2>
+                                            }
                                         </div>
 
                                         <!-- Wishlist and Compare -->

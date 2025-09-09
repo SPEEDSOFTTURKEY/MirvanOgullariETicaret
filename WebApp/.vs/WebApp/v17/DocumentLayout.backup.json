@@ -1,7 +1,88 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\gzmas\\Desktop\\MirvanO\u011Fullar\u0131\\MirvanogullariInsaatEticaret\\MirvanogullariInsaatEticaret\\",
-  "Documents": [],
+  "WorkspaceRootPath": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\views\\productdetails\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:views\\productdetails\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\controllers\\productdetailscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:controllers\\productdetailscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\controllers\\checkoutcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:controllers\\checkoutcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\views\\shared\\_layoutwebuitheme.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:views\\shared\\_layoutwebuitheme.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\controllers\\shoppingcartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:controllers\\shoppingcartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\controllers\\sepetcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:controllers\\sepetcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\controllers\\adminurunbilgileriguncellecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:controllers\\adminurunbilgileriguncellecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\wwwroot\\webuitheme\\catalog\\view\\javascript\\facebook_business\\cookieconsent.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:wwwroot\\webuitheme\\catalog\\view\\javascript\\facebook_business\\cookieconsent.min.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\wwwroot\\webuitheme\\catalog\\view\\javascript\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:wwwroot\\webuitheme\\catalog\\view\\javascript\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\views\\supplierscontract\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:views\\supplierscontract\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\views\\shared\\_layoutwebadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:views\\shared\\_layoutwebadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\views\\adminbayilikguncelle\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:views\\adminbayilikguncelle\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\views\\adminbayilikekle\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:views\\adminbayilikekle\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\views\\adminbayilik\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:views\\adminbayilik\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\controllers\\supplierscontractcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:controllers\\supplierscontractcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\controllers\\adminbayilikcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:controllers\\adminbayilikcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|d:\\g\u0130thubprojeler\\mirvanogullarieticaret\\webapp\\views\\admingizlilikpolitikasi\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5ADE94CA-B395-4F22-9BB5-6813D6E8C681}|WebApp.csproj|solutionrelative:views\\admingizlilikpolitikasi\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +90,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 736,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,6 +139,266 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\ProductDetails\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\ProductDetails\\Index.cshtml",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\ProductDetails\\Index.cshtml",
+              "RelativeToolTip": "Views\\ProductDetails\\Index.cshtml",
+              "ViewState": "AgIAAL8AAAAAAAAAAAAvwM0AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-08T10:34:53.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAI4BAAAAAAAAAAAtwJsBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-08T10:47:14.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "_LayoutWebUITheme.cshtml",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\Shared\\_LayoutWebUITheme.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_LayoutWebUITheme.cshtml",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\Shared\\_LayoutWebUITheme.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_LayoutWebUITheme.cshtml",
+              "ViewState": "AgIAAAsBAAAAAAAAAAAvwCABAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-08T10:18:13.949Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T08:54:21.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductDetailsController.cs",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\ProductDetailsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProductDetailsController.cs",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\ProductDetailsController.cs",
+              "RelativeToolTip": "Controllers\\ProductDetailsController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAMwBAAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T08:53:35.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductsController.cs",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\ProductsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProductsController.cs",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\ProductsController.cs",
+              "RelativeToolTip": "Controllers\\ProductsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0BAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T08:53:35.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\AdminBayilik\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\AdminBayilik\\Index.cshtml",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\AdminBayilik\\Index.cshtml",
+              "RelativeToolTip": "Views\\AdminBayilik\\Index.cshtml",
+              "ViewState": "AgIAAK0AAAAAAAAAAAAQwLkAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-08T10:16:12.736Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AdminUrunBilgileriGuncelleController.cs",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\AdminUrunBilgileriGuncelleController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminUrunBilgileriGuncelleController.cs",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\AdminUrunBilgileriGuncelleController.cs",
+              "RelativeToolTip": "Controllers\\AdminUrunBilgileriGuncelleController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAvwBQAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T08:53:35.872Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ShoppingCartController.cs",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\ShoppingCartController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ShoppingCartController.cs",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\ShoppingCartController.cs",
+              "RelativeToolTip": "Controllers\\ShoppingCartController.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAlwCAAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T08:53:35.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CheckoutController.cs",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\CheckoutController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CheckoutController.cs",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\CheckoutController.cs",
+              "RelativeToolTip": "Controllers\\CheckoutController.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAB4AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T08:53:35.845Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SepetController.cs",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\SepetController.cs",
+              "RelativeDocumentMoniker": "Controllers\\SepetController.cs",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\SepetController.cs",
+              "RelativeToolTip": "Controllers\\SepetController.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAgwIwAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T08:53:35.889Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "AdminBayilikController.cs",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\AdminBayilikController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminBayilikController.cs",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\AdminBayilikController.cs",
+              "RelativeToolTip": "Controllers\\AdminBayilikController.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAQwB4AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T10:15:37.202Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "SuppliersContractController.cs",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\SuppliersContractController.cs",
+              "RelativeDocumentMoniker": "Controllers\\SuppliersContractController.cs",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Controllers\\SuppliersContractController.cs",
+              "RelativeToolTip": "Controllers\\SuppliersContractController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAQwAgAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T10:15:53.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\SuppliersContract\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\SuppliersContract\\Index.cshtml",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\SuppliersContract\\Index.cshtml",
+              "RelativeToolTip": "Views\\SuppliersContract\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAIwBAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-08T10:15:58.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\AdminBayilikEkle\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\AdminBayilikEkle\\Index.cshtml",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\AdminBayilikEkle\\Index.cshtml",
+              "RelativeToolTip": "Views\\AdminBayilikEkle\\Index.cshtml",
+              "ViewState": "AgIAAKMAAAAAAAAAAAAQwK8AAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-08T10:17:25.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\AdminBayilikGuncelle\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\AdminBayilikGuncelle\\Index.cshtml",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\AdminBayilikGuncelle\\Index.cshtml",
+              "RelativeToolTip": "Views\\AdminBayilikGuncelle\\Index.cshtml",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAQwKMAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-08T10:17:48.844Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "cookieconsent.min.js",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\wwwroot\\WebUITheme\\catalog\\view\\javascript\\facebook_business\\cookieconsent.min.js",
+              "RelativeDocumentMoniker": "wwwroot\\WebUITheme\\catalog\\view\\javascript\\facebook_business\\cookieconsent.min.js",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\wwwroot\\WebUITheme\\catalog\\view\\javascript\\facebook_business\\cookieconsent.min.js",
+              "RelativeToolTip": "wwwroot\\WebUITheme\\catalog\\view\\javascript\\facebook_business\\cookieconsent.min.js",
+              "ViewState": "AgIAAB4BAAAAAAAAAAAYwC8BAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-09-08T10:30:34.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "_LayoutWebAdmin.cshtml",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\Shared\\_LayoutWebAdmin.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_LayoutWebAdmin.cshtml",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\Shared\\_LayoutWebAdmin.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_LayoutWebAdmin.cshtml",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAIwJwAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-08T10:18:02.367Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "script.js",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\wwwroot\\WebUITheme\\catalog\\view\\javascript\\script.js",
+              "RelativeDocumentMoniker": "wwwroot\\WebUITheme\\catalog\\view\\javascript\\script.js",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\wwwroot\\WebUITheme\\catalog\\view\\javascript\\script.js",
+              "RelativeToolTip": "wwwroot\\WebUITheme\\catalog\\view\\javascript\\script.js",
+              "ViewState": "AgIAANQBAAAAAAAAAAAlwOQBAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-09-08T10:23:48.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\AdminGizlilikPolitikasi\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\AdminGizlilikPolitikasi\\Index.cshtml",
+              "ToolTip": "D:\\G\u0130THUBPROJELER\\MirvanOgullariETicaret\\WebApp\\Views\\AdminGizlilikPolitikasi\\Index.cshtml",
+              "RelativeToolTip": "Views\\AdminGizlilikPolitikasi\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-08T10:14:14.602Z",
+              "EditorCaption": ""
             }
           ]
         }

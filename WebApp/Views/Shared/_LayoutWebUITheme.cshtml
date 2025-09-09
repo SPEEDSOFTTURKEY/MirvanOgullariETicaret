@@ -281,10 +281,10 @@
                         <div class="desktop-cart-wrapper default-cart-wrapper">
                             <div id="cart" class="dropdown">
                                 <a data-toggle="dropdown" data-loading-text="Yükleniyor..." class="dropdown-toggle cart-heading" href="@Url.Action("Index","ShoppingCart")">
-                                    @if(ViewBag.Sepet is List<dynamic> sepetList && sepetList.Any())
+                                    @if(ViewBag.Sepet !=null)
                                     {    
                                         decimal araToplam = 0;
-                                        foreach (var item in sepetList)
+                                        foreach (var item in ViewBag.Sepet)
                                         {
                                             decimal fiyat = item.Fiyat; // eğer zaten decimal ise
                                             araToplam += fiyat * item.Miktar;
@@ -293,7 +293,7 @@
 
                                         decimal toplam = araToplam;
 
-                                        <span id="cart-total"> @sepetList.Count Ürün @toplam.ToString("N2", System.Globalization.CultureInfo.CreateSpecificCulture("tr-TR"))TL </span>
+                                        <span id="cart-total"> @ViewBag.Sepet.Count Ürün @toplam.ToString("N2", System.Globalization.CultureInfo.CreateSpecificCulture("tr-TR"))TL </span>
                                     } 
 
                                     else
@@ -307,12 +307,12 @@
                                 </a>
                                 <div id="cart-content" class="dropdown-menu cart-content j-dropdown">
                                     <ul>
-                                        @if(ViewBag.Sepet is List<dynamic> sepetListContent && sepetListContent.Any())
+                                        @if(ViewBag.Sepet !=null)
                                         {
                                             <li class="cart-products">
                                                 <table class="table">
                                                     <tbody>
-                                                        @foreach (var item in sepetListContent)
+                                                        @foreach (var item in ViewBag.Sepet)
                                                         {
                                                             if (item != null)
                                                             {
@@ -324,10 +324,6 @@
                                                                     </td>
                                                                     <td class="text-left td-name">
                                                                         <a href="/ProductDetails/Index/@(item.UrunId ?? "")">@(item.UrunAdi ?? "")</a><br>
-                                                                        <span>BEDEN</span><small>@(item.Beden?.Adi ?? "")</small><br>
-                                                                        <span>BEDEN</span><small>@(item.Beden?.Adi ?? "")</small><br>
-                                                                        <span>BODY KOL BOYU</span><small>@(item.KolBoyu ?? "")</small><br>
-                                                                        <span>Ek Tasarım Metni</span><small>@(item.EkTasarimMetni ?? "")</small><br>
                                                                     </td>
                                                                     <td class="text-right td-qty">x @(item.Miktar ?? 0)</td>
                                                                     <td class="text-right td-total">@(item.Fiyat ?? 0)</td>
@@ -346,9 +342,9 @@
                                                 <div>
                                                     @{
                                                         decimal araToplam = 0;
-                                                        if (ViewBag.Sepet is List<dynamic> sepetListTotal)
+                                                        if (ViewBag.Sepet != null)
                                                         {
-                                                            foreach (var item in sepetListTotal)
+                                                            foreach (var item in ViewBag.Sepet)
                                                             {
                                                                 if (item != null)
                                                                 {
@@ -611,7 +607,7 @@
 
                                             <li class="menu-item links-menu-item links-menu-item-5">
                                                 <a href="@Url.Action("Index","SuppliersContract")">
-                                                    <span class="links-text">Bayilik Sözleşmesi</span>
+                                                    <span class="links-text">Mesafeli Satış Sözleşmesi</span>
                                                 </a>
                                             </li>
                                         </ul>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gzmas\\Desktop\\MirvanOğulları\\MirvanogullariInsaatEticaret\\MirvanogullariInsaatEticaret\\WebApp.csproj": {}
+    "D:\\GİTHUBPROJELER\\MirvanOgullariETicaret\\WebApp\\WebApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gzmas\\Desktop\\MirvanOğulları\\MirvanogullariInsaatEticaret\\MirvanogullariInsaatEticaret\\WebApp.csproj": {
+    "D:\\GİTHUBPROJELER\\MirvanOgullariETicaret\\WebApp\\WebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gzmas\\Desktop\\MirvanOğulları\\MirvanogullariInsaatEticaret\\MirvanogullariInsaatEticaret\\WebApp.csproj",
+        "projectUniqueName": "D:\\GİTHUBPROJELER\\MirvanOgullariETicaret\\WebApp\\WebApp.csproj",
         "projectName": "WebApp",
-        "projectPath": "C:\\Users\\gzmas\\Desktop\\MirvanOğulları\\MirvanogullariInsaatEticaret\\MirvanogullariInsaatEticaret\\WebApp.csproj",
+        "projectPath": "D:\\GİTHUBPROJELER\\MirvanOgullariETicaret\\WebApp\\WebApp.csproj",
         "packagesPath": "C:\\Users\\gzmas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gzmas\\Desktop\\MirvanOğulları\\MirvanogullariInsaatEticaret\\MirvanogullariInsaatEticaret\\obj\\",
+        "outputPath": "D:\\GİTHUBPROJELER\\MirvanOgullariETicaret\\WebApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
